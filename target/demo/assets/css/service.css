@@ -1,0 +1,22 @@
+label {
+    display: block;
+    margin-bottom: 5px;
+    line-height: 40px;
+}
+
+input {
+    width:270px;
+    height: 45px;
+    text-align: center;
+background-color: rgba(140, 140, 140, 0.5);
+    border: none;
+    border-radius: 3px;
+    margin-left: 20px;
+
+}
+
+button {
+    font-size: 1.2em;
+    margin: 0 5px;
+    cursor: pointer;
+}
