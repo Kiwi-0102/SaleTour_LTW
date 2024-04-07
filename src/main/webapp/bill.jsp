@@ -18,11 +18,9 @@
     String date = (String) request.getAttribute("date");
     Integer quantity = (Integer) session.getAttribute("quatity");
     int quatity = (quantity != null) ? quantity.intValue() : 1;
-    session.setAttribute("quatity",quatity);
 
     Integer quantitycc = (Integer) session.getAttribute("quatitycc");
     int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 1;
-    session.setAttribute("quatitycc",quatitycc);
 
     int toltal = quantitycc+quantity;
 //    session.removeAttribute("userdk");
@@ -409,10 +407,10 @@
                                         <tbody>
                                         <%for (int i=0;i<dscus.size();i++) { %>
                                         <tr>
-                                            <td><%=dscus.get(i).getHoten()%></td>
+                                            <td><%=dscus.get(i).getName()%></td>
                                             <td class="d-none">Giảm giá?</td>
-                                            <td><%=dscus.get(i).getNgay()%></td>
-                                            <td><%=dscus.get(i).getGoitinh()%></td>
+                                            <td><%=dscus.get(i).getDateOfBirth()%></td>
+                                            <td><%=dscus.get(i).getMale()%></td>
                                             <td></td>
                                             <td>Người lớn</td>
                                             <td>Có</td>

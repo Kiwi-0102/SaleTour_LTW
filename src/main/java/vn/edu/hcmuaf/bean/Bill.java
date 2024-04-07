@@ -2,7 +2,7 @@ package vn.edu.hcmuaf.bean;
 
 public class Bill {
     private int id;
-    private int valiId;
+    private int bookingId;
     private String paymentMethod;
     private double toltalPrice;
     private String status;
@@ -10,16 +10,16 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(int id, int valiId, String paymentMethod, double toltalPrice, String status) {
+    public Bill(int id, int bookingId, String paymentMethod, double toltalPrice, String status) {
         this.id = id;
-        this.valiId = valiId;
+        this.bookingId = bookingId;
         this.paymentMethod = paymentMethod;
         this.toltalPrice = toltalPrice;
         this.status = status;
     }
     public Bill(int id, int valiId, double toltalPrice, String status) {
         this.id = id;
-        this.valiId = valiId;
+        this.bookingId = valiId;
 
         this.toltalPrice = toltalPrice;
         this.status = status;
@@ -33,11 +33,11 @@ public class Bill {
     }
 
     public int getValiId() {
-        return valiId;
+        return bookingId;
     }
 
     public void setValiId(int valiId) {
-        this.valiId = valiId;
+        this.bookingId = valiId;
     }
 
     public String getPaymentMethod() {
@@ -64,7 +64,7 @@ public class Bill {
     public String toString() {
         return "Bill{" +
                 "id=" + id +
-                ", valiId=" + valiId +
+                ", bookingId=" + bookingId +
                 ", toltalPrice=" + toltalPrice +
                 ", status='" + status + '\'' +
                 '}';

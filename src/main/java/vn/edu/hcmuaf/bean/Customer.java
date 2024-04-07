@@ -1,71 +1,74 @@
 package vn.edu.hcmuaf.bean;
 
 public class Customer {
-    String hoten;
-    String goitinh;
-    int ngay;
-    int thang;
-    int nam;
+    int id;
+    int idBill;
+    String name;
+    String male;
+    String DateOfBirth;
 
-    public Customer() {
+    public Customer(String name, String male, String dateOfBirth) {
+        this.name = name;
+        this.male = male;
+        DateOfBirth = dateOfBirth;
     }
 
-    public Customer(String hoten, String goitinh, int ngay, int thang, int nam) {
-        this.hoten = hoten;
-        this.goitinh = goitinh;
-        this.ngay = ngay;
-        this.thang = thang;
-        this.nam = nam;
+    public Customer(int id, int idBill, String name, String male, String dateOfBirth) {
+        this.id = id;
+        this.idBill = idBill;
+        this.name = name;
+        this.male = male;
+        DateOfBirth = dateOfBirth;
     }
 
-    public String getHoten() {
-        return hoten;
+    public int getId() {
+        return id;
     }
 
-    public void setHoten(String hoten) {
-        this.hoten = hoten;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getGoitinh() {
-        return goitinh;
+    public int getIdBill() {
+        return idBill;
     }
 
-    public void setGoitinh(String goitinh) {
-        this.goitinh = goitinh;
+    public void setIdBill(int idBill) {
+        this.idBill = idBill;
     }
 
-    public int getNgay() {
-        return ngay;
+    public String getName() {
+        return name;
     }
 
-    public void setNgay(int ngay) {
-        this.ngay = ngay;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getThang() {
-        return thang;
+    public String getMale() {
+        return male;
     }
 
-    public void setThang(int thang) {
-        this.thang = thang;
+    public void setMale(String male) {
+        this.male = male;
     }
 
-    public int getNam() {
-        return nam;
+    public String getDateOfBirth() {
+        return DateOfBirth;
     }
 
-    public void setNam(int nam) {
-        this.nam = nam;
+    public void setDateOfBirth(String dateOfBirth) {
+        DateOfBirth = dateOfBirth;
     }
 
     @Override
     public String toString() {
         return "Customer{" +
-                "hoten='" + hoten + '\'' +
-                ", goitinh='" + goitinh + '\'' +
-                ", ngay=" + ngay +
-                ", thang=" + thang +
-                ", nam=" + nam +
+                "id=" + id +
+                ", idBill=" + idBill +
+                ", name='" + name + '\'' +
+                ", male='" + male + '\'' +
+                ", DateOfBirth='" + DateOfBirth + '\'' +
                 '}';
     }
 }

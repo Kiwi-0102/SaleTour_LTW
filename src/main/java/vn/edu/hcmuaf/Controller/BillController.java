@@ -1,12 +1,18 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.BillDAO;
+import vn.edu.hcmuaf.DAO.BookingDAO;
+import vn.edu.hcmuaf.DAO.CustomerDAO;
 import vn.edu.hcmuaf.DAO.TourDao;
+import vn.edu.hcmuaf.bean.Customer;
 import vn.edu.hcmuaf.bean.Tour;
+import vn.edu.hcmuaf.bean.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "BillController", value = "/BillController")
 public class BillController extends HttpServlet {
@@ -37,6 +43,32 @@ public class BillController extends HttpServlet {
         request.setAttribute("tour", tour);
         request.setAttribute("pay", payment);
 
+        User userdk = (User) session.getAttribute("userdk");
+        ArrayList<Customer> dscus = (ArrayList<Customer>) session.getAttribute("dskh");
+        Integer quantity = (Integer) session.getAttribute("quatity");
+        int quatity = (quantity != null) ? quantity.intValue() : 1;
+        session.setAttribute("quatity",quatity);
+
+        Integer quantitycc = (Integer) session.getAttribute("quatitycc");
+        int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 1;
+        User user = (User) session.getAttribute("user");
+        System.out.println("paypay");
+        System.out.println("userdk"+userdk);
+        System.out.println("userht"+user);
+        System.out.println(dscus);
+        System.out.println(quantity);
+        System.out.println(quatitycc);
+        System.out.println(id);
+//        String sql = "INSERT INTO booking (userId, date, tourId, numChildren, numAdult, name, phone,email, address) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?)";
+
+        BookingDAO bkd = new BookingDAO();
+        int idbk = bkd.insertBooking(user.getId(),tour.getId(),quatity,quatitycc,userdk.getUserName(),userdk.getPhoneNumber(), userdk.getEmail(),userdk.getAddress(),date);
+
+        BillDAO billDao = new BillDAO();
+        int idb = billDao.insertBill(idbk, payment, 100000.0, "Chưa thanh toán");
+
+        CustomerDAO ctm = new CustomerDAO();
+        ctm.insertListCustomer(dscus,idb);
 
         request.getRequestDispatcher("bill.jsp").forward(request,response);
     }

@@ -44,8 +44,8 @@ public class PaymentController extends HttpServlet {
             int ngay = Integer.parseInt(request.getParameter("ngay"+i));
             int thang = Integer.parseInt(request.getParameter("thang"+i));
             int nam = Integer.parseInt(request.getParameter("nam"+i));
-            Customer cus = new Customer(hoten,gioitinh,ngay,thang,nam);
-//            System.out.print(cus);
+            String ngaysinh = ngay+"-"+thang+"-"+nam;
+            Customer cus = new Customer(hoten,gioitinh,ngaysinh);
             lcs.add(cus);
         }
         int matour = Integer.parseInt(request.getParameter("Matour"));

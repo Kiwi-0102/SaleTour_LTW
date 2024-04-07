@@ -28,137 +28,168 @@ SET time_zone = "+00:00";
 -- Tạo bảng`News`
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `date` date NOT NULL,
-    `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
-    `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `newsLink` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    PRIMARY KEY (`id`)
+                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                        `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `date` date NOT NULL,
+                        `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                        `newsLink` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                        PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*--------------------------------------------------------*/
 -- Tạo bảng`roles`
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `right` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    PRIMARY KEY (`id`)
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `right` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                         `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*--------------------------------------------------------*/
 -- Tạo bảng`Feedbacks`
 DROP TABLE IF EXISTS `feedbacks`;
 CREATE TABLE `feedbacks` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `userId` int(11) NOT NULL,
-    `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
-    `date` date NOT NULL,
-    PRIMARY KEY (`id`)
+                             `id` int(11) NOT NULL AUTO_INCREMENT,
+                             `userId` int(11) NOT NULL,
+                             `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+                             `date` date NOT NULL,
+                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*--------------------------------------------------------*/
 -- Tạo bảng`Discounts`
 DROP TABLE IF EXISTS `discounts`;
 CREATE TABLE `discounts` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `value` int(11) NOT NULL,
-    `endDate` date NOT NULL,
-    `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-    PRIMARY KEY (`id`)
+                             `id` int(11) NOT NULL AUTO_INCREMENT,
+                             `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                             `value` int(11) NOT NULL,
+                             `endDate` date NOT NULL,
+                             `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*--------------------------------------------------------*/
 -- Tạo bảng`Tours`
 DROP TABLE IF EXISTS `tours`;
 CREATE TABLE `tours` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `region` varchar(255) NOT NULL,
-    `discountId` int(11) DEFAULT NULL,
-    `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `price` int(11) NOT NULL,
-    `startTime` varchar(255) NOT NULL,
-    `duration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `schedule` text COLLATE utf8mb4_unicode_ci NOT NULL,
-    `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-    KEY `fk_discount_id` (`discountId`),
-    PRIMARY KEY (`id`)
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `region` varchar(255) NOT NULL,
+                         `discountId` int(11) DEFAULT NULL,
+                         `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                         `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                         `price` int(11) NOT NULL,
+                         `startTime` varchar(255) NOT NULL,
+                         `duration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                         `schedule` text COLLATE utf8mb4_unicode_ci NOT NULL,
+                         `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+                         KEY `fk_discount_id` (`discountId`),
+                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*-------------------------------------------------------------------*/
 -- Tạo bảng`Users`
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `userName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `phoneNumber` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `roleId` int(11) DEFAULT 2,
-    PRIMARY KEY (`id`),
-    KEY `fk_role_id` (`roleId`)
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `userName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                         `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                         `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                         `phoneNumber` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                         `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                         `roleId` int(11) DEFAULT 2,
+                         PRIMARY KEY (`id`),
+                         KEY `fk_role_id` (`roleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*------------------------------------------------------------------*/
 -- Tạo bảng`service_tours`
 DROP TABLE IF EXISTS `service_tours`;
 CREATE TABLE `service_tours` (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `price` FLOAT NOT NULL,
-    `description` TEXT COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    PRIMARY KEY (`id`)
+                                 `id` INT NOT NULL AUTO_INCREMENT,
+                                 `name` VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                 `price` FLOAT NOT NULL,
+                                 `description` TEXT COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*------------------------------------------------------------------*/
--- Tạo bảng`Valies`
-DROP TABLE IF EXISTS `valies`;
-CREATE TABLE `valies` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `userId` int(11) NOT NULL,
-    `tourId` int(11) NOT NULL,
-    `numChildren` int(11) NOT NULL,
-    `numAdult` int(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `fk_user_id` (`userId`),
-    KEY `fk_tour_id` (`tourId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Tạo bảng`Booking`
+DROP TABLE IF EXISTS `booking`;
+CREATE TABLE `booking` (
+                           `id` int(11) NOT NULL AUTO_INCREMENT,
+                           `userId` int(11) NOT NULL,
+                           `date` varchar(255) NOT NULL,
+                           `tourId` int(11) NOT NULL,
+                           `numChildren` int(11) NOT NULL,
+                           `numAdult` int(11) NOT NULL,
+                           `name` VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                           `phone`  VARCHAR(255) NOT NULL,
+                           `email` VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                           `address` VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                           `dateBooking` varchar(255) NOT NULL,
+                           PRIMARY KEY (`id`),
+                           KEY `fk_userbk_id` (`userId`),
+                           KEY `fk_tourbk_id` (`tourId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=UTF8MB4_UNICODE_CI;
+
 /*------------------------------------------------------------------*/
 -- Tạo bảng`Options`
 DROP TABLE IF EXISTS `options`;
 CREATE TABLE `options` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `departDate` date NOT NULL,
-    `serviceId` int(11) NOT NULL,
-    `valiId` int(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `fk_serviceId` (`serviceId`),
-    KEY `fk_valiId` (`valiId`)
+                           `id` int(11) NOT NULL AUTO_INCREMENT,
+                           `departDate` date NOT NULL,
+                           `serviceId` int(11) NOT NULL,
+                           `valiId` int(11) NOT NULL,
+                           PRIMARY KEY (`id`),
+                           KEY `fk_serviceId` (`serviceId`),
+                           KEY `fk_valiId` (`valiId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*------------------------------------------------------------------*/
+-- Tạo bảng`Customer`
+CREATE TABLE `customer` (
+                            `id` int(11) NOT NULL AUTO_INCREMENT,
+                            `name` VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                            `male` VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                            `dateOfBirth` varchar(255) NOT NULL,
+                            `billId` int(11) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            KEY `fk_billId` (`billId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*------------------------------------------------------------------*/
 -- Tạo bảng`Bills`
 DROP TABLE IF EXISTS `bills`;
 CREATE TABLE `bills` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `valiId` int(11) NOT NULL,
-    `paymentMethod` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `totalPrice` int(11) NOT NULL,
-    `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `fk_valiId` (`valiId`)
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `bookingId` int(11) NOT NULL,
+                         `paymentMethod` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                         `totalPrice` int(11) NOT NULL,
+                         `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                         PRIMARY KEY (`id`),
+                         KEY `fk_Booking_Id` (`bookingId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*------------------------------------------------------------------*/
+-- Tạo bảng`Valies`
+DROP TABLE IF EXISTS `valies`;
+CREATE TABLE `valies` (
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          `userId` int(11) NOT NULL,
+                          `tourId` int(11) NOT NULL,
+                          `numChildren` int(11) NOT NULL,
+                          `numAdult` int(11) NOT NULL,
+                          PRIMARY KEY (`id`),
+                          KEY `fk_user_id` (`userId`),
+                          KEY `fk_tour_id` (`tourId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*------------------------------------------------------------------*/
 
 -- -
 -- Các ràng buộc cho bảng `feedbacks`
 ALTER TABLE `feedbacks`
-ADD CONSTRAINT `fk_userId_feedbacks` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+    ADD CONSTRAINT `fk_userId_feedbacks` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 
 -- Các ràng buộc cho bảng `users`
 ALTER TABLE `users`
     ADD CONSTRAINT `fk_role_id` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`);
 
 -- Các ràng buộc cho bảng `valies`
-ALTER TABLE `valies`
-    ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
-    ADD CONSTRAINT `fk_tour_id` FOREIGN KEY (`tourId`) REFERENCES `tours` (`id`);
+ALTER TABLE `Booking`
+    ADD CONSTRAINT `fk_userbk_id` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
+    ADD CONSTRAINT `fk_tourbk_id` FOREIGN KEY (`tourId`) REFERENCES `tours` (`id`);
 
 -- Các ràng buộc cho bảng `options`
 ALTER TABLE `options`
@@ -167,11 +198,22 @@ ALTER TABLE `options`
 
 -- Các ràng buộc cho bảng `bills`
 ALTER TABLE `bills`
-    ADD CONSTRAINT `fk_valiId_bills` FOREIGN KEY (`valiId`) REFERENCES `valies` (`id`);
+    ADD CONSTRAINT `fk_Booking_Id` FOREIGN KEY (`bookingId`) REFERENCES `booking` (`id`);
 
 -- Các ràng buộc cho bảng `tours`
 ALTER TABLE `tours`
     ADD CONSTRAINT `fk_discount_id` FOREIGN KEY (`discountId`) REFERENCES `discounts` (`id`);
+
+-- Các ràng buộc cho bảng `customer`
+ALTER TABLE `customer`
+    ADD CONSTRAINT `fk_billId` FOREIGN KEY (`billId`) REFERENCES `bills` (`id`);
+
+
+-- Các ràng buộc cho bảng `valies`
+ALTER TABLE `valies`
+    ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
+    ADD CONSTRAINT `fk_tour_id` FOREIGN KEY (`tourId`) REFERENCES `tours` (`id`);
+
 
 -- -------------------------------------------------------------------------------------------------------
 -- Tạo dữ liệu cho bảng news
@@ -598,26 +640,34 @@ VALUES
 #     ('Dịch vụ thuê xe', 350000, 'Cho thuê xe tự lái hoặc có tài xế'),
 #     ('Giặt quần áo', 200000, 'Cung cấp dịch vụ giặt đồ'),
 #     ('Làm đẹp', 200000, 'Cung cấp dịch vụ cá nhân làm đẹp');
--- Tạo dữ liệu cho bảng valies
-INSERT INTO `valies` (`userId`, `tourId`, `numChildren`, `numAdult`)
-VALUES
-    (1, 1, 1, 1),
-    (1, 3, 1, 1),
-    (1, 5, 1, 3),
-    (1, 12, 1, 2),
-    (1, 5, 1, 1),
-    (2, 2, 1, 4);
 
 
--- Tạo dữ liệu cho bảng
-INSERT INTO `options` (`departDate`, `serviceId`, `valiId`)
-VALUES
-    ('2023-03-01', 1, 1),
-    ('2023-04-01', 2, 2);
+INSERT INTO `valies` (`userId`, `tourId`, `numChildren`, `numAdult`) VALUES
+        (1, 1, 2, 3),
+        (2, 2, 1, 2),
+        (3, 3, 2, 2);
+
+-- Thêm dữ liệu cho bảng `Booking`
+INSERT INTO `booking` (`userId`, `date`, `tourId`, `numChildren`, `numAdult`, `name`, `phone`,`email`, `address`,`dateBooking`) VALUES
+    (1, '2024-04-01', 1, 2, 3, 'Nguyễn Văn A', '123456789','123@gmail.com', '123 Đường ABC, Quận XYZ','05-15-2024'),
+    (2, '2024-04-02', 2, 1, 2, 'Trần Thị B', '987654321','123@gmail.com', '456 Đường XYZ, Quận ABC','23-10-2024'),
+    (3, '2024-04-03', 3, 2, 2, 'Phạm Văn C', '456123789','123@gmail.com', '789 Đường XYZ, Quận ABC','17-04-2024');
+-- Chèn dữ liệu vào bảng `options`
+INSERT INTO `options` (`departDate`, `serviceId`, `valiId`) VALUES
+    ('2024-04-01', 1, 1),
+    ('2024-04-02', 2, 2),
+    ('2024-04-03', 3, 3);
+
+-- Thêm dữ liệu cho bảng `bills`
+INSERT INTO `bills` (`bookingId`, `paymentMethod`, `totalPrice`, `status`) VALUES
+    (1, 'Thanh toán khi nhận hàng', 500000, 'Chưa thanh toán'),
+    (2, 'Chuyển khoản ngân hàng', 750000, 'Đã thanh toán'),
+    (3, 'Thanh toán khi nhận hàng', 1000000, 'Đã thanh toán');
+
+-- Thêm dữ liệu cho bảng `customer`
+INSERT INTO `customer` (`name`, `male`, `dateOfBirth`, `billId`) VALUES
+    ('Nguyễn Văn A', 'Nam', '1990-05-15', 1),
+    ('Trần Thị B', 'Nữ', '1985-08-20', 2),
+    ('Phạm Văn C', 'Nam', '1995-12-10', 3);
 
 
--- Tạo dữ liệu cho bảng
-INSERT INTO `bills` (`valiId`, `paymentMethod`, `totalPrice`, `status`)
-VALUES
-    (1, 'Banking', 1500000, 'Paid'),
-    (2, 'Banking', 2000000, 'Pending');
