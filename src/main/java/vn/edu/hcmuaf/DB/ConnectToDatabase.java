@@ -13,7 +13,7 @@ public class ConnectToDatabase {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pass);
-            System.out.println("Connect success");
+//            System.out.println("Connect success");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

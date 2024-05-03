@@ -204,6 +204,10 @@ public class UserDAO implements objectDAO {
 
     }
 
+    public static void DeleteUser(int id){
+
+    }
+
     public boolean isEmailExists(String email) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

@@ -234,7 +234,7 @@ ul.sidebar-menu li a.active i {
 }
 .wrapper {
     display:inline-block;
-    margin-top:80px;
+    margin-top: 50px !important;
     padding:15px;
     width:100%;
 }
@@ -242,7 +242,7 @@ ul.sidebar-menu li a.active i {
     background: rgba(0, 216, 255, 0.62);
     float:left;
     width:240px;
-    height:80px;
+    height:60px;
     position:relative;
 }
 a.logo {

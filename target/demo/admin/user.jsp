@@ -36,6 +36,38 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="pluggin/datatables.min.css" rel="stylesheet">
 
     <script src="pluggin/datatables.min.js"></script>
+    <style>
+        .wrapper {
+            display: none;
+            margin-top: 80px;
+            padding: 15px;
+            width: 100%;
+
+            #table1_wrapper{
+                margin-top: 100px;
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
+                -2px -2px 4px rgba(0, 0, 0, 0.5),
+                2px -2px 4px rgba(0, 0, 0, 0.5),
+                -2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        }
+        div.dt-container {
+            padding: 25px;
+            box-shadow: 6px 2px 4px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(0, 0, 0, 0.5), 2px -2px 4px rgba(0, 0, 0, 0.5), -2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 30px;
+            width: 70%;
+            position: relative;
+            clear: both;
+            margin-left: 300px;
+            text-align: center;
+        }
+        button:active {
+            /* Áp dụng các kiểu CSS khi nút được nhấn */
+            /* Ví dụ: */
+            outline: none; /* Loại bỏ viền xung quanh */
+        }
+
+    </style>
 </head>
 <body>
 
@@ -46,115 +78,124 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- main-menu End -->
 
     <!--main content start-->
-<%--    <section id="main-content">--%>
+    <a style="margin-left: 300px;margin-top: 100px" href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa-solid fa-plus" style="color: #63E6BE;"></i></a>
+    <section id="main-content" style="display: none">
 
+        <div  id="container11" style="height: 100%;">
+            <section class="h-100 h-custom">
+                <h3 style="margin-left: 50px">Quản lý khách hàng</h3>
+                <div class="container h-100 py-5">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col">
 
-<%--        <div  id="container11" style="height: 100%;">--%>
-<%--            <section class="h-100 h-custom">--%>
-<%--                <h3 style="margin-left: 50px">Quản lý khách hàng</h3>--%>
-<%--                <div class="container h-100 py-5">--%>
-<%--                    <div class="row d-flex justify-content-center align-items-center h-100">--%>
-<%--                        <div class="col">--%>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Username</th>
 
-<%--                            <div class="table-responsive">--%>
-<%--                                <table class="table">--%>
-<%--                                    <thead>--%>
-<%--                                    <tr>--%>
-<%--                                        <th scope="col">ID</th>--%>
-<%--                                        <th scope="col">Username</th>--%>
+                                        <th scope="col">Email</th>
+                                        <th scope="col" style="width:170px;padding-left: 40px">Số điện thoại</th>
+                                        <th scope="col">Địa chỉ</th>
+                                        <th scope="col">Là admin</th>
+                                        <th scope="col">Thao tác</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                            <%
+                List<User> listA = (List<User>) request.getAttribute("listA");
+                if (listA != null && !listA.isEmpty()) {
+                    for (User user : listA) {
+            %>
+                                    <tr id="<%=user.getId()%>">
+                                        <td><%= user.getId() %></td>
+                                        <td><%= user.getUserName() %></td>
+                                        <td><%= user.getEmail() %></td>
+                                        <td><%= user.getPhoneNumber() %></td>
+                                        <td><%= user.getAddress() %></td>
+                                        <td><%= user.getRoleId() %></td>
+                                        <td><a href="delete?userId=<%= user.getId() %>">Delete</a></td>
+                                        <td><a href="addUser.jsp">Thêm User</a></td>
+                                        <td><a href="delete?userId=<%= user.getId() %>">Sửa thông tin</a></td>
 
-<%--                                        <th scope="col">Email</th>--%>
-<%--                                        <th scope="col" style="width:170px;padding-left: 40px">Số điện thoại</th>--%>
-<%--                                        <th scope="col">Địa chỉ</th>--%>
-<%--                                        <th scope="col">Là admin</th>--%>
-<%--                                        <th scope="col">Thao tác</th>--%>
-<%--                                    </tr>--%>
-<%--                                    </thead>--%>
-<%--                                    <tbody>--%>
-<%--                        <tr>--%>
-<%--                                <%--%>
-<%--                List<User> listA = (List<User>) request.getAttribute("listA");--%>
-<%--                if (listA != null && !listA.isEmpty()) {--%>
-<%--                    for (User user : listA) {--%>
-<%--            %>--%>
-<%--                        <tr>--%>
-<%--                            <td><%= user.getId() %></td>--%>
-<%--                            <td><%= user.getUserName() %></td>--%>
-<%--                            <td><%= user.getEmail() %></td>--%>
-<%--                            <td><%= user.getPhoneNumber() %></td>--%>
-<%--                            <td><%= user.getAddress() %></td>--%>
-<%--                            <td><%= user.getRoleId() %></td>--%>
-<%--                            <td><a href="delete?userId=<%= user.getId() %>">Delete</a></td>--%>
-<%--                            <td><a href="addUser.jsp">Thêm User</a></td>--%>
-<%--                            <td><a href="delete?userId=<%= user.getId() %>">Sửa thông tin</a></td>--%>
+                                    </tr>
+                                    <%
+                                        }
+                                    } else {
+                                    %>
+                                    <tr>
+                                        <td colspan="4">No users available.</td>
+                                    </tr>
+                                    <%
+                                        }
+                                    %>
+                                    </tr>
 
-<%--                        </tr>--%>
-<%--                        <%--%>
-<%--                            }--%>
-<%--                        } else {--%>
-<%--                        %>--%>
-<%--                        <tr>--%>
-<%--                            <td colspan="4">No users available.</td>--%>
-<%--                        </tr>--%>
-<%--                        <%--%>
-<%--                            }--%>
-<%--                        %>--%>
-<%--                        </tr>--%>
-
-<%--                                    </tbody>--%>
-<%--                                </table>--%>
-<%--                            </div>--%>
-
-
-
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </section>--%>
-<%--        </div>--%>
+                                    </tbody>
+                                </table>
+                            </div>
 
 
 
-
-<%--        </div>--%>
-<%--        <!-- footer -->--%>
-<%--        <div class="footer">--%>
-<%--            <div class="wthree-copyright">--%>
-<%--                <p>&copy; 2023-2024 <a href="https://github.com/MinhThinhrine/Do_An_Web">Nhóm 18</a>. All Right Reserved.</p>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <!-- / footer -->--%>
-<%--    </section>--%>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
 
 
-    <table id="table1" style="    margin-left: 18%;
-    width: 80%;" class="table table-hover table-bordered" >
+
+
+        </div>
+        <!-- footer -->
+        <div class="footer">
+            <div class="wthree-copyright">
+                <p>&copy; 2023-2024 <a href="https://github.com/MinhThinhrine/Do_An_Web">Nhóm 18</a>. All Right Reserved.</p>
+            </div>
+        </div>
+        <!-- / footer -->
+    </section>
+
+    <style>
+        div.dt-container {
+            width: 70%;
+            position: relative;
+            clear: both;
+            margin-left: 300px;
+            text-align: center;
+        }
+    </style>
+
+
+    <table id="table1" class="table table-hover table-bordered" >
         <thead>
         <tr>
-            <th scope="col">Mã tài khoản</th>
-            <th scope="col">Tên người dùng</th>
-            <th scope="col">Email</th>
-            <th scope="col">Kích hoạt</th>
-            <th scope="col">Quyền</th>
-            <th scope="col"></th>
+            <th scope="col" style="text-align: center">Mã tài khoản</th>
+            <th scope="col" style="text-align: center">Tên người dùng</th>
+            <th scope="col" style="text-align: center">Email</th>
+            <th scope="col" style="text-align: center">Kích hoạt</th>
+            <th scope="col" style="text-align: center">Quyền</th>
+            <th scope="col" style="text-align: center"></th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${us}" var="u">
-            <tr id="1">
-                <th scope="row">${u.id}</th>
-                <td>${u.name}</td>
-                <td>${u.email}</td>
-                <td>${u.getNameActivate()}</td>
-                <td>${u.getNameRole()}</td>
-                <td>
-                    <button onclick="remove('${u.id}')" class="btn btn-primary btn-sm trash" type="button"
-                            title="Xóa">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </td>
-            </tr>
-        </c:forEach>
+        <% for (User user : listA) { %>
+        <tr id="<%=user.getId()%>">
+            <th scope="row"><%=user.getId()%></th>
+            <td><%=user.getUserName()%></td>
+            <td><%=user.getEmail()%></td>
+            <td><%=user.getPhoneNumber()%></td>
+            <td><%=user.getRoleId()%></td>
+            <td>
+                <button onclick="remove(<%=user.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
+                        title="Xóa">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        </tr>
+        <%}%>
         </tbody>
 
     </table>
@@ -169,6 +210,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         $('#table1').DataTable();
     });
 </script>
+
 <script src="js/jquery.dcjqaccordion.2.7.js"></script>
 <script src="js/scripts.js"></script>
 <script src="js/jquery.slimscroll.js"></script>
@@ -176,20 +218,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="admin/js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="js/jquery.scrollTo.js"></script>
 <!-- morris JavaScript -->
+<script src="js/jquery2.0.3.min.js"></script>
+<script src="pluggin/datatables.min.js"></script>
 <script>
-
-    function deleteUser() {
-        Swal.fire({
-            title: 'Thông báo',
-            text: 'Đã xóa thành công tài khoản này',
-            icon: 'success',
-            confirmButtonText: 'Đóng' ,
-            customClass: {
-                popup: 'custom-swal'
-            }
-        });
+    function remove(id) {
+        fetch('/Do_An_Web/RemoveUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'id=' + id, // Gửi id của người dùng cần xóa
+        })
+            .then(response => {
+                if (response.ok) {
+                    $('#table1').DataTable().row('#' + id).remove().draw();
+                } else {
+                    console.error('Không tìm thấy phần tử với id:', id);
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi:', error);
+            });
     }
+
 </script>
+
+
 
 <!-- //calendar -->
 </body>

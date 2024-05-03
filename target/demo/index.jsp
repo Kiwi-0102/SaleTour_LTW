@@ -750,7 +750,7 @@
         <script>
             <% String ketqua = (String) session.getAttribute("errorfeed");
                 ketqua = (ketqua == null || ketqua.equals("null")) ? "" : ketqua;
-                System.out.println(ketqua+"jsp");
+//                System.out.println(ketqua+"jsp");
             %>
             var danhgiaInput = '<%= ketqua %>';
             if ( danhgiaInput != ''){
