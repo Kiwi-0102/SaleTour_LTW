@@ -24,23 +24,23 @@ public class SearchController extends HttpServlet {
 
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
-        System.out.println(action);
+//        System.out.println(action);
 
         if (action == null) {
-            System.out.println("Khong thuc hien duoc gi het");
+//            System.out.println("Khong thuc hien duoc gi het");
             session.setAttribute("ListTour", null);
             request.getRequestDispatcher("catelogy.jsp").forward(request, response);
         }else if (action.equals("searchByLocation")) {
 
             String startInput = request.getParameter("dxp");
             String endInput = request.getParameter("diemden");
-            System.out.println("dxp " + startInput);
-            System.out.println("diemden " + endInput);
-            System.out.println("--------------------------------------");
+//            System.out.println("dxp " + startInput);
+//            System.out.println("diemden " + endInput);
+//            System.out.println("--------------------------------------");
 
             ArrayList<Tour> searchResults = (ArrayList<Tour>) new TourService().findAll();
             int size = searchResults.size();
-            System.out.println(size);
+//            System.out.println(size);
 
             ArrayList<Tour> kqtimkiem = new ArrayList<>();
 
@@ -81,7 +81,7 @@ public class SearchController extends HttpServlet {
                     }
                 }
             }
-            System.out.println("kqtk: " + kqtimkiem.size());
+//            System.out.println("kqtk: " + kqtimkiem.size());
             session.setAttribute("ListTour", kqtimkiem);
             request.getRequestDispatcher("catelogy.jsp").forward(request, response);
 

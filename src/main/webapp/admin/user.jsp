@@ -71,14 +71,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 
-
 <section id="container">
     <!-- main-menu Start -->
     <%@include file="header.jsp" %>
     <!-- main-menu End -->
 
     <!--main content start-->
-    <a style="margin-left: 300px;margin-top: 100px" href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa-solid fa-plus" style="color: #63E6BE;"></i></a>
+    <a style="margin-left: 300px;margin-top: 100px" href="addUser.jsp" class="btn btn-success" data-toggle="modal">
+        <i class="fa-solid fa-plus" style="color: #63E6BE;"></i>
+        <span style="vertical-align: middle;">Thêm khách hàng</span>
+    </a>
     <section id="main-content" style="display: none">
 
         <div  id="container11" style="height: 100%;">
@@ -103,35 +105,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                            <%
+                        <tr>
+                                <%
                 List<User> listA = (List<User>) request.getAttribute("listA");
                 if (listA != null && !listA.isEmpty()) {
                     for (User user : listA) {
             %>
-                                    <tr id="<%=user.getId()%>">
-                                        <td><%= user.getId() %></td>
-                                        <td><%= user.getUserName() %></td>
-                                        <td><%= user.getEmail() %></td>
-                                        <td><%= user.getPhoneNumber() %></td>
-                                        <td><%= user.getAddress() %></td>
-                                        <td><%= user.getRoleId() %></td>
-                                        <td><a href="delete?userId=<%= user.getId() %>">Delete</a></td>
-                                        <td><a href="addUser.jsp">Thêm User</a></td>
-                                        <td><a href="delete?userId=<%= user.getId() %>">Sửa thông tin</a></td>
+                        <tr id="<%=user.getId()%>">
+                            <td><%= user.getId() %></td>
+                            <td><%= user.getUserName() %></td>
+                            <td><%= user.getEmail() %></td>
+                            <td><%= user.getPhoneNumber() %></td>
+                            <td><%= user.getAddress() %></td>
+                             <% if(user.getRoleId()==1){%>
+                                <td>Admin</td>
+                            <%}else if(user.getRoleId()==2){%>
+                                <td>User</td>
+                            <%}else if(user.getRoleId()==3){%>
+                                <td>mod</td>
+                            <%}%>
+                            <td><a href="delete?userId=<%= user.getId() %>">Delete</a></td>
+                            <td><a href="delete?userId=<%= user.getId() %>">Sửa thông tin</a></td>
 
-                                    </tr>
-                                    <%
-                                        }
-                                    } else {
-                                    %>
-                                    <tr>
-                                        <td colspan="4">No users available.</td>
-                                    </tr>
-                                    <%
-                                        }
-                                    %>
-                                    </tr>
+                        </tr>
+                        <%
+                            }
+                        } else {
+                        %>
+                        <tr>
+                            <td colspan="4">No users available.</td>
+                        </tr>
+                        <%
+                            }
+                        %>
+                        </tr>
 
                                     </tbody>
                                 </table>
@@ -175,26 +182,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <th scope="col" style="text-align: center">Mã tài khoản</th>
             <th scope="col" style="text-align: center">Tên người dùng</th>
             <th scope="col" style="text-align: center">Email</th>
-            <th scope="col" style="text-align: center">Kích hoạt</th>
+            <th scope="col" style="text-align: center">Số điện thoại</th>
             <th scope="col" style="text-align: center">Quyền</th>
             <th scope="col" style="text-align: center"></th>
         </tr>
         </thead>
         <tbody>
-        <% for (User user : listA) { %>
-        <tr id="<%=user.getId()%>">
-            <th scope="row"><%=user.getId()%></th>
-            <td><%=user.getUserName()%></td>
-            <td><%=user.getEmail()%></td>
-            <td><%=user.getPhoneNumber()%></td>
-            <td><%=user.getRoleId()%></td>
-            <td>
-                <button onclick="remove(<%=user.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
-                        title="Xóa">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </td>
-        </tr>
+       <% for (User user : listA) { %>
+            <tr id="<%=user.getId()%>">
+                <th scope="row"><%=user.getId()%></th>
+                <td><%=user.getUserName()%></td>
+                <td><%=user.getEmail()%></td>
+                <td><%=user.getPhoneNumber()%></td>
+                <% if(user.getRoleId()==1){%>
+                <td>Admin</td>
+                <%}else if(user.getRoleId()==2){%>
+                <td>User</td>
+                <%}else if(user.getRoleId()==3){%>
+                <td>mod</td>
+                <%}%>
+                <td>
+                    <button onclick="remove(<%=user.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
+                            title="Xóa">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button onclick="remove(<%=user.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
+                            title="Sửa">
+                        <i class="fa-solid fa-pen" style="color: #FFD43B;"></i>
+                    </button>
+                </td>
+            </tr>
         <%}%>
         </tbody>
 
@@ -222,24 +239,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="pluggin/datatables.min.js"></script>
 <script>
     function remove(id) {
+        var data = new URLSearchParams();
+        data.append('id', id);
+
         fetch('/Do_An_Web/RemoveUser', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'id=' + id, // Gửi id của người dùng cần xóa
+            body: data
         })
-            .then(response => {
-                if (response.ok) {
-                    $('#table1').DataTable().row('#' + id).remove().draw();
-                } else {
-                    console.error('Không tìm thấy phần tử với id:', id);
+
+            .then(response =>{
+                console.log('nd:', typeof(response));
+                if(response.ok){
+                    var table = $('#table1').DataTable();
+                    var row = table.row('#' + id);
+                    row.remove().draw();
+                }else{
+                    console.log('josn: ',response.json())
+                    console.log('Lỗi không thể xóa user'+id)
                 }
             })
-            .catch(error => {
-                console.error('Lỗi:', error);
+
+            .catch(err=>{
+                console.log('error'+err)
             });
-    }
+            }
 
 </script>
 

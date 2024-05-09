@@ -22,7 +22,7 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
 
         String action = request.getParameter("action");
-        System.out.println("doget: " + action);
+//        System.out.println("doget: " + action);
         if (action == null) {
 
             System.out.println("Khong thuc hien duoc gi het");

@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.DAO;
 
 import vn.edu.hcmuaf.DB.ConnectToDatabase;
+import vn.edu.hcmuaf.bean.Bill;
 import vn.edu.hcmuaf.bean.Booking;
 
 import java.sql.*;
@@ -43,6 +44,70 @@ public class BookingDAO {
         }
         return ListBooking;
     }
+
+
+    public static ArrayList<Booking> getAllbyidUser(int idUser) {
+        ArrayList<Booking> ListBooking = new ArrayList<>();
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "Select * from booking where userId = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, idUser);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("userId");
+                String date = rs.getString("date");
+                int tourId = rs.getInt("tourId");
+                int numChildren = rs.getInt("numChildren");
+                int numAdult = rs.getInt("numAdult");
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                String dateBooking = rs.getString("dateBooking");
+
+
+                Booking booking = new Booking(id, userId, date, tourId, numChildren, numAdult, name, phone,email, address, dateBooking);
+                ListBooking.add(booking);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return ListBooking;
+    }
+
+    public static Booking getBookingbyId(int IdBK) {
+        Booking Booking = null;
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "Select * from booking where id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, IdBK);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("userId");
+                String date = rs.getString("date");
+                int tourId = rs.getInt("tourId");
+                int numChildren = rs.getInt("numChildren");
+                int numAdult = rs.getInt("numAdult");
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                String dateBooking = rs.getString("dateBooking");
+
+                Booking = new Booking(id, userId, date, tourId, numChildren, numAdult, name, phone,email, address, dateBooking);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return Booking;
+    }
+
 
     public static int insertBooking(int userId, int tourId, int numChildren, int numAdult, String name, String phone,String email, String address,String dateBooking) {
         try {
@@ -100,6 +165,6 @@ public class BookingDAO {
     public static void main(String[] args) {
         BookingDAO bkd =  new BookingDAO();
 //        int inseted = bkd.insertBooking(2,1,2, 3, "vu", "987654321", "vu@gmail.com","ab123","17-14-2004");
-        System.out.println(BookingDAO.getAll());
+//        System.out.println(BookingDAO.getBookingbyId(1));
     }
 }

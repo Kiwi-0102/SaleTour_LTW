@@ -1,5 +1,7 @@
+
 <%@ page import="vn.edu.hcmuaf.bean.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.DAO.UserDAO" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -30,6 +32,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="js/morris.js"></script>
 
 </head>
+<%UserDAO usd = new UserDAO();
+
+int numuser = usd.getAllUser().size();
+
+%>
 <body>
 
 
@@ -47,28 +54,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     margin-left: 342px;">
                     <div class="form-group col-md-4">
                         <label class="control-label">Mã tài khoản </label>
-                        <input name="id" value="${id}" class="form-control" type="text" placeholder="" readonly>
+                        <input name="id" value="<%=numuser+1%>" class="form-control" type="text" placeholder="" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label class="control-label">Tên người dùng</label>
-                        <input name="name" class="form-control" type="text">
+                        <input name="name" class="form-control" type="text" required>
                     </div>
                     <div class="form-group col-md-4 ">
                         <label class="control-label">Phân quyền</label>
                         <select name="role" class="form-control">
-                            <option>-- Chọn quyền --</option>
-                            <option value="0">Admin</option>
-                            <option value="1">Mod</option>
                             <option value="2">User</option>
+                            <option value="1">Admin</option>
+                            <option value="3">Mod</option>
+
                         </select>
                     </div>
                     <div class="form-group col-md-6 ">
                         <label class="control-label">Email</label>
-                        <input name="email" class="form-control" type="email">
+                        <input name="email" class="form-control" type="email" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="control-label">Mật khẩu</label>
-                        <input name="pass" class="form-control" type="text">
+                        <input name="pass" class="form-control" type="text" required>
                     </div>
                     <button class="btn btn-save" type="submit" style="
     margin-left: 15px;">Lưu lại</button>

@@ -52,13 +52,13 @@ public class BillController extends HttpServlet {
         Integer quantitycc = (Integer) session.getAttribute("quatitycc");
         int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 1;
         User user = (User) session.getAttribute("user");
-        System.out.println("paypay");
-        System.out.println("userdk"+userdk);
-        System.out.println("userht"+user);
-        System.out.println(dscus);
-        System.out.println(quantity);
-        System.out.println(quatitycc);
-        System.out.println(id);
+//        System.out.println("paypay");
+//        System.out.println("userdk"+userdk);
+//        System.out.println("userht"+user);
+//        System.out.println(dscus);
+//        System.out.println(quantity);
+//        System.out.println(quatitycc);
+//        System.out.println(id);
 //        String sql = "INSERT INTO booking (userId, date, tourId, numChildren, numAdult, name, phone,email, address) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?)";
 
         BookingDAO bkd = new BookingDAO();

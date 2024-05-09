@@ -24,6 +24,7 @@ public class Bill {
         this.toltalPrice = toltalPrice;
         this.status = status;
     }
+
     public int getId() {
         return id;
     }
@@ -32,12 +33,12 @@ public class Bill {
         this.id = id;
     }
 
-    public int getValiId() {
+    public int getBookingId() {
         return bookingId;
     }
 
-    public void setValiId(int valiId) {
-        this.bookingId = valiId;
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public String getPaymentMethod() {
@@ -60,19 +61,18 @@ public class Bill {
         return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Bill{" +
                 "id=" + id +
                 ", bookingId=" + bookingId +
+                ", paymentMethod='" + paymentMethod + '\'' +
                 ", toltalPrice=" + toltalPrice +
                 ", status='" + status + '\'' +
                 '}';
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-
 }

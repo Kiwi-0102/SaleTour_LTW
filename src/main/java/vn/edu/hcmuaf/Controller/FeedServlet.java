@@ -21,7 +21,7 @@ public class FeedServlet extends HttpServlet {
         indexDao indx = new indexDao();
         User user = (User) session.getAttribute("user");
         String text = request.getParameter("danhgia");
-        System.out.println("noi dung text trong svlr"+text);
+//        System.out.println("noi dung text trong svlr"+text);
         String error = "";
         if (user == null) {
             error = "Bạn phải đăng nhập để gửi đánh gá";

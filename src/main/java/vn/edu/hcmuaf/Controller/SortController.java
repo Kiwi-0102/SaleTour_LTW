@@ -33,10 +33,10 @@ public class SortController extends HttpServlet {
             Listsort = SortTour.SortByPriceDescending(ListTour);
         } else if(action.equals("sortbyDay")){
             String day = request.getParameter("day");
-            System.out.println(day);
+//            System.out.println(day);
             ArrayList<Tour> ListsortDay = SortTour.SortByDuration(ListTour,day);
             for (Tour t: ListsortDay) {
-                System.out.println(t);
+//                System.out.println(t);
             }
             request.setAttribute("ListsortDay",ListsortDay);
             request.setAttribute("sortDay","sortDay");
@@ -44,7 +44,7 @@ public class SortController extends HttpServlet {
             return;
         } else if (action.equals("sortbyregion")) {
             String region = request.getParameter("region");
-            System.out.println(region);
+//            System.out.println(region);
             ArrayList<Tour> ListsortRegion = SortTour.SortByRegion(ListTour,region);
             for (Tour t: ListsortRegion) {
                 System.out.println(t);

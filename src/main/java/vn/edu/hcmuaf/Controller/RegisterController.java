@@ -23,34 +23,39 @@ public class RegisterController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy thông tin từ form đăng ký
-        String email = request.getParameter("email") == null ? "" : request.getParameter("email");
-        String password = request.getParameter("pass1") == null ? "" : request.getParameter("pass1");
-        String confirmPassword = request.getParameter("pass2") == null ? "" : request.getParameter("pass2");
-        String username = request.getParameter("userName") == null ? "" : request.getParameter("userName");
-        System.out.println(email);
-        System.out.println(password);
-        System.out.println(confirmPassword);
-        System.out.println(username);
-
-        // Tạo đối tượng User
-        User user = new User(username, email, Mahoa.toSHA1(password));
-
-        // Thêm người dùng vào cơ sở dữ liệu
-        UserDAO userDAO = new UserDAO();
-
-        // Kiểm tra email và thêm người dùng
-        if (userDAO.isEmailExists(email)) {
-
-            request.setAttribute("err", "Email đã tồn tại");
-            request.getRequestDispatcher("./register.jsp").forward(request, response);
-        } else {
-
+        try {
+            String email = request.getParameter("email") == null ? "" : request.getParameter("email").trim();
+            String password = request.getParameter("pass1") == null ? "" : request.getParameter("pass1").trim();
+            String confirmPassword = request.getParameter("pass2") == null ? "" : request.getParameter("pass2").trim();
+            String username = request.getParameter("userName") == null ? "" : request.getParameter("userName").trim();
+            if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || username.isEmpty()) {
+                request.setAttribute("err", "Vui lòng nhập đầy đủ thông tin.");
+                request.getRequestDispatcher("./register.jsp").forward(request, response);
+                return;
+            }
+            if (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+                request.setAttribute("err", "Email không hợp lệ.");
+                request.getRequestDispatcher("./register.jsp").forward(request, response);
+                return;
+            }
+            if (!password.equals(confirmPassword)) {
+                request.setAttribute("err", "Mật khẩu và xác nhận mật khẩu không khớp.");
+                request.getRequestDispatcher("./register.jsp").forward(request, response);
+                return;
+            }
+            UserDAO userDAO = new UserDAO();
+            if (userDAO.isEmailExists(email)) {
+                request.setAttribute("err", "Email đã tồn tại.");
+                request.getRequestDispatcher("./register.jsp").forward(request, response);
+                return;
+            }
+            User user = new User(username, email, Mahoa.toSHA1(password));
             userDAO.addUser(user);
-
-
-            // Chuyển hướng đến trang đăng nhập hoặc trang đăng ký thành công
             request.getRequestDispatcher("./login.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error");
         }
     }
 }

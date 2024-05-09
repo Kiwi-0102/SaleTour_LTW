@@ -77,7 +77,7 @@ public class NewPassword extends HttpServlet {
                     }
 //                dispatcher.forward(request, response);
                 } catch (Exception e) {
-                    System.out.println("Lỗi" + e.getMessage());
+//                    System.out.println("Lỗi" + e.getMessage());
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }

@@ -56,7 +56,7 @@ public class ChangePassword extends HttpServlet {
         if (!error.isEmpty()) {
             request.setAttribute("error", error);
             request.setAttribute("stqmk", "show");
-            System.out.println("Giá trị của stqmk: " + request.getAttribute("stqmk"));
+//            System.out.println("Giá trị của stqmk: " + request.getAttribute("stqmk"));
             dispatcher = request.getRequestDispatcher("infor.jsp");
             dispatcher.forward(request, response);
         } else {

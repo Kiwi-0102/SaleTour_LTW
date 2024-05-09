@@ -34,7 +34,7 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css?display=swap" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <title>Thông tin và dịch vụ</title>
-    <link rel="shortcut icon" type="image/icon" href="../assets/logo/favicon.png"/>
+    <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <link rel="stylesheet" href="assets/css/payment.css">

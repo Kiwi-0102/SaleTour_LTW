@@ -117,6 +117,40 @@ public class CustomerDAO {
             throw new RuntimeException(e);
         }
     }
+    public static ArrayList getCustomerBybillid(int bill) {
+        ArrayList<Customer> lctm = new ArrayList<>();
+        Customer customer = null;
+
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "SELECT * FROM customer WHERE billId = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, bill);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String male = resultSet.getString("male");
+                String dateOfBirth = resultSet.getString("dateOfBirth");
+                int billId = resultSet.getInt("billId");
+
+                customer = new Customer(id,billId, name, male, dateOfBirth);
+                lctm.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return lctm;
+    }
+
+    public static void main(String[] args) {
+        CustomerDAO cmd = new CustomerDAO();
+        System.out.println(cmd.getCustomerBybillid(7));
+    }
+
+
 
 }
 

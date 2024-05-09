@@ -18,7 +18,7 @@ public class SortTour {
         ArrayList<Tour> result = new ArrayList<>();
         for (Tour tour : TourOnCart) {
             String sortBy = tour.getRegion().trim().toUpperCase();
-            System.out.println("Tour Duration: " + sortBy + ", Param: " + param);
+//            System.out.println("Tour Duration: " + sortBy + ", Param: " + param);
             if (sortBy.equalsIgnoreCase(param.trim().toUpperCase())) {
                 result.add(tour);
             }

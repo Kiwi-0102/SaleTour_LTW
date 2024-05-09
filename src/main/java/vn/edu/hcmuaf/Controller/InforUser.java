@@ -47,14 +47,14 @@ public class InforUser extends HttpServlet {
         }
 
         if (!err.isEmpty() && err != null) {
-            System.out.println("err" + err);
+//            System.out.println("err" + err);
             request.setAttribute("err", err);
             request.getRequestDispatcher("infor.jsp").forward(request, response);
         } else {
-            System.out.println("Thực hiện thay đổi thông tin");
-            System.out.println("name" + name);
-            System.out.println("phone" + phone);
-            System.out.println("address" + address);
+//            System.out.println("Thực hiện thay đổi thông tin");
+//            System.out.println("name" + name);
+//            System.out.println("phone" + phone);
+//            System.out.println("address" + address);
             User user = (User) session.getAttribute("user");
 
             UserDAO userDAO = new UserDAO();

@@ -166,7 +166,6 @@ public class UserDAO implements objectDAO {
     }
     public void addUser(User user) {
         try (Connection connection = ConnectToDatabase.getConnect()) {
-            // Kiểm tra xem email đã tồn tại hay chưa
 
                 // Email không tồn tại, thêm người dùng vào cơ sở dữ liệu
                 try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (username, email, password) VALUES (?, ?, ?)")) {
@@ -272,4 +271,6 @@ public class UserDAO implements objectDAO {
 
 
     }
+
+
 }

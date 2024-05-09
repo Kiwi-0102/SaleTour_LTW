@@ -78,7 +78,7 @@
 
     String status = request.getAttribute("status") + "";
     status = (status == null || status.equals("null")) ? "" : status;
-    System.out.println("status"+status);
+//    System.out.println("status"+status);
 %>
 <body>
 <section style="background: url(assets/images/home/1920.jpg)no-repeat;height: auto;

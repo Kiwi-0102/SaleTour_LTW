@@ -98,7 +98,7 @@
         window.location.href = "infor.jsp";
     });
     document.getElementById("bill").addEventListener("click", function () {
-        window.location.href = "bill.jsp";
+        window.location.href = "invoiceHistory.jsp";
     });
     document.getElementById("admin").addEventListener("click", function () {
         window.location.href="${pageContext.request.contextPath}/admin/admin.jsp";
