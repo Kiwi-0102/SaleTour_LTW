@@ -1,25 +1,27 @@
-
 <%@ page import="vn.edu.hcmuaf.bean.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.DAO.UserDAO" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 
 <head>
     <title>Quản lí khách hàng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
     <link rel="shortcut icon" type="image/icon" href="../assets/logo/favicon.png"/>
     <!-- bootstrap-css -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/admin.css">
-    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel='stylesheet' type='text/css'/>
     <link href="css/style-responsive.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/monthly.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css" integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/monthly.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"
+          integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
             rel="stylesheet"
@@ -32,9 +34,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="js/morris.js"></script>
 
 </head>
-<%UserDAO usd = new UserDAO();
 
-int numuser = usd.getAllUser().size();
+<%
+    UserDAO usd = new UserDAO();
+    String err = (String) request.getAttribute("err");
+    err = (err == null) ? "" : err.trim();
+    int numuser = usd.getAllUser().size();
 
 %>
 <body>
@@ -44,17 +49,17 @@ int numuser = usd.getAllUser().size();
     <!-- main-menu Start -->
     <%@include file="header.jsp" %>
     <!-- main-menu End -->
-
+    <div class="err" style="text-align: center;color: red;font-size: 30px"><%=err%></div>
     <!--main content start-->
     <section class="home-section">
         <div class="home-content">
             <div class="manager-product">
                 <div class="title">Thêm Tài Khoản</div>
-                <form method="post" action="AddUserAdmin" class="row" style="    width: 1000px;
-    margin-left: 342px;">
+                <form method="post" action="${pageContext.request.contextPath}/AddUserAdmin" class="row" style="    width: 1000px;margin-left: 342px;">
                     <div class="form-group col-md-4">
                         <label class="control-label">Mã tài khoản </label>
-                        <input name="id" value="<%=numuser+1%>" class="form-control" type="text" placeholder="" readonly>
+                        <input name="id" value="<%=numuser+1%>" class="form-control" type="text" placeholder=""
+                               readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label class="control-label">Tên người dùng</label>
@@ -78,7 +83,8 @@ int numuser = usd.getAllUser().size();
                         <input name="pass" class="form-control" type="text" required>
                     </div>
                     <button class="btn btn-save" type="submit" style="
-    margin-left: 15px;">Lưu lại</button>
+    margin-left: 15px;">Lưu lại
+                    </button>
                     <a class="btn btn-cancel" href="UserAdmin">Hủy bỏ</a>
                 </form>
             </div>
@@ -91,7 +97,8 @@ int numuser = usd.getAllUser().size();
 <script src="js/scripts.js"></script>
 <script src="js/jquery.slimscroll.js"></script>
 <script src="js/jquery.nicescroll.js"></script>
-<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="admin/js/flot-chart/excanvas.min.js"></script><![endif]-->
+<!--[if lte IE 8]>
+<script language="javascript" type="text/javascript" src="admin/js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="js/jquery.scrollTo.js"></script>
 <!-- morris JavaScript -->
 <script>
@@ -101,7 +108,7 @@ int numuser = usd.getAllUser().size();
             title: 'Thông báo',
             text: 'Đã xóa thành công tài khoản này',
             icon: 'success',
-            confirmButtonText: 'Đóng' ,
+            confirmButtonText: 'Đóng',
             customClass: {
                 popup: 'custom-swal'
             }

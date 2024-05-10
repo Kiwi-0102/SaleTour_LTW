@@ -110,7 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <p class="mb-0" style="font-weight: 500;"><%=bill.getId()%></p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="mb-0" style="font-weight: 500;"><%=bill.getValiId()%></p>
+                                            <p class="mb-0" style="font-weight: 500;"><%=bill.getBookingId()%></p>
                                         </td>
                                         <td class="align-middle">
                                             <div style="margin-left: 5px"><%=bill.getToltalPrice()%></div>

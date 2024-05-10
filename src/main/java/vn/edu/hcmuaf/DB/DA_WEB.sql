@@ -630,16 +630,6 @@ VALUES
     ('Thợ chụp ảnh', 1200000, 'Thuê một nhiếp ảnh gia chuyên nghiệp để chụp ảnh cho bạn trong các địa điểm du lịch đẹp.'),
     ('Thuê trang phục', 500000, 'Thuê trang phục: Cho phép bạn thuê trang phục đặc biệt để mặc trong suốt chuyến đi, ví dụ như trang phục truyền thống, trang phục cổ điển, trang phục của văn hóa địa phương và nhiều hơn nữa.'),
     ('Phòng riêng đơn', 500000, 'Cung cấp phòng riêng cho du khách đơn lẻ trong suốt chuyến đi');
-#     ('Bảo hiểm du lịch', 100000, 'Bảo hiểm y tế và bảo hiểm hành lý'),
-#     ('Dịch vụ mát-xa', 200000, 'Dịch vụ mát-xa thư giãn sau một ngày tham quan'),
-#     ('Giải trí tối', 300000, 'Tham gia các hoạt động giải trí và vui chơi vào buổi tối'),
-#     ('Trợ lý du lịch', 200000, 'Cung cấp trợ lý du lịch chuyên nghiệp trong suốt chuyến đi'),
-#     ('Dịch vụ hướng dẫn ngôn ngữ', 150000, 'Dịch vụ hướng dẫn ngôn ngữ cho du khách nước ngoài'),
-#     ('Dịch vụ spa', 400000, 'Dịch vụ spa và chăm sóc sức khỏe'),
-#     ('Dịch vụ điện thoại di động', 100000, 'Cung cấp dịch vụ điện thoại di động trong suốt chuyến đi'),
-#     ('Dịch vụ thuê xe', 350000, 'Cho thuê xe tự lái hoặc có tài xế'),
-#     ('Giặt quần áo', 200000, 'Cung cấp dịch vụ giặt đồ'),
-#     ('Làm đẹp', 200000, 'Cung cấp dịch vụ cá nhân làm đẹp');
 
 
 INSERT INTO `valies` (`userId`, `tourId`, `numChildren`, `numAdult`) VALUES

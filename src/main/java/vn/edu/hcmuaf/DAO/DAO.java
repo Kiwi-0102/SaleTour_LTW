@@ -11,9 +11,9 @@ import java.util.ArrayList;
 public class DAO {
     public ArrayList<Bill> getBill() {
         ArrayList<Bill> listBill = new ArrayList<>();
-        String sql = "SELECT * FROM bills " +
-                "JOIN valies ON bills.valiId = valies.id " +
-                "JOIN users ON valies.userId = users.id";
+        String sql = "SELECT * FROM bills" +
+                "                JOIN booking ON booking.id = bills.id \n" +
+                " JOIN users ON booking.userId = users.id";
         Connection connect = ConnectToDatabase.getConnect();
 
         try {
@@ -23,7 +23,7 @@ public class DAO {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int billId = rs.getInt("bills.id");
-                int valiId = rs.getInt("valies.id");
+                int valiId = rs.getInt("bills.bookingId");
                 int userId = rs.getInt("users.id");
                 double price = rs.getDouble("bills.totalPrice");
                 String stt = rs.getString("bills.status");

@@ -181,6 +181,23 @@ public class UserDAO implements objectDAO {
         }
     }
 
+    public void addUserAdmin(User user) {
+        try (Connection connection = ConnectToDatabase.getConnect()) {
+
+            // Email không tồn tại, thêm người dùng vào cơ sở dữ liệu
+            try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (username, email, password,roleId) VALUES (?, ?, ?,?)")) {
+                preparedStatement.setString(1, user.getUserName());
+                preparedStatement.setString(2, user.getEmail());
+                preparedStatement.setString(3, user.getPassword());
+                preparedStatement.setInt(4, user.getRoleId());
+
+                preparedStatement.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // In lỗi để bạn có thể xác định vấn đề
+        }
+    }
 
     public static boolean editInforUser(String name, String phone, String address, String email){
         String sql = "update users set userName = ?,phoneNumber= ?, address=? where email = ?";
@@ -254,19 +271,10 @@ public class UserDAO implements objectDAO {
 
             // add User
         User u = new User("asa","122131122212@gmail.com","123321");
+        u.setRoleId(3);
                 UserDAO userDao = new UserDAO();
 //                System.out.println(userDao.isEmailExists("thuc9g@gmail.com"));
-                userDao.addUser(u);
-
-            // Giả sử bạn có các giá trị tham số như sau:
-//            String name = "Vu 123";
-//            String phone = "0913415077";
-//            String address = "Hẻm 482 Nơ Trang Long, Phường 13, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam";
-//            String email = "21130615@st.hcmuaf.edu.vn";
-//
-//            // Gọi phương thức editInforUser để kiểm tra
-//             editInforUser(name, phone, address, email);
-            /// check trung UserName
+                userDao.addUserAdmin(u);
 
 
 
