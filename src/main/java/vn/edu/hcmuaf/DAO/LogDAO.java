@@ -3,10 +3,7 @@ package vn.edu.hcmuaf.DAO;
 import vn.edu.hcmuaf.DB.ConnectToDatabase;
 import vn.edu.hcmuaf.bean.Log;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 public class LogDAO {
@@ -16,7 +13,7 @@ public class LogDAO {
     public static ResultSet rs = null;
 
     public int insert(Log log) {
-        String sql = "INSERT INTO logs(`level`, `id_user`, `ip_address`, `src`, `content`, `create_at`, `status`) VALUES (?, ?, ?, ?, ?, NOW(), ?)";
+        String sql = "INSERT INTO logs(`level`, `userId`, `ipAddress`, `src`, `content`, `createAt`, `status`) VALUES (?, ?, ?, ?, ?, NOW(), ?)";
         connect = ConnectToDatabase.getConnect();
         int rowsAffected = 0;
         try {
@@ -34,5 +31,14 @@ public class LogDAO {
         }
         return rowsAffected;
     }
+
+    public static void main(String[] args) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Log log = new Log(1,1,"0.0.0.1","login.jsp","login thành công", timestamp, 0);
+        LogDAO logDAO = new LogDAO();
+        int rowsAffected = logDAO.insert(log);
+        System.out.println(rowsAffected + " row(s) affected.");
+    }
+
 
 }
