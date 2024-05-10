@@ -152,6 +152,7 @@ body {
     cursor: pointer;
 }
 #result{
+    text-align: center;
     padding-left: 20px;
     width: 220px;
     word-wrap: break-word;

@@ -19,6 +19,7 @@ public class AddUserAdmin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            String action = request.getParameter("action");
             String email = request.getParameter("email") == null ? "" : request.getParameter("email").trim();
             String password = request.getParameter("pass") == null ? "" : request.getParameter("pass").trim();
             String username = request.getParameter("name") == null ? "" : request.getParameter("name").trim();

@@ -81,6 +81,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <i class="fa-solid fa-plus" style="color: #63E6BE;"></i>
         <span style="vertical-align: middle;">Thêm khách hàng</span>
     </a>
+    <a href="LogManager">
+        <button class="btn btn-warning">View logs</button>
+    </a>
     <section id="main-content" style="display: none">
 
         <div  id="container11" style="height: 100%;">

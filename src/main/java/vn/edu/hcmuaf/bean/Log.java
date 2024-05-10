@@ -9,55 +9,41 @@ import java.util.Map;
 
 public class Log implements Serializable {
     private int id;
-    private int level;
-    private String src;
-    private int id_user;
-    private String ip_address;
-    private String content;
-    private Timestamp create_at;
-    private  int status;
-
-    static Map<Integer, String> levelMapping = new HashMap<>();
-
-    static {
-        levelMapping.put(0, "INFO");
-        levelMapping.put(1, "ALERT");
-        levelMapping.put(2, "WARNING");
-        levelMapping.put(3, "DANGER");
-    }
-
-    public static int INFO = 0;
-    public static int ALERT = 1;
-    public static int WARNING = 2;
-    public static int DANGER = 3;
-
-    public Log() {
-    }
-    public Log(int level,int userId, String ip_address, String src,  String content, Timestamp creatAt, int status) {
-        this.level = level;
-        this.src = src;
-        this.id_user = userId;
-        this.ip_address = ip_address;
-        this.content = content;
-        this.create_at = creatAt;
-        this.status = status;
-    }
-    public Log(int id, int level,int userId, String ip_address, String src, String content, Timestamp creatAt, int status) {
+    private LogLevel logLevel;
+    private String address;
+    private String ip;
+    private String beforeValue;
+    private String afterValue;
+    private Timestamp createAt;
+    public Log(){}
+    public Log(int id, LogLevel logLevel, String address, String ip, String beforeValue, String afterValue, Timestamp createAt) {
         this.id = id;
-        this.level = level;
-        this.src = src;
-        this.id_user = userId;
-        this.content = content;
-        this.create_at = creatAt;
-        this.status = status;
+        this.logLevel = logLevel;
+        this.address = address;
+        this.ip = ip;
+        this.beforeValue = beforeValue;
+        this.afterValue = afterValue;
+        this.createAt = createAt;
     }
-    public Log(int level,int userId, String ip_address, String src, String content,int status) {
-        this.level = level;
-        this.src = src;
-        this.ip_address = ip_address;
-        this.id_user = userId;
-        this.content = content;
-        this.status = status;
+    public Log(LogLevel logLevel, String address, String ip, String beforeValue, String afterValue) {
+        this.logLevel = logLevel;
+        this.address = address;
+        this.ip = ip;
+        this.beforeValue = beforeValue;
+        this.afterValue = afterValue;
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", logLevel=" + logLevel +
+                ", address='" + address + '\'' +
+                ", ip='" + ip + '\'' +
+                ", beforeValue='" + beforeValue + '\'' +
+                ", afterValue='" + afterValue + '\'' +
+                ", createAt=" + createAt +
+                '}';
     }
 
     public int getId() {
@@ -68,105 +54,53 @@ public class Log implements Serializable {
         this.id = id;
     }
 
-    public int getLevel() {
-        return level;
+    public LogLevel getLogLevel() {
+        return logLevel;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setLogLevel(LogLevel logLevel) {
+        this.logLevel = logLevel;
     }
 
-    public String getLevelWithName() {
-        return levelMapping.get(levelMapping.containsKey(this.level) ? this.level : 0);
+    public String getAddress() {
+        return address;
     }
 
-    public String getSrc() {
-        return src;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setSrc(String src) {
-        this.src = src;
+    public String getIp() {
+        return ip;
     }
 
-    public String getContent() {
-        if(content.length() > 5000){
-            return content.substring(0, 5000) + "...";
-        }
-        return content;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getBeforeValue() {
+        return beforeValue;
     }
 
-    public Timestamp getCreate_at() {
-        return create_at;
+    public void setBeforeValue(String beforeValue) {
+        this.beforeValue = beforeValue;
     }
 
-    public void setCreate_at(Timestamp create_at) {
-        this.create_at = create_at;
+    public String getAfterValue() {
+        return afterValue;
     }
 
-    public int getStatus() {
-        return status;
+    public void setAfterValue(String afterValue) {
+        this.afterValue = afterValue;
     }
 
-
-    public void setStatus(int status) {
-        this.status = status;
+    public Timestamp getCreateAt() {
+        return createAt;
     }
 
-    public int getId_user() {
-        return id_user;
+    public void setCreateAt(Timestamp createAt) {
+        this.createAt = createAt;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
-    }
-
-    public String getIp_address() {
-        return ip_address;
-    }
-
-    public void setIp_address(String ip_address) {
-        this.ip_address = ip_address;
-    }
-
-
-
-//    public boolean insert(Jdbi db){
-//        Integer i = db.withHandle(handle ->
-//                handle.execute("INSERT INTO logs(`level`, `id_user`, `ip_address`, `src`, `title`,`content`, `create_at`, `status`)  VALUES(?,?,?,?,?,?,NOW(),?)",
-//                        this.level, getId_user() == -1 ? null : getId_user(),
-//                        getIp_address().trim() == ""? "Không xác định" : getIp_address(),
-//                        getSrc(),
-//                        getTitle(),
-//                        getContent(),
-//                        getStatus())
-//        );
-//        return i==1;
-//    }
-
-    public String getNameStatus(){
-        if(getStatus() == 1){
-            return "Đã kiểm tra";
-        }else{
-            return "Chưa kiểm tra";
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Log: " +
-                "id=" + id +
-                ", level=" + level +
-                ", src='" + src +
-                ", id_user=" + id_user +
-                ", ip_address='" + ip_address +
-                ", content='" + content +
-                ", create_at=" + create_at +
-                ", status=" + status +
-                "<br>";
-    }
 
 }

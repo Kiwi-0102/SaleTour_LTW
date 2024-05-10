@@ -17,26 +17,29 @@
 
         <form action="./register" method="post">
             <div class="emailx">
-                <input id="email" name="email" type="email" placeholder="Email" required autocomplete="on" autofocus >
+                <input id="email" name="email" type="email" placeholder="Email" required autocomplete="on" autofocus>
             </div>
             <div class="pass">
-                <input id="pass" name="pass1" type="password" placeholder="Mật khẩu từ 6 - 20 kí tự" minlength="6" maxlength="20" >
+                <input id="pass" name="pass1" type="password" placeholder="Mật khẩu từ 6 - 20 kí tự" minlength="6"
+                       maxlength="20">
             </div>
-            <div class="pass" >
-                <input id="confirm" name="pass2" type="password" placeholder="Nhập lại mật khẩu" minlength="6" maxlength="20" >
+            <div class="pass">
+                <input id="confirm" name="pass2" type="password" placeholder="Nhập lại mật khẩu" minlength="6"
+                       maxlength="20">
             </div>
             <div class="user">
-                <input id="username" name="userName" type="text" placeholder="Tên người dùng" >
+                <input id="username" name="userName" type="text" placeholder="Tên người dùng">
             </div>
 
-            <p id="result"></p>
+            <p id="result" style="text-align: center;width: 100%;color: green;"></p>
 
             <%
                 // Kiểm tra xem thuộc tính "err" có được thiết lập trong request không
                 String errorMessage = (String) request.getAttribute("err");
                 if (errorMessage != null && !errorMessage.isEmpty()) {
             %>
-            <p style="color: red;margin-left: 30px"><%= errorMessage %></p>
+            <p style="color: red;margin-left: 30px;text-align: center"><%= errorMessage %>
+            </p>
             <%
                 }
             %>
@@ -58,9 +61,9 @@
     var btn = document.getElementById("btn");
 
     //khoa nut đăng nhập
-    btn.disabled=true;
+    btn.disabled = true;
     btn.style.backgroundColor = "#bbbbbb";
-    btn.style.cursor ="not-allowed";
+    btn.style.cursor = "not-allowed";
     ///
     const validateEmail = (email) => {
         return email.match(
@@ -74,27 +77,27 @@
         var confirm = document.getElementById('confirm');
         $result.text('');
 
-        if(validateEmail(email)){
+        if (validateEmail(email)) {
             $result.text(email + ' hợp lệ.');
             $result.css('color', 'green');
-            passInput.addEventListener("input", function (){
+            passInput.addEventListener("input", function () {
                 const pass = passInput.value;
-                if(pass.length >= 6){
-                    confirm.addEventListener("input", function (){
-                    const conf = confirm.value;
-                        if (conf===pass) {
+                if (pass.length >= 6) {
+                    confirm.addEventListener("input", function () {
+                        const conf = confirm.value;
+                        if (conf === pass) {
                             btn.disabled = false;
                             $result.text('Mật khẩu hợp lệ');
                             $result.css('color', 'green');
                             btn.style.backgroundColor = "#00d8d5";
                             btn.style.cursor = "pointer";
                             link();
-                        }else{
+                        } else {
                             btn.disabled = true;
                             $result.text('Mật khẩu không khớp');
                             $result.css('color', 'red');
                             btn.style.backgroundColor = "#bbbbbb";
-                            btn.style.cursor ="not-allowed";
+                            btn.style.cursor = "not-allowed";
                             link();
                         }
                     })
@@ -107,10 +110,11 @@
         return false;
     }
     $('#email').on('input', validate);
+
     function link() {
         const loginButton = document.getElementById("btn");
         loginButton.addEventListener("click", function () {
-        window.location.href = "login.jsp";
+            window.location.href = "login.jsp";
         });
     }
 </script>
