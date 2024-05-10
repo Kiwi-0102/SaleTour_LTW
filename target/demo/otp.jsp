@@ -69,7 +69,7 @@
                                 <div class="form-group">
                                     <input name="recover-submit"
                                            class="btn btn-lg btn-primary btn-block"
-                                           value="Đặt lại password" type="submit" style="background-color: #00D8FE">
+                                           value="Xác nhận" type="submit" style="background-color: #00D8FE">
                                 </div>
 
                                 <input type="hidden" class="hide" name="token" id="token"

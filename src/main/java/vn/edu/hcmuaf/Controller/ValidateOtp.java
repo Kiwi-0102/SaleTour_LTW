@@ -1,5 +1,8 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.UserDAO;
+import vn.edu.hcmuaf.bean.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,34 +21,71 @@ public class ValidateOtp extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String url ="";
-        int otp = 0;
+        String action = (String) session.getAttribute("action");
+        if (action == null || action.isEmpty()) {
+            String url = "";
+            int otp = 0;
 
-        try {
-            otp = Integer.parseInt(request.getParameter("otp"));
-        } catch (NumberFormatException e) {
-            request.setAttribute("status", "OTP phải là chuỗi số");
-            url = "otp.jsp";
-            request.getRequestDispatcher(url).forward(request,response);
-        }
-
-        int opt_mail = (int) session.getAttribute("otp");
-
-        try {
-            if(otp==opt_mail){
-                request.setAttribute("status","Thành công");
-                url ="newpassword.jsp";
-                request.getRequestDispatcher(url).forward(request,response);
-            }else {
-                request.setAttribute("status","Mã OTP không đúng");
-                url ="otp.jsp";
-                request.getRequestDispatcher(url).forward(request,response);
+            try {
+                otp = Integer.parseInt(request.getParameter("otp"));
+            } catch (NumberFormatException e) {
+                request.setAttribute("status", "OTP phải là chuỗi số");
+                url = "otp.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
             }
-        } catch (Exception e) {
-            request.setAttribute("status","Có lỗi xảy ra .Vui lòng thực hiện lại sau");
-            e.printStackTrace();
-            url ="otp.jsp";
-            request.getRequestDispatcher(url).forward(request,response);
+
+            int opt_mail = (int) session.getAttribute("otp");
+
+            try {
+                if (otp == opt_mail) {
+                    request.setAttribute("status", "Thành công");
+                    url = "newpassword.jsp";
+                    request.getRequestDispatcher(url).forward(request, response);
+                } else {
+                    request.setAttribute("status", "Mã OTP không đúng");
+                    url = "otp.jsp";
+                    request.getRequestDispatcher(url).forward(request, response);
+                }
+            } catch (Exception e) {
+                request.setAttribute("status", "Có lỗi xảy ra .Vui lòng thực hiện lại sau");
+                e.printStackTrace();
+                url = "otp.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }
+        } else {
+            String url = "";
+            int otp = 0;
+
+            try {
+                otp = Integer.parseInt(request.getParameter("otp"));
+            } catch (NumberFormatException e) {
+                request.setAttribute("status", "OTP phải là chuỗi số");
+                url = "otp.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }
+
+            int opt_mail = (int) session.getAttribute("otp_register");
+
+            try {
+                if (otp == opt_mail) {
+                    request.setAttribute("status", "Thành công");
+                    url = "login.jsp";
+
+                    User user = (User) session.getAttribute("register");
+                    UserDAO userDO = new UserDAO();
+                    userDO.addUser(user);
+                    request.getRequestDispatcher("./login.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("status", "Mã OTP không đúng");
+                    url = "otp.jsp";
+                    request.getRequestDispatcher(url).forward(request, response);
+                }
+            } catch (Exception e) {
+                request.setAttribute("status", "Có lỗi xảy ra .Vui lòng thực hiện lại sau");
+                e.printStackTrace();
+                url = "otp.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }
         }
     }
 }
