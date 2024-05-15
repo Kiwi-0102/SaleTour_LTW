@@ -394,29 +394,50 @@ public class TourDao {
         }
     }
 
+    public List<ImageTours> getByIdTours(int id) {
+        List<ImageTours> res = new ArrayList<>();
+        try {
+            PreparedStatement ps = ConnectToDatabase.getConnect().prepareStatement("select id, URL from images where images.tourId = ?");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(new ImageTours(rs.getInt(1), rs.getString(2)));
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return res;
+    }
+
+    public List<Duration> getDetldurationByIdTours(int id) {
+        List<Duration> res = new ArrayList<>();
+        try {
+            PreparedStatement ps = ConnectToDatabase.getConnect().prepareStatement("select day1,day2,day3,day4,day5 from detailduration where detailduration.tourId = ?");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String day1 = rs.getString(1);
+                String day2 = rs.getString(2);
+                String day3 = rs.getString(3);
+                String day4 = rs.getString(4);
+                String day5 = rs.getString(5);
+                Duration dr = new Duration(day1,day2,day3,day4,day5);
+                res.add(dr);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
-//            // Gọi phương thức getListTourbySearch
-//            String searchKeyword = "Sa pa";
-//            List<Tour> searchResults = TourDao.getListTourbySearch(searchKeyword);
-//
-//            // Hiển thị kết quả
-//            if (searchResults.isEmpty()) {
-//                System.out.println("Không tìm thấy kết quả cho từ khóa: " + searchKeyword);
-//            } else {
-//                System.out.println("Kết quả tìm kiếm cho từ khóa: " + searchKeyword);
-//                for (Tour tour : searchResults) {
-//                    System.out.println("Tour ID: " + tour.getId());
-//                    System.out.println("Tên tour: " + tour.getName());
-//                    // Hiển thị thêm các thông tin khác nếu cần
-//                    System.out.println("----------------------------------");
-//                }
-//            }
 
-        //add
-                    TourDao dao = new TourDao();
-                     dao.addTour("1",1,"1","1",1111,"1111","111","111","!1111");
-
+        System.out.println(new  TourDao().getDetldurationByIdTours(1));
 
     }
 

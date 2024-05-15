@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.bean;
 
+import java.util.ArrayList;
+
 public class Tour {
     private int id;
     private String region;
@@ -11,8 +13,26 @@ public class Tour {
     private String duration;
     private String schedule;
     private String description;
-
+    private ArrayList<ImageTours> imageTours;
+    private int quantity;
+    private ArrayList<Duration> detailDuration;
     public Tour() {
+    }
+
+    public Tour(int id, String region, Integer discountId, String name, String image, int price, String startTime, String duration, String schedule, String description, ArrayList<ImageTours> imageTours, int quantity, ArrayList<Duration> detailDuration) {
+        this.id = id;
+        this.region = region;
+        this.discountId = discountId;
+        this.name = name;
+        this.image = image;
+        this.price = price;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.schedule = schedule;
+        this.description = description;
+        this.imageTours = imageTours;
+        this.quantity = quantity;
+        this.detailDuration = detailDuration;
     }
 
     public Tour(int id, String region, Integer discountId, String name, String image, int price,
@@ -27,6 +47,30 @@ public class Tour {
         this.duration = duration;
         this.schedule = schedule;
         this.description = description;
+    }
+
+    public ArrayList<ImageTours> getImageTours() {
+        return imageTours;
+    }
+
+    public void setImageTours(ArrayList<ImageTours> imageTours) {
+        this.imageTours = imageTours;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public ArrayList<Duration> getDetailDuration() {
+        return detailDuration;
+    }
+
+    public void setDetailDuration(ArrayList<Duration> detailDuration) {
+        this.detailDuration = detailDuration;
     }
 
     public Tour(int id, String name, String image, int price, String duration) {

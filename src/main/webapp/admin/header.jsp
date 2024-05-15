@@ -131,7 +131,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </li>
 
                     <li>
-                        <a href="/demo/index.jsp">
+                        <a href="/Do_An_Web/index.jsp">
                             <i class="fa fa-home"></i>
                             <span>Trang chủ</span>
                         </a>
