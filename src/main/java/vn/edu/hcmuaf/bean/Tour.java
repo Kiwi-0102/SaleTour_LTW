@@ -49,30 +49,6 @@ public class Tour {
         this.description = description;
     }
 
-    public ArrayList<ImageTours> getImageTours() {
-        return imageTours;
-    }
-
-    public void setImageTours(ArrayList<ImageTours> imageTours) {
-        this.imageTours = imageTours;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public ArrayList<Duration> getDetailDuration() {
-        return detailDuration;
-    }
-
-    public void setDetailDuration(ArrayList<Duration> detailDuration) {
-        this.detailDuration = detailDuration;
-    }
-
     public Tour(int id, String name, String image, int price, String duration) {
         this.id = id;
         this.name = name;
@@ -81,7 +57,6 @@ public class Tour {
         this.duration = duration;
     }
 
-   
 
     public int getId() {
         return id;
@@ -116,7 +91,7 @@ public class Tour {
     }
 
     public String getImage() {
-        return this.image;
+        return image;
     }
 
     public void setImage(String image) {
@@ -124,7 +99,7 @@ public class Tour {
     }
 
     public int getPrice() {
-        return this.price;
+        return price;
     }
 
     public void setPrice(int price) {
@@ -157,6 +132,30 @@ public class Tour {
 
     public String getDescription() {
         return description;
+    }
+
+    public ArrayList<ImageTours> getImageTours() {
+        return imageTours;
+    }
+
+    public void setImageTours(ArrayList<ImageTours> imageTours) {
+        this.imageTours = imageTours;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public ArrayList<Duration> getDetailDuration() {
+        return detailDuration;
+    }
+
+    public void setDetailDuration(ArrayList<Duration> detailDuration) {
+        this.detailDuration = detailDuration;
     }
 
     @Override

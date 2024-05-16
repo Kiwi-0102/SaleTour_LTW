@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main/java/vn/edu/hcmuaf/DAO/LogDAO.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/vn/edu/hcmuaf/DAO/TourDao.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/vn/edu/hcmuaf/DB/DA_WEB.sql" dialect="MariaDB" />
   </component>
 </project>

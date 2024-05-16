@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
+
 public class indexDao {
     static Connection connection;
     static ResultSet rs = null;
@@ -35,6 +37,8 @@ public class indexDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return newsList;
     }
@@ -56,6 +60,8 @@ public class indexDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return feedbackList;
     }
@@ -72,6 +78,8 @@ public class indexDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return "User Null";
     }
@@ -94,6 +102,8 @@ public class indexDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return sv_list;
     }
@@ -114,6 +124,8 @@ public class indexDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return op;
     }

@@ -5,6 +5,8 @@ import vn.edu.hcmuaf.bean.Log;
 
 import java.sql.*;
 
+import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
+
 
 public class LogDAO {
 
@@ -28,6 +30,8 @@ public class LogDAO {
             rowsAffected = pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            closeResources(connect, pst, rs);
         }
         return rowsAffected;
     }

@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
+
 public class CustomerDAO {
     static Connection connection;
     static ResultSet rs = null;
@@ -33,10 +35,14 @@ public class CustomerDAO {
                     insertedCount += rowsInserted;
                 }
             }
+            connection.close();
+            preparedStatement.close();
             return insertedCount;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -58,11 +64,17 @@ public class CustomerDAO {
 
                     Customer customer = new Customer(id, billId,name, male, dateOfBirth );
                     customers.add(customer);
+                    connection.close();
+                    preparedStatement.close();
+                    rs.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
+            } finally {
+                closeResources(connection, preparedStatement, rs);
             }
+
             return customers;
         }
     public Customer getCustomerById(int customerId) {
@@ -99,6 +111,8 @@ public class CustomerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
     public void updateCustomerById(int customerId, String name, String male, String dateOfBirth, int billId) {
@@ -115,6 +129,8 @@ public class CustomerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
     public static ArrayList getCustomerBybillid(int bill) {
@@ -141,6 +157,8 @@ public class CustomerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return lctm;
     }

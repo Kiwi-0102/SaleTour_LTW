@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
+
 public class TourDao {
     static Connection connection;
     static ResultSet rs = null;
@@ -64,6 +66,8 @@ public class TourDao {
                 String duration = rs.getString("duration");
                 String schedule = rs.getString("schedule");
                 String description = rs.getString("description");
+                int quantity = rs.getInt("quantity");
+
                 tour.setId(id1);
                 tour.setRegion(region);
                 tour.setDiscountId(idDis);
@@ -74,10 +78,13 @@ public class TourDao {
                 tour.setStartTime(startTime);
                 tour.setSchedule(schedule);
                 tour.setDescription(description);
+                tour.setQuantity(quantity);
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return tour;
     }
@@ -116,6 +123,8 @@ public class TourDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return tour;
     }
@@ -149,6 +158,8 @@ public class TourDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return product;
     }
@@ -170,6 +181,8 @@ public class TourDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return row;
     }
@@ -193,6 +206,8 @@ public class TourDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -219,6 +234,8 @@ public class TourDao {
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return sum;
     }
@@ -269,6 +286,8 @@ public class TourDao {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -291,6 +310,8 @@ public class TourDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -304,6 +325,8 @@ public class TourDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -317,6 +340,8 @@ public class TourDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -330,6 +355,8 @@ public class TourDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -343,6 +370,8 @@ public class TourDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -369,6 +398,8 @@ public class TourDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
@@ -391,10 +422,12 @@ public class TourDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 
-    public List<ImageTours> getByIdTours(int id) {
+    public List<ImageTours> getImageByIdTours(int id) {
         List<ImageTours> res = new ArrayList<>();
         try {
             PreparedStatement ps = ConnectToDatabase.getConnect().prepareStatement("select id, URL from images where images.tourId = ?");
@@ -407,6 +440,8 @@ public class TourDao {
             ps.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return res;
     }
@@ -430,14 +465,40 @@ public class TourDao {
             ps.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return res;
     }
 
-
+    public static int soluongdadat(int id){
+        int total = 0;
+        Connection connect = ConnectToDatabase.getConnect();
+        try {
+            preparedStatement = connect.prepareStatement("SELECT numChildren,numAdult FROM `booking`where STR_TO_DATE(date, '%Y-%m-%d')<CURRENT_DATE() AND tourId = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+               int numchildren = rs.getInt("numChildren");
+                int numAdult = rs.getInt("numAdult");
+                total +=numchildren+numAdult;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+        return total;
+    }
+    public static int sochoconlai(int id){
+        TourDao td = new  TourDao();
+        int tours = td.findtourbyid(id).getQuantity();
+        int ketqua = tours - td.soluongdadat(id);
+        return ketqua;
+    }
     public static void main(String[] args) {
 
-        System.out.println(new  TourDao().getDetldurationByIdTours(1));
+        System.out.println(new  TourDao().soluongdadat(1));
 
     }
 

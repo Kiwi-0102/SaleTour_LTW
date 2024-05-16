@@ -9,6 +9,7 @@
 <%@ page import="java.util.Objects" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="vn.edu.hcmuaf.bean.valies" %>
+<%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
 <%@include file="common/tablib.jsp" %>
 <%
     ArrayList<Tour> tourss = (ArrayList<Tour>) session.getAttribute("ListTour");
@@ -377,24 +378,29 @@
 											</span>
                             </p>
                             <p>
-											<span>
+											<span style="width: 100%">
 												<i class="fa fa-location-arrow"></i> <%=t.getName()%>
 											</span>
                             </p>
                             <p>
-											<span>
-												<i class="fa fa-calendar"></i> <%=t.getStartTime()%>
+											<span style="color: red;width: 100%">
+												<i class="fa fa-calendar"></i> Ngày bắt đầu: <%=t.getStartTime()%>
+											</span>
+                            </p>
+                            <p>
+											<span style="color: red;width: 100%">
+												<i class="fa fa-calendar"></i> Số chỗ trống: <%= new TourDao().sochoconlai(t.getId())%>
 											</span>
                             </p>
                         </div><!--/.packages-para-->
-                        <div class="about-btn" style="float: left;width: 120px">
+                        <div class="about-btn" style="float: left;width: 120px;margin-top: 15px">
                             <a href="ServiceServlet?id=<%=t.getId()%>">
                             <button class="about-view packages-btn" id="btn">
                                 Đặt ngay
                             </button>
                             </a>
                         </div>
-                        <div class="about-btn" style="width: 0px">
+                        <div class="about-btn" style="width: 0;margin-top: 15px">
                             <a href="ValiServlet?id=<%=t.getId()%>">
                                 <button class="about-view packages-btn addvali">
                                     <i class="fa fa-plus"></i>
