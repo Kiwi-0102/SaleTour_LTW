@@ -2,17 +2,18 @@ package vn.edu.hcmuaf.DAO;
 
 import vn.edu.hcmuaf.DB.ConnectToDatabase;
 import vn.edu.hcmuaf.bean.Bill;
-import vn.edu.hcmuaf.bean.Booking;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
+
+import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
 
 public class BillDAO {
     static Connection connection;
     static ResultSet rs = null;
     static PreparedStatement preparedStatement = null;
 
+    // Method to close resources
 
     public static ArrayList<Bill> getAll() {
         ArrayList<Bill> ListBill = new ArrayList<>();
@@ -33,6 +34,8 @@ public class BillDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return ListBill;
     }
@@ -51,12 +54,13 @@ public class BillDAO {
                 String paymentMethod = rs.getString("paymentMethod");
                 double toltalPrice = rs.getDouble("totalPrice");
                 String status = rs.getString("status");
-
                 bill = new Bill(id, userId, paymentMethod, toltalPrice, status);
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return bill;
     }
@@ -83,6 +87,8 @@ public class BillDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return ListBill;
     }
@@ -99,17 +105,18 @@ public class BillDAO {
             preparedStatement.executeUpdate();
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            int insertedId = -1;
             if (generatedKeys.next()) {
-                return generatedKeys.getInt(1);
+                insertedId = generatedKeys.getInt(1);
             } else {
                 throw new SQLException("Inserting bill failed, no ID obtained.");
             }
+            return insertedId;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
-
 
     public static void updateBill(int billId, int bookingId, String paymentMethod, double totalPrice, String status) {
         try {
@@ -125,6 +132,8 @@ public class BillDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
 

@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
+
 public class BookingDAO {
     static Connection connection;
     static ResultSet rs = null;
@@ -41,6 +43,8 @@ public class BookingDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return ListBooking;
     }
@@ -74,6 +78,8 @@ public class BookingDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return ListBooking;
     }
@@ -104,6 +110,8 @@ public class BookingDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return Booking;
     }
@@ -136,6 +144,7 @@ public class BookingDAO {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+
     }
 
 
@@ -155,11 +164,12 @@ public class BookingDAO {
             preparedStatement.setString(9, date);
             preparedStatement.setString(10, dateBooking);
             preparedStatement.setInt(11, bookingId);
-
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
     }
     public static void main(String[] args) {

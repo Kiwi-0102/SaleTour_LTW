@@ -21,9 +21,6 @@ public class ConnectToDatabase {
     }
 
     public static void executeSql(String sql) throws Exception {
-//        Connection connect = getConnect();
-//        Statement stmt = connect.createStatement();
-//        stmt.executeUpdate(sql);
         Connection connect = getConnect();
         PreparedStatement stmt = connect.prepareStatement(sql);
         stmt.executeUpdate();
@@ -31,14 +28,30 @@ public class ConnectToDatabase {
     }
 
     public static ResultSet executeQuery(String sql) throws Exception {
-//        Connection connect = getConnect();
-//        Statement stmt = connect.createStatement();
-//        ResultSet rs = stmt.executeQuery(sql);
+
         Connection connect = getConnect();
         PreparedStatement stmt = connect.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
         return rs;
     }
+
+    public static void closeResources(Connection connection, PreparedStatement preparedStatement, ResultSet rs) {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static PreparedStatement UseStament(String sql) throws SQLException, Exception {
         return getConnect().prepareStatement(sql);
