@@ -17,6 +17,7 @@
 <%
     Tour t = (Tour) request.getAttribute("tour");
     String date = (String) request.getAttribute("date");
+    System.out.println("date"+date);
 %>
 <head>
     <meta charset="utf-8">

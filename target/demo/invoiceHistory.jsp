@@ -389,6 +389,9 @@
                                                                                     style="box-sizing: border-box;"/>
                                                                                 <span class="text-muted"
                                                                                       style="box-sizing: border-box; color: rgb(108, 117, 125);">Mã Tour: <%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId()%> </span>
+                                                                                <br/>
+                                                                                <span class="text-muted"
+                                                                                      style="box-sizing: border-box; color: rgb(108, 117, 125);">ngày bắt đầu : <%=BookingDAO.getBookingbyId(bill.getBookingId()).getDateStart()%> </span>
                                                                             </p>
                                                                             <p class="card-text"
                                                                                style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0px;">

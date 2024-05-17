@@ -23,7 +23,7 @@ public class BookingDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("userId");
-                String date = rs.getString("date");
+                String date = rs.getString("dateBooking");
                 int tourId = rs.getInt("tourId");
                 int numChildren = rs.getInt("numChildren");
                 int numAdult = rs.getInt("numAdult");
@@ -31,7 +31,7 @@ public class BookingDAO {
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
                 String address = rs.getString("address");
-                String dateBooking = rs.getString("dateBooking");
+                String dateBooking = rs.getString("dateStart");
 
 //    public Booking(int id, int userId, String date, int tourId, int numChildren, int numAdult, String name, String phone, String email, String address) {
 //    public Booking(int id, int userId, String date, int tourId, int numChildren, int numAdult, String name, String phone, String email, String address, String dateBooking) {
@@ -61,7 +61,7 @@ public class BookingDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("userId");
-                String date = rs.getString("date");
+                String date = rs.getString("dateBooking");
                 int tourId = rs.getInt("tourId");
                 int numChildren = rs.getInt("numChildren");
                 int numAdult = rs.getInt("numAdult");
@@ -69,7 +69,7 @@ public class BookingDAO {
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
                 String address = rs.getString("address");
-                String dateBooking = rs.getString("dateBooking");
+                String dateBooking = rs.getString("dateStart");
 
 
                 Booking booking = new Booking(id, userId, date, tourId, numChildren, numAdult, name, phone,email, address, dateBooking);
@@ -95,7 +95,7 @@ public class BookingDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("userId");
-                String date = rs.getString("date");
+                String date = rs.getString("dateBooking");
                 int tourId = rs.getInt("tourId");
                 int numChildren = rs.getInt("numChildren");
                 int numAdult = rs.getInt("numAdult");
@@ -103,7 +103,7 @@ public class BookingDAO {
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
                 String address = rs.getString("address");
-                String dateBooking = rs.getString("dateBooking");
+                String dateBooking = rs.getString("dateStart");
 
                 Booking = new Booking(id, userId, date, tourId, numChildren, numAdult, name, phone,email, address, dateBooking);
             }
@@ -120,7 +120,7 @@ public class BookingDAO {
     public static int insertBooking(int userId, int tourId, int numChildren, int numAdult, String name, String phone,String email, String address,String dateBooking) {
         try {
             Connection connection = ConnectToDatabase.getConnect();
-            String sql = "INSERT INTO booking (userId, date, tourId, numChildren, numAdult, name, phone,email, address, dateBooking) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO booking (userId, dateBooking, tourId, numChildren, numAdult, name, phone,email, address, dateStart) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, tourId);
@@ -151,7 +151,7 @@ public class BookingDAO {
     public static void updateBooking(int bookingId, String date, int userId, int tourId, int numChildren, int numAdult, String name, String phone, String email, String address, String dateBooking) {
         try {
             connection = ConnectToDatabase.getConnect();
-            String sql = "UPDATE booking SET userId = ?, tourId = ?, numChildren = ?, numAdult = ?, name = ?, phone = ?, email = ?, address = ?, date = ?, dateBooking = ? WHERE id = ?";
+            String sql = "UPDATE booking SET userId = ?, tourId = ?, numChildren = ?, numAdult = ?, name = ?, phone = ?, email = ?, address = ?, dateBooking = ?, dateStart = ? WHERE id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, tourId);

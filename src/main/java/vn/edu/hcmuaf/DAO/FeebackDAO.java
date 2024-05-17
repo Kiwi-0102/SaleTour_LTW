@@ -21,6 +21,7 @@ public class FeebackDAO {
             pst.setString(2, text);
             pst.executeUpdate();
             kq = true;
+            con.close();
         } catch (Exception e) {
             System.out.println("Lỗi khi thêm feedback" + e.getMessage());
         }

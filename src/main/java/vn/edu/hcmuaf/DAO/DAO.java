@@ -30,6 +30,9 @@ public class DAO {
                 Bill bill = new Bill(billId,valiId,price,stt);
                 listBill.add(bill);
             }
+            connect.close();
+            pst.close();
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,13 +1,13 @@
-<%@ page import="vn.edu.hcmuaf.bean.User" %>
 <!doctype html>
 <html lang="vi">
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@include file="common/tablib.jsp" %>
 <%@ page import="java.util.Objects" %>
-<%@ page import="vn.edu.hcmuaf.bean.Tour" %>
 <%@ page import="java.text.DecimalFormat" %>
-<%@ page import="vn.edu.hcmuaf.bean.valies" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.bean.*" %>
 <% Tour t = (Tour) request.getAttribute("tour");%>
 <head>
     <!-- META DATA -->
@@ -240,6 +240,8 @@
                             <div class="listDay">
                                 <% String schedule =t.getSchedule().trim();
                                     String[] parts = schedule.split("-");
+                                    List<ImageTours> lst = new TourDao().getImageByIdTours(t.getId());
+
                                 %>
 
                                    <% for (int i = 0; i < parts.length; i++) {
@@ -259,7 +261,10 @@
                                     <div class="arrow-up"></div>
                                     <div class="contDay" style="display: block;">
                                         <div class="the-content desc">
-                                            <%=ctPart%>
+                                            <div class="img"><img
+                                                    src="assets/images/item/<%=lst.get(i).getURL()%>"
+                                                    alt="Du lịch <%=t.getName()%>" style="width: 700px;height: 515px;">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -270,7 +275,10 @@
                                     <div class="arrow-up"></div>
                                     <div class="contDay" style="display: block;">
                                         <div class="the-content desc">
-                                            <%=ctPart%>
+                                            <div class="img"><img
+                                                    src="assets/images/item/<%=lst.get(i).getURL()%>"
+                                                    alt="Du lịch <%=t.getName()%>" style="width: 700px;height: 515px;">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

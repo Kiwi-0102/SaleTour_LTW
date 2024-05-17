@@ -30,7 +30,7 @@ public class PaymentController extends HttpServlet {
         String phone = request.getParameter("ttllphone");
         String address = request.getParameter("ttlladdress");
         String date = request.getParameter("date");
-//        System.out.println(date+"date");
+        System.out.println(date+"date");
 //        System.out.println(name+"|"+email+"|"+phone+"|"+address+"|"+date);
 //
         User userdk = new User(name,email,phone,address);
