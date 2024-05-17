@@ -179,20 +179,26 @@ CREATE TABLE `valies` (
 /*------------------------------------------------------------------*/
 CREATE TABLE `logs` (
                         `id` INT NOT NULL AUTO_INCREMENT,
-                        `level` INT NOT NULL,
-                        `src` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `userId` int(11) NOT NULL,
-                        `ipAddress` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `level`varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `address`varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `ip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `beforeValue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `afterValue` text COLLATE utf8mb4_unicode_ci NOT NULL,
                         `createAt` TIMESTAMP,
-                        `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*------------------------------------------------------------------*/
+CREATE TABLE `verifyAccount` (
+                                 `id` INT NOT NULL AUTO_INCREMENT,
+                                 `userId` int(11) NOT NULL,
+                                 `verifyCode` int(11) NOT NULL,
+                                 `timeCode` TIMESTAMP,
+                                 `stateVerify` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                 PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- -
--- Các ràng buộc cho bảng `logs`
-ALTER TABLE `logs`
-    ADD CONSTRAINT `fk_userId_log` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+/*------------------------------------------------------------------*/
 
 -- -
 -- Các ràng buộc cho bảng `feedbacks`

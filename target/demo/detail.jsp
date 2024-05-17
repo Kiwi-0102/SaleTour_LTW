@@ -241,8 +241,7 @@
                                 <% String schedule =t.getSchedule().trim();
                                     String[] parts = schedule.split("-");
                                     List<ImageTours> lst = new TourDao().getImageByIdTours(t.getId());
-                                    ArrayList<Duration> drt = (ArrayList<Duration>) new TourDao().getDetldurationByIdTours(t.getId());
-                                    System.out.println(drt);
+
                                 %>
 
                                    <% for (int i = 0; i < parts.length; i++) {
@@ -266,21 +265,6 @@
                                                     src="assets/images/item/<%=lst.get(i).getURL()%>"
                                                     alt="Du lịch <%=t.getName()%>" style="width: 700px;height: 515px;">
                                             </div>
-
-
-                                        <% if (i == 1) { %>
-                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay1() %></span></div>
-                                        <% } else if (i == 2) { %>
-                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay2() %></span></div>
-                                        <% } else if (i == 3) { %>
-                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay3() %></span></div>
-                                        <% } else if (i == 4) { %>
-                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay4() %></span></div>
-                                        <% } else if (i == 5) { %>
-                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay5() %></span></div>
-                                        <% } %>
-
-
                                         </div>
                                     </div>
                                 </div>
