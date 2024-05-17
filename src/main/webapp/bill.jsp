@@ -4,6 +4,7 @@
 <%@ page import="vn.edu.hcmuaf.bean.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     indexDao indx = new indexDao();
@@ -338,7 +339,7 @@
                                                 <i class="fa-solid fa-calendar-days"></i>
                                                 <div class="start-content">
                                                     <h4>Kết thúc chuyến đi</h4>
-                                                    <p class="timeend" style="font-size: 15px;">CN, 3 Tháng 12, 2023</p>
+                                                    <p class="timeend" style="font-size: 15px;"><%= new TourDao().getEnd(t.getId())%></p>
                                                     <p class="from"></p>
                                                 </div>
                                             </div>

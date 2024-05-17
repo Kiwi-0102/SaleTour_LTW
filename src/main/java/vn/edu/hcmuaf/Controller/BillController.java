@@ -62,10 +62,10 @@ public class BillController extends HttpServlet {
 //        String sql = "INSERT INTO booking (userId, date, tourId, numChildren, numAdult, name, phone,email, address) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?)";
 
         BookingDAO bkd = new BookingDAO();
-        int idbk = bkd.insertBooking(user.getId(),tour.getId(),quatity,quatitycc,userdk.getUserName(),userdk.getPhoneNumber(), userdk.getEmail(),userdk.getAddress(),date);
+        int idbk = BookingDAO.insertBooking(user.getId(),tour.getId(),quatity,quatitycc,userdk.getUserName(),userdk.getPhoneNumber(), userdk.getEmail(),userdk.getAddress(),tour.getStartTime());
 
         BillDAO billDao = new BillDAO();
-        int idb = billDao.insertBill(idbk, payment, 100000.0, "Chưa thanh toán");
+        int idb = BillDAO.insertBill(idbk, payment, 100000.0, "Chưa thanh toán");
 
         CustomerDAO ctm = new CustomerDAO();
         ctm.insertListCustomer(dscus,idb);

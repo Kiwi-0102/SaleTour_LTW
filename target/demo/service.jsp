@@ -424,7 +424,7 @@
                                         <div class="start-content">
                                             <h4>Bắt đầu chuyến đi</h4>
                                             <p class="timestart" style="font-size: 15px;">
-                                                <input type="date" id="date" name="date" value="">
+                                                <input type="text" id="date" name="date" value="<%=t.getStartTime()%>" readonly>
                                             </p>
                                             <p class="from"></p>
                                         </div>
@@ -433,7 +433,7 @@
                                         <i class="fa-solid fa-calendar-days"></i>
                                         <div class="start-content">
                                             <h4>Kết thúc chuyến đi</h4>
-                                            <p class="timeend" style="font-size: 15px;">Chủ Nhật, 3 Tháng 12, 2023</p>
+                                            <p class="timeend" style="font-size: 15px;"><%= new TourDao().getEnd(t.getId())%></p>
                                             <p class="from"></p>
                                         </div>
                                     </div>

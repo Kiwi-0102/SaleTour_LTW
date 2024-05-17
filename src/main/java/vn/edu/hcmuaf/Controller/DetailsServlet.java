@@ -14,7 +14,7 @@ public class DetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         TourDao tourDao = new TourDao();
-        Tour tour = tourDao.findtourbyid(id);
+        Tour tour = tourDao.findtourbyID(id);
         request.setAttribute("tour", tour);
         request.getRequestDispatcher("./detail.jsp").forward(request, response);
     }

@@ -48,6 +48,8 @@ public class UserDAO implements objectDAO {
                 User user = new User(id, userName, email, password, phoneNumber, address, roleId);
                 mapTemp.put(user.getId(), user);
             }
+            rs.close();
+            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,6 +75,7 @@ public class UserDAO implements objectDAO {
                 User user = new User(idforEmail, userName, email, password, phoneNumber, address, roleId);
                 maptempMail.put(user.getEmail(), user);
             }
+            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -160,6 +163,9 @@ public class UserDAO implements objectDAO {
                 User user = new User(userId, userName, userEmail, userPassword, phoneNumber, address, roleId);
                 list.add(user);
             }
+            connection.close();
+            preparedStatement.close();
+            resultSet.close();
         } catch (Exception e) {
         }
         return list;

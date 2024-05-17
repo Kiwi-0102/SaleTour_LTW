@@ -6,9 +6,13 @@ import vn.edu.hcmuaf.bean.*;
 
 import java.sql.*;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
 
@@ -47,9 +51,8 @@ public class TourDao {
 
     public static Tour findtourbyid(int id) {
         Tour tour = null;
-
+        connection = ConnectToDatabase.getConnect();
         try {
-            connection = ConnectToDatabase.getConnect();
             String sql = "SELECT * FROM tours where id =?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
@@ -91,8 +94,8 @@ public class TourDao {
 
     public Tour findtourbyID(int id) {
         Tour tour = null;
+        connection = ConnectToDatabase.getConnect();
         try {
-            connection = ConnectToDatabase.getConnect();
             String sql = "SELECT * FROM tours where id =?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
@@ -475,7 +478,7 @@ public class TourDao {
         int total = 0;
         Connection connect = ConnectToDatabase.getConnect();
         try {
-            preparedStatement = connect.prepareStatement("SELECT numChildren,numAdult FROM `booking`where STR_TO_DATE(date, '%Y-%m-%d')<CURRENT_DATE() AND tourId = ?");
+            preparedStatement = connect.prepareStatement("SELECT numChildren,numAdult FROM `booking`where STR_TO_DATE(dateStart, '%Y-%m-%d')>CURRENT_DATE() AND tourId = ?");
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -496,11 +499,39 @@ public class TourDao {
         int ketqua = tours - td.soluongdadat(id);
         return ketqua;
     }
-    public static void main(String[] args) {
+    //Nhập vào lịch trình tour trả ra số ngày
+    public static int getNumberOfDays(String input) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(input);
 
-        System.out.println(new  TourDao().soluongdadat(1));
-
+        if (matcher.find()) {
+            String number = matcher.group();
+            return Integer.parseInt(number);
+        } else {
+            return 0; // Trả về 0 nếu không tìm thấy số
+        }
     }
 
+    public static String getEnd(int idtour) {
+        String startTimeString =  new TourDao().findtourbyID(idtour).getStartTime(); // Chuỗi ngày bắt đầu
+        LocalDate startTime = LocalDate.parse(startTimeString); // Chuyển đổi chuỗi thành LocalDate
+
+        // Cộng thêm 3 ngày vào ngày bắt đầu
+        LocalDate endTime = startTime.plusDays(getNumberOfDays(new TourDao().findtourbyID(idtour).getDuration()));
+
+        // Định dạng lại ngày kết thúc
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, yyyy-MM-dd");
+        String formattedEndDate = endTime.format(formatter);
+
+//        System.out.println("Ngày kết thúc: " + formattedEndDate);
+        return formattedEndDate;
+    }
+
+            public static void main(String[] args) {
+            System.out.println("Ngày kết thúc: " + getEnd(3));
+        }
 
 }
+
+
+

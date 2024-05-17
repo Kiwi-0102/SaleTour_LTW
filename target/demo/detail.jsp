@@ -1,13 +1,13 @@
-<%@ page import="vn.edu.hcmuaf.bean.User" %>
 <!doctype html>
 <html lang="vi">
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@include file="common/tablib.jsp" %>
 <%@ page import="java.util.Objects" %>
-<%@ page import="vn.edu.hcmuaf.bean.Tour" %>
 <%@ page import="java.text.DecimalFormat" %>
-<%@ page import="vn.edu.hcmuaf.bean.valies" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.bean.*" %>
 <% Tour t = (Tour) request.getAttribute("tour");%>
 <head>
     <!-- META DATA -->
@@ -240,6 +240,9 @@
                             <div class="listDay">
                                 <% String schedule =t.getSchedule().trim();
                                     String[] parts = schedule.split("-");
+                                    List<ImageTours> lst = new TourDao().getImageByIdTours(t.getId());
+                                    ArrayList<Duration> drt = (ArrayList<Duration>) new TourDao().getDetldurationByIdTours(t.getId());
+                                    System.out.println(drt);
                                 %>
 
                                    <% for (int i = 0; i < parts.length; i++) {
@@ -259,7 +262,25 @@
                                     <div class="arrow-up"></div>
                                     <div class="contDay" style="display: block;">
                                         <div class="the-content desc">
-                                            <%=ctPart%>
+                                            <div class="img"><img
+                                                    src="assets/images/item/<%=lst.get(i).getURL()%>"
+                                                    alt="Du lịch <%=t.getName()%>" style="width: 700px;height: 515px;">
+                                            </div>
+
+
+                                        <% if (i == 1) { %>
+                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay1() %></span></div>
+                                        <% } else if (i == 2) { %>
+                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay2() %></span></div>
+                                        <% } else if (i == 3) { %>
+                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay3() %></span></div>
+                                        <% } else if (i == 4) { %>
+                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay4() %></span></div>
+                                        <% } else if (i == 5) { %>
+                                        <div class="title"><span><i class="fa fa-info-circle"></i> <%= drt.get(0).getDay5() %></span></div>
+                                        <% } %>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -270,7 +291,10 @@
                                     <div class="arrow-up"></div>
                                     <div class="contDay" style="display: block;">
                                         <div class="the-content desc">
-                                            <%=ctPart%>
+                                            <div class="img"><img
+                                                    src="assets/images/item/<%=lst.get(i).getURL()%>"
+                                                    alt="Du lịch <%=t.getName()%>" style="width: 700px;height: 515px;">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

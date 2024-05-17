@@ -15,9 +15,9 @@ public class Booking {
     private String email;
     private String address;
 
-    private String dateBooking;
+    private String dateStart;
 
-    public Booking(int id, int userId, String date, int tourId, int numChildren, int numAdult, String name, String phone, String email, String address, String dateBooking) {
+    public Booking(int id, int userId, String date, int tourId, int numChildren, int numAdult, String name, String phone, String email, String address, String dateStart) {
         this.id = id;
         this.userId = userId;
         this.date = date;
@@ -28,7 +28,7 @@ public class Booking {
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.dateBooking = dateBooking;
+        this.dateStart = dateStart;
     }
 
     public int getId() {
@@ -111,12 +111,12 @@ public class Booking {
         this.address = address;
     }
 
-    public String getDateBooking() {
-        return dateBooking;
+    public String getDateStart() {
+        return dateStart;
     }
 
-    public void setDateBooking(String dateBooking) {
-        this.dateBooking = dateBooking;
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
     }
 
     @Override
@@ -132,7 +132,7 @@ public class Booking {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
-                ", dateBooking='" + dateBooking + '\'' +
+                ", dateStart='" + dateStart + '\'' +
                 '}';
     }
 }
