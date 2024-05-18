@@ -49,7 +49,6 @@ public class UserDAO implements objectDAO {
                 mapTemp.put(user.getId(), user);
             }
             rs.close();
-            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

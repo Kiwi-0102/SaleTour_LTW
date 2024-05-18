@@ -241,7 +241,7 @@
                                 <% String schedule =t.getSchedule().trim();
                                     String[] parts = schedule.split("-");
                                     List<ImageTours> lst = new TourDao().getImageByIdTours(t.getId());
-
+                                    List<Duration> drt = new TourDao().getDetldurationByIdTours(t.getId());
                                 %>
 
                                    <% for (int i = 0; i < parts.length; i++) {
@@ -265,6 +265,21 @@
                                                     src="assets/images/item/<%=lst.get(i).getURL()%>"
                                                     alt="Du lịch <%=t.getName()%>" style="width: 700px;height: 515px;">
                                             </div>
+                                            <%if(i==0){%>
+                                            <div class="title"><%=drt.get(0).getDay1()%> </div>
+                                            <%}%>
+                                            <%if(i==1){%>
+                                            <div class="title"><%=drt.get(0).getDay2()%> </div>
+                                            <%}%>
+                                            <%if(i==2){%>
+                                            <div class="title"><%=drt.get(0).getDay3()%> </div>
+                                            <%}%>
+                                            <%if(i==3){%>
+                                            <div class="title"><%=drt.get(0).getDay4()%> </div>
+                                            <%}%>
+                                            <%if(i==4){%>
+                                            <div class="title"><%=drt.get(0).getDay5()%> </div>
+                                            <%}%>
                                         </div>
                                     </div>
                                 </div>
@@ -279,6 +294,21 @@
                                                     src="assets/images/item/<%=lst.get(i).getURL()%>"
                                                     alt="Du lịch <%=t.getName()%>" style="width: 700px;height: 515px;">
                                             </div>
+                                            <%if(i==0){%>
+                                            <div class="title"><%=drt.get(0).getDay1()%> </div>
+                                            <%}%>
+                                            <%if(i==1){%>
+                                            <div class="title"><%=drt.get(0).getDay2()%> </div>
+                                            <%}%>
+                                            <%if(i==2){%>
+                                            <div class="title"><%=drt.get(0).getDay3()%> </div>
+                                            <%}%>
+                                            <%if(i==3){%>
+                                            <div class="title"><%=drt.get(0).getDay4()%> </div>
+                                            <%}%>
+                                            <%if(i==4){%>
+                                            <div class="title"><%=drt.get(0).getDay5()%> </div>
+                                            <%}%>
                                         </div>
                                     </div>
                                 </div>

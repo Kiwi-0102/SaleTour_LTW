@@ -295,8 +295,8 @@ public class TourDao {
     }
 
 
-    public void addTour(String region, int discountID, String name, String image, int price, String startTime, String duration, String schedule, String des) {
-        String sql = "INSERT INTO tours (region, discountId, name, image, price, startTime, duration, schedule, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void addTour(String region, int discountID, String name, String image, int price, String startTime, String duration, String schedule, String des,int quantity) {
+        String sql = "INSERT INTO tours (region, discountId, name, image, price, startTime, duration, schedule, description,quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connect = ConnectToDatabase.getConnect();
         try {
@@ -310,6 +310,7 @@ public class TourDao {
             preparedStatement.setString(7, duration);
             preparedStatement.setString(8, schedule);
             preparedStatement.setString(9, des);
+            preparedStatement.setInt(10, quantity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

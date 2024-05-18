@@ -45,6 +45,7 @@ public class AddTour extends HttpServlet {
 
 
         String pregion = request.getParameter("region");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
 
         if (pregion == null || pregion.trim().isEmpty()) {
 
@@ -53,7 +54,7 @@ public class AddTour extends HttpServlet {
         } else {
 
             TourDao dao = new TourDao();
-            dao.addTour(pregion, 1, pname, img, price, pstartTime, pduration, pschedule, pdescription);
+            dao.addTour(pregion, 1, pname, img, price, pstartTime, pduration, pschedule, pdescription,quantity);
             request.getRequestDispatcher("/admin/managerProduct").forward(request, response);
 
         }
