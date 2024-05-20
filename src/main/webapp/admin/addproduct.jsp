@@ -79,7 +79,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <textarea name="description" class="form-control"  required></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Quantity</label>
+                            <label>Duration</label>
                             <select name="duration" class="form-control" id="lichtrinh" onchange="addPAD()">
                                 <option value="1 ngày">1 ngày</option>
                                 <option value="2 ngày 1 đêm">2 ngày 1 đêm</option>
@@ -292,17 +292,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         var description = document.getElementsByName("description")[0].value;
         var quantity = document.getElementsByName("quantity")[0].value;
         var duration = document.getElementsByName("duration")[0].value;
+        var image = document.getElementsByName("image")[0].files[0]; // Lấy file ảnh đầu tiên
+        // var image = imagename.name;
 
 
-
-        console.log("Name: " + name);
-        console.log("Region: " + region);
-        console.log("Price: " + price);
-        console.log("StartTime: " + startTime);
-        console.log("Schedule: " + schedule);
-        console.log("Description: " + description);
-        console.log("Quantity: " + quantity);
-        console.log("Duration: " + duration);
 
         // Khai báo các biến cho lịch trình
         var scheduleVars = {};
@@ -310,7 +303,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         schedules.forEach(function(schedule, index) {
             var varName = "schedule" + (index + 1);
             scheduleVars[varName] = schedule.value;
-            console.log(varName + ": " + scheduleVars[varName]);
         });
 
         // Khai báo các biến cho ảnh
@@ -319,12 +311,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         images.forEach(function(image, index) {
             var varName = "img" + (index + 1);
             imageVars[varName] = image.value;
-            console.log(varName + ": " + imageVars[varName]);
         });
 
-        // Nếu bạn muốn sử dụng các biến này sau đó, bạn có thể làm như sau
-        console.log(scheduleVars);
-        console.log(imageVars);
+
         var param = new URLSearchParams();
         param.append('name',name);
         param.append('region',region);
@@ -334,17 +323,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         param.append('description',description);
         param.append('quantity',quantity);
         param.append('duration',duration);
+        param.append('image', image); // Thêm file ảnh vào FormData object
 
-        fetch('removeuser',{
+
+        fetch('./add',{
             body: param,
             method: 'POST'
         })
+
+            .then(response =>{
+                if(response.ok){
+                    console.log("đã thêm tour thành công")
+                }else{
+                    console.log("lỗi khi thêm")
+                }
+            })
+            .catch(err =>{
+                console.log("Lỗi từ server"+err)
+            })
     });
 
-    function insertUser() {
-
-
-    }
     function deleteUser() {
         Swal.fire({
             title: 'Thông báo',

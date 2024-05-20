@@ -295,12 +295,11 @@ public class TourDao {
     }
 
 
-    public void addTour(String region, int discountID, String name, String image, int price, String startTime, String duration, String schedule, String des,int quantity) {
-        String sql = "INSERT INTO tours (region, discountId, name, image, price, startTime, duration, schedule, description,quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+    public static int addTour(String region, int discountID, String name, String image, int price, String startTime, String duration, String schedule, String des, int quantity) {
+        String sql = "INSERT INTO tours (region, discountId, name, image, price, startTime, duration, schedule, description, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection connect = ConnectToDatabase.getConnect();
         try {
-            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, region);
             preparedStatement.setInt(2, discountID);
             preparedStatement.setString(3, name);
@@ -312,12 +311,18 @@ public class TourDao {
             preparedStatement.setString(9, des);
             preparedStatement.setInt(10, quantity);
             preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            closeResources(connection, preparedStatement, rs);
+            closeResources(connect, preparedStatement, rs); // Sử dụng biến connect thay vì connection
         }
+        return -1;
     }
+
 
     public void deleteTour(int tourId) {
         String sql = "DELETE FROM tours WHERE id = ?";
