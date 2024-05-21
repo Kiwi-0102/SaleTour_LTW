@@ -44,7 +44,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div id="addEmployeeModal">
         <div class="form-add" style="margin-left: 18%;width: 80%">
             <div class="modal-content">
-                <form id="addTourForm">
+                <form id="addTourForm" method="post" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h4 class="modal-title">Add Tour</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -65,6 +65,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="form-group">
                             <label>Price</label>
                             <input name="price" type="text" class="form-control"  required>
+                        </div>
+                        <div class="form-group">
+                            <label>Number Customer</label>
+                            <input name="customer" id="customer" type="number" class="form-control"  required>
                         </div>
                         <div class="form-group">
                             <label>StartTime</label>
@@ -88,16 +92,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <option value="5 ngày 4 đêm">5 ngày 4 đêm</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Quantity</label>
-                            <textarea name="quantity" class="form-control"  required></textarea>
-                        </div>
                         <hr>
                         <div>Thêm phần chi tiết sản phẩm</div>
                         <div class="imagedetail">
                             <div class="form-group">
                                 <label>Image1</label>
-                                <input name="imagedetail1" type="file" class="form-control" accept="image/*">
+                                <input name="imagedetail1" type="file" class="form-control" accept="image/*" >
                             </div>
                         </div>
 
@@ -290,14 +290,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         var startTime = document.getElementsByName("startTime")[0].value;
         var schedule = document.getElementsByName("schedule")[0].value;
         var description = document.getElementsByName("description")[0].value;
-        var quantity = document.getElementsByName("quantity")[0].value;
+        var num = document.getElementById('customer').value;
         var duration = document.getElementsByName("duration")[0].value;
         var image = document.getElementsByName("image")[0].files[0]; // Lấy file ảnh đầu tiên
-        // var image = imagename.name;
+        var image2 = document.getElementsByName("image")[0].files[0].name; // Lấy file ảnh đầu tiên
 
 
-
-        // Khai báo các biến cho lịch trình
         var scheduleVars = {};
         var schedules = document.querySelectorAll('.mota1 input[type="text"]');
         schedules.forEach(function(schedule, index) {
@@ -310,50 +308,103 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         var images = document.querySelectorAll('.imagedetail input[type="file"]');
         images.forEach(function(image, index) {
             var varName = "img" + (index + 1);
-            imageVars[varName] = image.value;
+            imageVars[varName] = image.files[0]; // Thay đổi để lấy file thực sự
         });
 
+        var param2 = new URLSearchParams();
+        var param = new FormData();
 
-        var param = new URLSearchParams();
-        param.append('name',name);
-        param.append('region',region);
-        param.append('price',price);
-        param.append('startTime',startTime);
-        param.append('schedule',schedule);
-        param.append('description',description);
-        param.append('quantity',quantity);
-        param.append('duration',duration);
-        param.append('image', image); // Thêm file ảnh vào FormData object
+
+// Kiểm tra và lấy giá trị từ các phần tử input
+        var schedule1 = document.getElementById("schedule1") ? document.getElementById("schedule1").value : 'ko có';
+        var schedule2 = document.getElementById("schedule2") ? document.getElementById("schedule2").value : 'ko có';
+        var schedule3 = document.getElementById("schedule3") ? document.getElementById("schedule3").value : 'ko có';
+        var schedule4 = document.getElementById("schedule4") ? document.getElementById("schedule4").value : 'ko có';
+        var schedule5 = document.getElementById("schedule5") ? document.getElementById("schedule5").value : 'ko có';
+
+
+
+        var imagedetal1 = document.getElementsByName("imagedetail1")[0] ? document.getElementsByName("imagedetail1")[0].name : null;
+        var imagedetal2 = document.getElementsByName("imagedetail2")[0] ? document.getElementsByName("imagedetail2")[0].name : null;
+        var imagedetal3 = document.getElementsByName("imagedetail3")[0] ? document.getElementsByName("imagedetail3")[0].name : null;
+        var imagedetal4 = document.getElementsByName("imagedetail4")[0] ? document.getElementsByName("imagedetail4")[0].name : null;
+        var imagedetal5 = document.getElementsByName("imagedetail5")[0] ? document.getElementsByName("imagedetail5")[0].name : null;
+
+
+
+        console.log("Tên tệp tin imagedetail1: " + imagedetal1);
+        console.log("Tên tệp tin imagedetail2: " + imagedetal2);
+        console.log("Tên tệp tin imagedetail3: " + imagedetal3);
+        console.log("Tên tệp tin imagedetail4: " + imagedetal4);
+        console.log("Tên tệp tin imagedetail5: " + imagedetal5);
+
+        param2.append('img1', imagedetal1);
+        param2.append('img2', imagedetal2);
+        param2.append('img3', imagedetal3);
+        param2.append('img4', imagedetal4);
+        param2.append('img5', imagedetal5);
+
+        param2.append('pschedule1', schedule1);
+        param2.append('pschedule2', schedule2);
+        param2.append('pschedule3', schedule3);
+        param2.append('pschedule4', schedule4);
+        param2.append('pschedule5', schedule5);
+
+
+
+
+
+        param2.append('name', name);
+        param2.append('region', region);
+        param2.append('price', price);
+        param2.append('startTime', startTime);
+        param2.append('schedule', schedule);
+        param2.append('description', description);
+        param2.append('customer', num);
+        param2.append('duration', duration);
+        param2.append('image', image2);
+        param2.append('action','addtour');
+        param.append('image', image);
+
+        // Thêm các biến lịch trình vào param
+        for (var key in scheduleVars) {
+            param2.append(key, scheduleVars[key]);
+        }
+
+        // Thêm các biến ảnh vào param
+        for (var key in imageVars) {
+            param.append(key, imageVars[key]);
+        }
 
 
         fetch('./add',{
+            body: param2,
+            method: 'POST'
+        })
+            .then(reponse => {
+                if(reponse.ok){
+                    alert("Thêm Tour thành công")
+                }
+            })
+
+        fetch('./add', {
             body: param,
             method: 'POST'
         })
-
-            .then(response =>{
-                if(response.ok){
-                    console.log("đã thêm tour thành công")
-                }else{
-                    console.log("lỗi khi thêm")
+            .then(response => {
+                if (response.ok) {
+                    console.log("Đã thêm tour thành công");
+                } else {
+                    console.log("Lỗi khi thêm");
                 }
             })
-            .catch(err =>{
-                console.log("Lỗi từ server"+err)
-            })
+            .catch(err => {
+                console.log("Lỗi từ server: " + err);
+            });
     });
 
-    function deleteUser() {
-        Swal.fire({
-            title: 'Thông báo',
-            text: 'Đã xóa thành công tài khoản này',
-            icon: 'success',
-            confirmButtonText: 'Đóng',
-            customClass: {
-                popup: 'custom-swal'
-            }
-        });
-    }
+
+
 </script>
 
 <!-- //calendar -->
