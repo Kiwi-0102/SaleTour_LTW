@@ -455,6 +455,54 @@ public class TourDao {
         return res;
     }
 
+    public static void insertImage(String URL,int idtour) {
+        try {
+            PreparedStatement ps = ConnectToDatabase.getConnect().prepareStatement("insert into images(URL,tourId) values (?,?)");
+            ps.setString(1, URL);
+            ps.setInt(2, idtour);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+    }
+
+    public static void insertDetailDuration(int tourId, String day1, String day2, String day3, String day4, String day5) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "INSERT INTO detailduration(tourId, day1, day2, day3, day4, day5) VALUES (?, ?, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, tourId);
+            preparedStatement.setString(2, day1);
+            preparedStatement.setString(3, day2);
+            preparedStatement.setString(4, day3);
+            preparedStatement.setString(5, day4);
+            preparedStatement.setString(6, day5);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public List<Duration> getDetldurationByIdTours(int id) {
         List<Duration> res = new ArrayList<>();
         try {
@@ -534,7 +582,7 @@ public class TourDao {
     }
 
             public static void main(String[] args) {
-            System.out.println("Ngày kết thúc: " + getEnd(3));
+                new TourDao().insertDetailDuration(210,"a","b","c","d",null);
         }
 
 }
