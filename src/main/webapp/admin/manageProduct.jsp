@@ -11,7 +11,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 
 <head>
     <title>Quản lí sản phẩm</title>
@@ -152,6 +152,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         <th scope="col">Duration</th>
 
                                         <th  scope="col">Schedule</th>
+                                        <th  scope="col">Quantity</th>
+                                        <th  scope="col">Start Time</th>
 
                                         <th scope="col">Actions</th>
                                     </tr>
@@ -171,18 +173,27 @@ if (tourss != null && !tourss.isEmpty()) {
                                         <td><%=t.getName()%>
                                         </td>
                                         <td>
-                                            <img style="width: 200px;height: 100px" src="../assets/images/item/<%=t.getImage()%>">
+                                            <img style="width: 100px;height: 50px" src="../assets/images/item/<%=t.getImage()%>">
                                             <img src="" alt="">
                                         </td>
                                         <td><%=t.getPrice()%>đ </td>
                                         <td><%=t.getDuration()%>
                                         <td ><%=t.getSchedule()%></td>
+                                        <td ><%=t.getQuantity()%></td>
+                                        <td ><%=t.getStartTime()%></td>
+
 
                                         </td>
                                         <td>
                                         <td  style="display: flex">
 
-                                        <a style="margin-right: 10px"  href="#editEmployeeModal"  class="btn btn-warning" data-toggle="modal"><i class="material-icons">&#xE254;</i></a>
+                                        <form style="display: inline;" action="${pageContext.request.contextPath}/admin/editproduct" method="post">
+                                            <input type="hidden" name="id" value="<%=t.getId()%>">
+                                            <input type="hidden" name="action" value="edit account">
+                                            <button type="submit" class="btn btn-warning" style="margin-right: 10px;">
+                                                <i class="material-icons">&#xE254;</i>
+                                            </button>
+                                        </form>
                                         <a  href="#deleteEmployeeModal"  class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE872;</i></a>
                                         </td>
                                             </a>
