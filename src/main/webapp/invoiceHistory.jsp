@@ -89,148 +89,27 @@
                         <div class="wrapper order"
                              style="background: rgb(255, 255, 255); border-radius: 10px; box-sizing: border-box; border: none;">
                             <div class="tab" style="box-sizing: border-box;">
-                                <ul
-                                        class="nav py-3 tab flex-sm-row mb-3"
-                                        role="tablist"
-                                        style="
-                                                margin-top: 0px;
-                                                list-style: none;
-                                                display: flex;
-                                                flex-flow: wrap;
-                                                padding-left: 0px;
-                                                background: rgb(255, 255, 255);
-                                                border: 0.5px solid rgb(213, 213, 213);
-                                                border-radius: 10px;
-                                                box-sizing: border-box;
-                                                margin-bottom: 1rem;
-                                                padding-top: 1rem;
-                                                padding-bottom: 1rem;
-                                                -webkit-box-orient: horizontal;
-                                                -webkit-box-direction: normal;
-                                            "
-                                >
-                                    <li class="nav-item flex-sm-fill text-sm-center" role="presentation"
-                                        style="box-sizing: border-box; flex: 1 1 auto; -webkit-box-flex: 1; text-align: center;">
-                                        <a
-                                                id="pills-all-tab"
-                                                class="nav-link active"
-                                                aria-controls="pills-all"
-                                                aria-selected="true"
-                                                role="tab"
-                                                style="
-                                                        box-sizing: border-box;
-                                                        background-color: transparent;
-                                                        padding: 0.5rem 1rem;
-                                                        text-decoration: none;
-                                                        transition: color 0.15s ease-in-out 0s, background-color 0.15s ease-in-out 0s, border-color 0.15s ease-in-out 0s;
-                                                        display: block;
-                                                        cursor: pointer;
-                                                        color: rgb(45, 66, 113);
-                                                        font-weight: 700;
-                                                    "
-                                        >
+                                <ul class="nav py-3 tab flex-sm-row mb-3" role="tablist">
+                                    <li class="nav-item flex-sm-fill text-sm-center" role="presentation">
+                                        <a id="pills-all-tab" class="nav-link active" aria-controls="pills-all" aria-selected="true" role="tab">
                                             Tất cả
                                         </a>
                                     </li>
-                                    <li class="nav-item flex-sm-fill text-sm-center" role="presentation"
-                                        style="box-sizing: border-box; flex: 1 1 auto; -webkit-box-flex: 1; text-align: center;">
-                                        <a
-                                                id="pills-wait-tab"
-                                                class="nav-link"
-                                                aria-controls="pills-wait"
-                                                aria-selected="false"
-                                                role="tab"
-                                                style="
-                                                        box-sizing: border-box;
-                                                        background-color: transparent;
-                                                        padding: 0.5rem 1rem;
-                                                        text-decoration: none;
-                                                        transition: color 0.15s ease-in-out 0s, background-color 0.15s ease-in-out 0s, border-color 0.15s ease-in-out 0s;
-                                                        display: block;
-                                                        cursor: pointer;
-                                                        color: rgb(45, 66, 113);
-                                                        font-weight: 700;
-                                                    "
-                                        >
+                                    <li class="nav-item flex-sm-fill text-sm-center" role="presentation">
+                                        <a id="pills-wait-tab" class="nav-link" aria-controls="pills-wait" aria-selected="false" role="tab">
                                             Chờ xác nhận
                                         </a>
                                     </li>
-                                    <li class="nav-item flex-sm-fill text-sm-center" role="presentation"
-                                        style="box-sizing: border-box; flex: 1 1 auto; -webkit-box-flex: 1; text-align: center;">
-                                        <a
-                                                id="pills-complete-tab"
-                                                class="nav-link"
-                                                aria-controls="pills-complete"
-                                                aria-selected="false"
-                                                role="tab"
-                                                style="
-                                                        box-sizing: border-box;
-                                                        background-color: transparent;
-                                                        padding: 0.5rem 1rem;
-                                                        text-decoration: none;
-                                                        transition: color 0.15s ease-in-out 0s, background-color 0.15s ease-in-out 0s, border-color 0.15s ease-in-out 0s;
-                                                        display: block;
-                                                        cursor: pointer;
-                                                        color: rgb(45, 66, 113);
-                                                        font-weight: 700;
-                                                    "
-                                        >
-                                            Đã đặt
+                                    <li class="nav-item flex-sm-fill text-sm-center" role="presentation">
+                                        <a id="pills-complete-tab" class="nav-link" aria-controls="pills-complete" aria-selected="false" role="tab">
+                                            Đã hủy
                                         </a>
                                     </li>
                                 </ul>
-                                <div class="form-search mb-4" style="box-sizing: border-box; margin-bottom: 1.5rem;">
-                                    <form action="#" method="get"
-                                          style="box-sizing: border-box; border: 0.5px solid rgb(216, 216, 216); border-radius: 5px; overflow: hidden; height: 50px; position: relative;">
-                                        <input
-                                                id="myInput"
-                                                class="form-control px-5"
-                                                type="text"
-                                                placeholder="Tìm kiếm theo tên tour/ tourCode hoặc số booking"
-                                                aria-label="default input example"
-                                                style="
-                                                        box-sizing: border-box;
-                                                        overflow: visible;
-                                                        margin: 0px;
-                                                        font-family: inherit;
-                                                        padding: 0.375rem 3rem;
-                                                        border-radius: 0.25rem;
-                                                        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s, -webkit-box-shadow 0.15s ease-in-out 0s;
-                                                        display: block;
-                                                        font-size: 1rem;
-                                                        line-height: 1.5;
-                                                        background-color: rgb(255, 255, 255);
-                                                        background-clip: padding-box;
-                                                        appearance: none;
-                                                        border: none;
-                                                        height: 100%;
-                                                        width: 100%;
-                                                        color: rgb(45, 66, 113);
-                                                        font-weight: 400;
-                                                    "
-                                        />
-                                        <i
-                                                class="icon icon--search"
-                                                style="
-                                                        box-sizing: border-box;
-                                                        display: inline-block;
-                                                        font-variant: normal;
-                                                        font-style: normal;
-                                                        font-weight: 400;
-                                                        text-transform: none;
-                                                        line-height: 1;
-                                                        -webkit-font-smoothing: antialiased;
-                                                        position: absolute;
-                                                        top: 50%;
-                                                        left: 13px;
-                                                        transform: translateY(-50%);
-                                                        z-index: 1;
-                                                        pointer-events: none;
-                                                        font-size: 18px;
-                                                        color: rgb(45, 66, 113);
-                                                        font-family: fontsvtv;
-                                                    "
-                                        ></i>
+                                <div class="form-search mb-4">
+                                    <form action="#" method="get" style="border: 1px solid #d8d8d8; border-radius: 5px; overflow: hidden; height: 50px; position: relative;">
+                                        <input id="myInput" class="form-control px-5" type="text" placeholder="Tìm kiếm theo tên tour/ tourCode hoặc số booking" aria-label="Tìm kiếm" style="overflow: visible; font-size: 1rem; line-height: 1.5; background-color: #ffffff; border-radius: 0.25rem; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out; display: block; width: 100%; height: 100%; border: none; color: #2d4271; font-weight: 400; padding: 0.375rem 3rem;">
+                                        <i class="icon icon--search" style="position: absolute; top: 50%; left: 13px; transform: translateY(-50%); z-index: 1; font-size: 18px; color: #2d4271; pointer-events: none;"></i>
                                     </form>
                                 </div>
                                 <div id="pills-tabContent" class="tab-content" style="box-sizing: border-box;">
@@ -254,20 +133,25 @@
                                                     đặt <%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>
                                                 </p>
 
-                                                <input name="date" value="<%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>" style="display: none">
-                                                <input name="tour" value="<%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId()%>" style="display: none">
-                                                <input name="pay" value="<%=bill.getPaymentMethod()%>" style="display: none">
+                                                <input name="date"
+                                                       value="<%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>"
+                                                       style="display: none">
+                                                <input name="tour"
+                                                       value="<%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId()%>"
+                                                       style="display: none">
+                                                <input name="pay" value="<%=bill.getPaymentMethod()%>"
+                                                       style="display: none">
 
                                                 <%
-                                                HttpSession session1 = request.getSession();
-                                                ArrayList<Customer> lctm = CustomerDAO.getCustomerBybillid(bill.getId());
-                                                Booking bkd = BookingDAO.getBookingbyId(bill.getBookingId());
-                                                User usdk = new User(bkd.getName(), bkd.getPhone(), bkd.getEmail(),bkd.getAddress());
+                                                    HttpSession session1 = request.getSession();
+                                                    ArrayList<Customer> lctm = CustomerDAO.getCustomerBybillid(bill.getId());
+                                                    Booking bkd = BookingDAO.getBookingbyId(bill.getBookingId());
+                                                    User usdk = new User(bkd.getName(), bkd.getPhone(), bkd.getEmail(), bkd.getAddress());
 
-                                                session1.setAttribute("userdk",usdk);
-                                                session1.setAttribute("dskh",lctm);
-                                                session.setAttribute("quatity",bkd.getNumAdult());
-                                                session.setAttribute("quatitycc",bkd.getNumChildren());
+                                                    session1.setAttribute("userdk", usdk);
+                                                    session1.setAttribute("dskh", lctm);
+                                                    session.setAttribute("quatity", bkd.getNumAdult());
+                                                    session.setAttribute("quatitycc", bkd.getNumChildren());
 
                                                 %>
 
@@ -418,18 +302,19 @@
                                                                 >
                                                                     <h6
                                                                             class="text-primary"
-                                                                            style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; font-size: 1rem; color: rgb(253, 80, 86);"
-                                                                    >
+                                                                            style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; font-size: 1rem; color: rgb(253, 80, 86);">
                                                                         <%=bill.getStatus()%>
                                                                     </h6>
                                                                     <h5
                                                                             class="text-primary fw-bold"
-                                                                            style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);"
-                                                                    >
+                                                                            style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);">
                                                                         <%=bill.getToltalPrice()%>₫
                                                                     </h5>
 
-                                                                    <button type="submit">Xem chi tiết </button>
+                                                                    <button type="submit">Xem chi tiết</button>
+                                                                    <%if(bill.getStatus().equalsIgnoreCase("Chưa thanh toán")){%>
+                                                                    <button type="submit">Hủy đơn</button>
+                                                                    <%}%>
                                                                 </div>
                                                             </div>
                                                         </div>

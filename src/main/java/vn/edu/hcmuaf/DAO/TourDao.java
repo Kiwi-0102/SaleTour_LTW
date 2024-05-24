@@ -48,7 +48,21 @@ public class TourDao {
         return tours;
     }
 
-
+    public static void Updatequatity(int quatity,int id){
+        Tour tour = null;
+        connection = ConnectToDatabase.getConnect();
+        String sql ="UPDATE tours SET quantity = ? where id = ?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, quatity);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+    }
 
     public static Tour findtourbyid(int id) {
         Tour tour = null;
@@ -607,7 +621,8 @@ public class TourDao {
     }
 
             public static void main(String[] args) {
-                new TourDao().insertDetailDuration(210,"a","b","c","d",null);
+
+        new TourDao().Updatequatity(100,1);
         }
 
 }
