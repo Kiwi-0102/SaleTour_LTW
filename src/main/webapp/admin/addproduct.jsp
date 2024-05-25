@@ -401,6 +401,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             .catch(err => {
                 console.log("Lỗi từ server: " + err);
             });
+        window.location.reload(true)
     });
 
 

@@ -137,7 +137,22 @@ public class BillDAO {
         }
     }
 
+    public static void updateStatusBill(int billId, String status) {
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "UPDATE bills SET status = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, billId);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+    }
     public static void main(String[] args) {
-        System.out.println(BillDAO.getBillByIdUser(1));
+        new BillDAO().updateStatusBill(2,"đã đã hủy hủy");
     }
 }

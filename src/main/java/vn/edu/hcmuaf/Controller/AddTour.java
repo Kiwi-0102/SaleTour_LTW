@@ -115,19 +115,36 @@ public class AddTour extends HttpServlet {
                 String img5 = request.getParameter("img5");
 //                request.getRequestDispatcher("/admin/managerProduct").forward(request, response);
 
-//                new TourDao().
-        System.out.println("pschedul1 "+pschedul1);
-        System.out.println("pschedul2 "+pschedul2);
-        System.out.println("pschedul3 "+pschedul3);
-        System.out.println("pschedul4 "+pschedul4);
-        System.out.println("pschedul5 "+pschedul5);
+                TourDao td = new TourDao();
+                if(img1!=null){
+                    td.insertImage(img1,idtour);
+                }
+                if(img2!=null){
+                    td.insertImage(img2,idtour);
+                }
+                if(img3!=null){
+                    td.insertImage(img3,idtour);
+                }
+                if(img4!=null){
+                    td.insertImage(img4,idtour);
+                }
+                if(img5!=null){
+                    td.insertImage(img4,idtour);
+                }
 
-        System.out.println("img1"+img1);
-        System.out.println("img2"+img2);
-        System.out.println("img3"+img3);
-        System.out.println("img4"+img4);
-        System.out.println("img5"+img5);
-                System.out.println("----------------------------------------------------------");
+                td.insertDetailDuration(idtour,pschedul1,pschedul2,pschedul3,pschedul4,pschedul5);
+//        System.out.println("pschedul1 "+pschedul1);
+//        System.out.println("pschedul2 "+pschedul2);
+//        System.out.println("pschedul3 "+pschedul3);
+//        System.out.println("pschedul4 "+pschedul4);
+//        System.out.println("pschedul5 "+pschedul5);
+//
+//        System.out.println("img1"+img1);
+//        System.out.println("img2"+img2);
+//        System.out.println("img3"+img3);
+//        System.out.println("img4"+img4);
+//        System.out.println("img5"+img5);
+//                System.out.println("----------------------------------------------------------");
 
             }
         } else {

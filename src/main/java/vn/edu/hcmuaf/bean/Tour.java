@@ -49,6 +49,20 @@ public class Tour {
         this.description = description;
     }
 
+    public Tour(int id, String region, Integer discountId, String name, String image, int price, String startTime, String duration, String schedule, String description, int quantity) {
+        this.id = id;
+        this.region = region;
+        this.discountId = discountId;
+        this.name = name;
+        this.image = image;
+        this.price = price;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.schedule = schedule;
+        this.description = description;
+        this.quantity = quantity;
+    }
+
     public Tour(int id, String name, String image, int price, String duration) {
         this.id = id;
         this.name = name;

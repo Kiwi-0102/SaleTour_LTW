@@ -37,7 +37,8 @@ public class TourDao {
                 String duration = rs.getString("duration");
                 String schedule = rs.getString("schedule");
                 String description = rs.getString("description");
-                Tour tour = new Tour(id, region, idDis, name, image, price, startTime, duration, schedule, description);
+                int quantity = rs.getInt("quantity");
+                Tour tour = new Tour(id, region, idDis, name, image, price, startTime, duration, schedule, description, quantity);
                 tours.add(tour);
             }
         } catch (Exception e) {
@@ -47,7 +48,21 @@ public class TourDao {
         return tours;
     }
 
-
+    public static void Updatequatity(int quatity,int id){
+        Tour tour = null;
+        connection = ConnectToDatabase.getConnect();
+        String sql ="UPDATE tours SET quantity = ? where id = ?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, quatity);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+    }
 
     public static Tour findtourbyid(int id) {
         Tour tour = null;
@@ -92,6 +107,33 @@ public class TourDao {
         return tour;
     }
 
+    public static boolean updateTour(String region,String name,int price,String Starttime,String schedule,String description,int quantity,int id) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean updateStatus = false;
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "UPDATE tours SET region = ?, name = ?, price = ?, startTime = ?, schedule = ?, description = ?, quantity = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, region);
+            preparedStatement.setString(2, name);
+            preparedStatement.setInt(3, price);
+            preparedStatement.setString(4, Starttime);
+            preparedStatement.setString(5, schedule);
+            preparedStatement.setString(6, description);
+            preparedStatement.setInt(7, quantity);
+            preparedStatement.setInt(8, id);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            updateStatus = rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, null);
+        }
+        return updateStatus;
+    }
     public Tour findtourbyID(int id) {
         Tour tour = null;
         connection = ConnectToDatabase.getConnect();
@@ -243,8 +285,6 @@ public class TourDao {
         return sum;
     }
 
-
-
     public static ArrayList<Tour> getListTourbySearch(String search) {
         ArrayList<Tour> listSearch = new ArrayList<>();
 
@@ -293,7 +333,6 @@ public class TourDao {
             closeResources(connection, preparedStatement, rs);
         }
     }
-
 
     public static int addTour(String region, int discountID, String name, String image, int price, String startTime, String duration, String schedule, String des, int quantity) {
         String sql = "INSERT INTO tours (region, discountId, name, image, price, startTime, duration, schedule, description, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -455,6 +494,54 @@ public class TourDao {
         return res;
     }
 
+    public static void insertImage(String URL,int idtour) {
+        try {
+            PreparedStatement ps = ConnectToDatabase.getConnect().prepareStatement("insert into images(URL,tourId) values (?,?)");
+            ps.setString(1, URL);
+            ps.setInt(2, idtour);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+    }
+
+    public static void insertDetailDuration(int tourId, String day1, String day2, String day3, String day4, String day5) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "INSERT INTO detailduration(tourId, day1, day2, day3, day4, day5) VALUES (?, ?, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, tourId);
+            preparedStatement.setString(2, day1);
+            preparedStatement.setString(3, day2);
+            preparedStatement.setString(4, day3);
+            preparedStatement.setString(5, day4);
+            preparedStatement.setString(6, day5);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public List<Duration> getDetldurationByIdTours(int id) {
         List<Duration> res = new ArrayList<>();
         try {
@@ -534,7 +621,8 @@ public class TourDao {
     }
 
             public static void main(String[] args) {
-            System.out.println("Ngày kết thúc: " + getEnd(3));
+
+        new TourDao().Updatequatity(100,1);
         }
 
 }
