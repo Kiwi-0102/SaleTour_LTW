@@ -1,7 +1,9 @@
 package vn.edu.hcmuaf.Controller;
 
 
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DAO.UserDAO;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
 import vn.edu.hcmuaf.serice.Mahoa;
 
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.sql.Timestamp;
 
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
@@ -36,23 +40,17 @@ public class LoginController extends HttpServlet {
         }
     }
 
-
-    /**
-     * @param request  an {@link HttpServletRequest} object that
-     *                 contains the request the client has made
-     *                 of the servlet
-     * @param response an {@link HttpServletResponse} object that
-     *                 contains the response the servlet sends
-     *                 to the client
-     * @throws ServletException
-     * @throws IOException
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            Log log = new Log();
+            LogDAO logs = new LogDAO();
+            InetAddress inet =InetAddress.getLocalHost();
+            String adress = inet.getHostAddress();
+
+
             String email = request.getParameter("email")==null?"":request.getParameter("email");
             String pass = request.getParameter("password")==null?"":request.getParameter("password");
-
 
 
 
@@ -62,9 +60,14 @@ public class LoginController extends HttpServlet {
             if(u != null){
                 HttpSession session = request.getSession();
                 session.setAttribute("user", u); // session này dùng để
+                Timestamp createdAt = new Timestamp(System.currentTimeMillis()); // Lấy thời gian hiện tại
+                logs.insert(new Log(Log.INFO, u.getId(), adress, request.getRemoteAddr(), "Login thành công", createdAt, 0));
                 request.getRequestDispatcher("./index.jsp").forward(request, response); // sử dụng forward() để chuyển tiếp người dùng này cho các tác vụ khác
+
             } else {
                 request.setAttribute("err", "Email or Password is incorrect!");
+                Timestamp createdAt = new Timestamp(System.currentTimeMillis()); // Lấy thời gian hiện tại
+                logs.insert(new Log(Log.INFO, -1, adress, request.getRemoteAddr(), "Login không thành công", createdAt, 0));
                 request.getRequestDispatcher("./login.jsp").forward(request, response);
             }
         } catch (Exception e) {

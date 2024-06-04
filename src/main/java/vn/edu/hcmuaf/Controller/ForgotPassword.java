@@ -3,7 +3,9 @@ package vn.edu.hcmuaf.Controller;
 
 
 
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DAO.UserDAO;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
 
 import javax.mail.Message;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -42,6 +46,11 @@ public class ForgotPassword extends HttpServlet {
         User user = new User();
         UserDAO userDAO  = new UserDAO();
 
+
+        LogDAO logs = new LogDAO();
+        InetAddress inet =InetAddress.getLocalHost();
+        String adress = inet.getHostAddress();
+        Timestamp createdAt = new Timestamp(System.currentTimeMillis()); // Lấy thời gian hiện tại
 
         Map<String, User> checkmail = userDAO.checkMail();
         Pattern emailPattern = Pattern.compile("\\w+@\\w+(\\.\\w+)+(\\.\\w+)*");
@@ -66,7 +75,7 @@ public class ForgotPassword extends HttpServlet {
             request.setAttribute("error", error);
             dispatcher = request.getRequestDispatcher(url);
             dispatcher.forward(request, response);
-
+            logs.insert(new Log(Log.INFO, -1, adress, request.getRemoteAddr(), "Xác nhận quên mật khẩu không thành công vì lỗi "+error, createdAt, 0));
         } else if (checkError==false) {
             int otpvalue = 0;
             HttpSession forgot_Session = request.getSession();
@@ -75,6 +84,7 @@ public class ForgotPassword extends HttpServlet {
                 Random rand = new Random();
                 otpvalue = rand.nextInt(900000)+100000;
 
+                logs.insert(new Log(Log.INFO,  adress,-1, request.getRemoteAddr(), "Xác nhận quên mật khẩu thành công", createdAt,"","", 0));
                 String to = email;
 
                 Properties props = new Properties();
