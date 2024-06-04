@@ -129,7 +129,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a>
 
                     </li>
+                    <li class="sub-menu">
+                        <a href="manageLogs">
+                            <i class="fa fa-comment"></i>
+                            <span>Quản lý Log</span>
+                        </a>
 
+                    </li>
                     <li>
                         <a href="/Do_An_Web/index.jsp">
                             <i class="fa fa-home"></i>
