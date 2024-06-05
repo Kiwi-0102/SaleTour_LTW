@@ -14,6 +14,8 @@ public class Log implements Serializable {
     private int id_user;
     private String ip_address;
     private String content;
+    private String beforeValue;
+    private String currentValue;
     private Timestamp create_at;
     private  int status;
 
@@ -31,9 +33,35 @@ public class Log implements Serializable {
     public static int WARNING = 2;
     public static int DANGER = 3;
 
+    public Log(int id, int level, String src, int id_user, String ip_address, String content, String beforeValue, String currentValue, Timestamp create_at, int status) {
+        this.id = id;
+        this.level = level;
+        this.src = src;
+        this.id_user = id_user;
+        this.ip_address = ip_address;
+        this.content = content;
+        this.beforeValue = beforeValue;
+        this.currentValue = currentValue;
+        this.create_at = create_at;
+        this.status = status;
+    }
+
     public Log() {
     }
-    public Log(int level,int userId, String ip_address, String src,  String content, Timestamp creatAt, int status) {
+
+    public Log(int level, String src, int id_user, String ip_address, String content, Timestamp create_at, String beforeValue, String currentValue,int status) {
+        this.level = level;
+        this.src = src;
+        this.id_user = id_user;
+        this.ip_address = ip_address;
+        this.content = content;
+        this.create_at = create_at;
+        this.beforeValue = beforeValue;
+        this.currentValue = currentValue;
+        this.status = status;
+    }
+
+    public Log(int level, int userId, String ip_address, String src, String content, Timestamp creatAt, int status) {
         this.level = level;
         this.src = src;
         this.id_user = userId;
@@ -64,8 +92,12 @@ public class Log implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(Integer id) {
+        if(id == null) {
+            this.id = -1;
+        } else {
+            this.id = id;
+        }
     }
 
     public int getLevel() {
@@ -132,8 +164,32 @@ public class Log implements Serializable {
         this.ip_address = ip_address;
     }
 
+    public String getBeforeValue() {
+        if(beforeValue==null){
+            return "Không có";
+        }if(beforeValue.isEmpty()){
+            return "Không có";
+        }else{
+            return beforeValue;
+        }
+    }
 
+    public void setBeforeValue(String beforeValue) {
+        this.beforeValue = beforeValue;
+    }
 
+    public String getCurrentValue() {
+        if(currentValue==null){
+            return "Không có";
+        }if(currentValue.isEmpty()){
+            return "Không có";
+        }
+        return currentValue;
+    }
+
+    public void setCurrentValue(String currentValue) {
+        this.currentValue = currentValue;
+    }
 //    public boolean insert(Jdbi db){
 //        Integer i = db.withHandle(handle ->
 //                handle.execute("INSERT INTO logs(`level`, `id_user`, `ip_address`, `src`, `title`,`content`, `create_at`, `status`)  VALUES(?,?,?,?,?,?,NOW(),?)",

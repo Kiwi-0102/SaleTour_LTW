@@ -1,6 +1,9 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.LogDAO;
+import vn.edu.hcmuaf.DAO.UserDAO;
 import vn.edu.hcmuaf.DB.ConnectToDatabase;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
 import vn.edu.hcmuaf.serice.Mahoa;
 
@@ -13,9 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
@@ -34,7 +39,10 @@ public class NewPassword extends HttpServlet {
             String newpass2 = request.getParameter("newpass2");
             String error = "";
             RequestDispatcher dispatcher = null;
-
+        LogDAO logs = new LogDAO();
+        InetAddress inet =InetAddress.getLocalHost();
+        String adress = inet.getHostAddress();
+        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
             if (newpass1 == null || newpass1.trim().isEmpty()) {
                 error = "Vui lòng nhập mật khẩu mới";
             } else if (newpass2 == null || newpass2.trim().isEmpty()) {
@@ -69,8 +77,9 @@ public class NewPassword extends HttpServlet {
 //                    dispatcher = request.getRequestDispatcher("login.jsp");
                         // Xóa session
                         request.getSession().invalidate();
-
                         response.sendRedirect("login.jsp");
+                        logs.insert(new Log(Log.INFO, adress,-1,  request.getRemoteAddr(), "Xác nhận đổi mật khẩu thành công bằng mã OTP cho email "+email, createdAt,"=6hjghgd5VFdwg","mat khau moi ***", 0));
+
                     } else {
                         request.setAttribute("error", "Thay đổi mật khẩu không thành công. Xin vui lòng thực hiện lại");
                         dispatcher = request.getRequestDispatcher("newpassword.jsp");
@@ -78,6 +87,7 @@ public class NewPassword extends HttpServlet {
 //                dispatcher.forward(request, response);
                 } catch (Exception e) {
 //                    System.out.println("Lỗi" + e.getMessage());
+                    logs.insert(new Log(Log.INFO, -1, adress, request.getRemoteAddr(), "Xác nhận đổi mật khẩu không thành công bằng mã OTP "+email, createdAt, 0));
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
