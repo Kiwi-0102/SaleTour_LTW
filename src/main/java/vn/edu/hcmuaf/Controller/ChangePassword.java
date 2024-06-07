@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DB.ConnectToDatabase;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
 import vn.edu.hcmuaf.serice.Mahoa;
 
@@ -8,8 +10,10 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
@@ -29,6 +33,11 @@ public class ChangePassword extends HttpServlet {
         String newpass1 = request.getParameter("newpass1");
         String newpass2 = request.getParameter("newpass2");
         String error = "";
+
+        LogDAO logs = new LogDAO();
+        InetAddress inet =InetAddress.getLocalHost();
+        String adress = inet.getHostAddress();
+        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
         RequestDispatcher dispatcher = null;
 
         if (oldpass == null || oldpass.trim().isEmpty()) {
@@ -68,10 +77,12 @@ public class ChangePassword extends HttpServlet {
 
                 int roundCount = pst.executeUpdate();
                 if (roundCount > 0) {
+                    logs.insert(new Log(Log.INFO,adress, user.getId(),  request.getRemoteAddr(), "Xác nhận đổi mật khẩu", createdAt,"Mật khẩu cũ "+Mahoa.toSHA1(oldpass),"Mật khẩu mới mã hóa n lần "+Mahoa.toSHA1(Mahoa.toSHA1(newpass1)), 0));
                     request.setAttribute("status", "Thay đổi mật khẩu thành công");
                     request.getSession().invalidate();
                     response.sendRedirect("login.jsp");
                 } else {
+                    logs.insert(new Log(Log.INFO, -1,  request.getRemoteAddr(),adress, "Xác nhận đổi mật khẩu không thành công", createdAt, 0));
                     request.setAttribute("error", "Thay đổi mật khẩu không thành công. Xin vui lòng thực hiện lại");
                     dispatcher = request.getRequestDispatcher("infor.jsp");
                 }

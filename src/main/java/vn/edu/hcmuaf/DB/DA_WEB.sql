@@ -259,9 +259,9 @@ VALUES
 -- Tạo dữ liệu cho bảng users
 INSERT INTO `users` (`userName`, `email`, `password`, `phoneNumber`, `address`, `roleId`)
 VALUES
-    ('thinh', '21130549@st.hcmuaf.edu.vn', 'vyjPnQeKRcO1ko+Wa2Z7RoDGGjE=', '987654321', 'Address 2', 1),
-    ('vu', '21130615@st.hcmuaf.edu.vn', 'vyjPnQeKRcO1ko+Wa2Z7RoDGGjE=', '98765431', 'Address 2', 1),
-    ('thuc', '21130558@st.hcmuaf.edu.vn', 'vyjPnQeKRcO1ko+Wa2Z7RoDGGjE=', '98765431', 'Address 2', 1);
+    ('thinh', '21130549@st.hcmuaf.edu.vn', 'vyjPnQeKRcO1ko+Wa2Z7RoDGGjE=', '84987654321', 'Address 2', 1),
+    ('vu', '21130615@st.hcmuaf.edu.vn', 'vyjPnQeKRcO1ko+Wa2Z7RoDGGjE=', '8498765431', 'Address 2', 1),
+    ('thuc', '21130558@st.hcmuaf.edu.vn', 'vyjPnQeKRcO1ko+Wa2Z7RoDGGjE=', '8498765431', 'Address 2', 1);
 
 -- Tạo dữ liệu cho bảng feedbacks
 INSERT INTO `feedbacks` (`userId`, `text`, `date`)
