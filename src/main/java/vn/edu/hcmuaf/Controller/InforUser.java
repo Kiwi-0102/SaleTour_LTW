@@ -1,12 +1,16 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DAO.UserDAO;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.sql.Timestamp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +31,12 @@ public class InforUser extends HttpServlet {
         String name = request.getParameter("username").trim();
         String phone = request.getParameter("phone");
         String address = request.getParameter("address").trim();
+
+
+        LogDAO logs = new LogDAO();
+        InetAddress inet =InetAddress.getLocalHost();
+        String adress = inet.getHostAddress();
+        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
         String err = "";
 
@@ -61,6 +71,8 @@ public class InforUser extends HttpServlet {
             boolean kq = userDAO.editInforUser(name, phone, address, user.getEmail());
             if (kq) {
                 System.out.println("kq" + kq);
+                logs.insert(new Log(Log.INFO, adress,user.getId(),  request.getRemoteAddr(), "Xác nhận thay đổi thông tin khách hàng ", createdAt,
+                        "=6hjghgd5VFdwg","Tên: "+name+"\n"+"Phone: "+phone+"\n"+"Địa chỉ: "+address+"\n", 0));
                 request.setAttribute("status", "Thay đổi thông tin thành công");
                 request.getRequestDispatcher("infor.jsp").forward(request,response);
             } else {
@@ -71,7 +83,7 @@ public class InforUser extends HttpServlet {
     }
     //Kiểm tra xem số điện thoại có hợp lệ không
     private boolean isValidPhoneNumber(String phoneNumber) {
-        String phoneRegex = "^(\\+84|0|19)\\d{8,14}$";
+        String phoneRegex = "^(84|0|19)\\d{8,14}$";
         Pattern pattern = Pattern.compile(phoneRegex);
         Matcher matcher = pattern.matcher(phoneNumber);
 

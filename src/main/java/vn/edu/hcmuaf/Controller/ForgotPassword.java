@@ -75,7 +75,7 @@ public class ForgotPassword extends HttpServlet {
             request.setAttribute("error", error);
             dispatcher = request.getRequestDispatcher(url);
             dispatcher.forward(request, response);
-            logs.insert(new Log(Log.INFO, -1, adress, request.getRemoteAddr(), "Xác nhận quên mật khẩu không thành công vì lỗi "+error, createdAt, 0));
+            logs.insert(new Log(Log.INFO, -1,  request.getRemoteAddr(),adress, "Xác nhận quên mật khẩu không thành công vì lỗi "+error, createdAt, 0));
         } else if (checkError==false) {
             int otpvalue = 0;
             HttpSession forgot_Session = request.getSession();

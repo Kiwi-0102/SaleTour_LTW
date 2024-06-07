@@ -30,7 +30,7 @@ public class LogDAO {
             pst.setTimestamp(6, log.getCreate_at());
             pst.setInt(7, log.getStatus());
             pst.setString(8, log.getBeforeValue().trim().isEmpty() ? "Không có thay đổi": log.getBeforeValue());
-            pst.setString(9, log.getCurrentValue().trim().isEmpty() ? "Không có thay đổi": log.getBeforeValue());
+            pst.setString(9, log.getCurrentValue().trim().isEmpty() ? "Không có thay đổi": log.getCurrentValue());
 
             rowsAffected = pst.executeUpdate();
         } catch (SQLException e) {
@@ -41,9 +41,9 @@ public class LogDAO {
         return rowsAffected;
     }
 
-    public static void getAllLogs(){
+    public static ArrayList<Log> getAllLogs(){
         String sql = "select * from logs";
-        List<Log> logs = new ArrayList<>();
+        ArrayList<Log> logs = new ArrayList<>();
         connect = ConnectToDatabase.getConnect();
         try {
             pst = connect.prepareStatement(sql);
@@ -68,14 +68,15 @@ public class LogDAO {
         } finally {
             closeResources(connect, pst, rs);
         }
+        return logs;
     }
 
     public static void main(String[] args) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Log log = new Log(1, 1, "0.0.0.1", 1, "127.0.0.1", "Log Test ", " ", " ", timestamp, 0);
+        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", " ", " ", timestamp, 0);
         LogDAO logDAO = new LogDAO();
         int rowsAffected = logDAO.insert(log);
-        System.out.println(rowsAffected + " row(s) affected.");
+//        System.out.println(logDAO.getAllLogs());
     }
 
 

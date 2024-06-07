@@ -61,13 +61,13 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", u); // session này dùng để
                 Timestamp createdAt = new Timestamp(System.currentTimeMillis()); // Lấy thời gian hiện tại
-                logs.insert(new Log(Log.INFO, u.getId(), adress, request.getRemoteAddr(), "Login thành công", createdAt, 0));
+                logs.insert(new Log(Log.INFO, u.getId(),  request.getRemoteAddr(),adress, "Login thành công", createdAt, 0));
                 request.getRequestDispatcher("./index.jsp").forward(request, response); // sử dụng forward() để chuyển tiếp người dùng này cho các tác vụ khác
 
             } else {
                 request.setAttribute("err", "Email or Password is incorrect!");
                 Timestamp createdAt = new Timestamp(System.currentTimeMillis()); // Lấy thời gian hiện tại
-                logs.insert(new Log(Log.INFO, -1, adress, request.getRemoteAddr(), "Login không thành công", createdAt, 0));
+                logs.insert(new Log(Log.INFO, -1,  request.getRemoteAddr(),adress, "Login không thành công", createdAt, 0));
                 request.getRequestDispatcher("./login.jsp").forward(request, response);
             }
         } catch (Exception e) {

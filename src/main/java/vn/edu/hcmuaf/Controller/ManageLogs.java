@@ -3,7 +3,9 @@ package vn.edu.hcmuaf.Controller;
 
 
 import vn.edu.hcmuaf.DAO.FeebackDAO;
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.bean.Feedback;
+import vn.edu.hcmuaf.bean.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "ManageLogs", urlPatterns = {"/admin/manageLogs"})
@@ -19,18 +22,13 @@ import java.util.List;
 public class ManageLogs extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
+
+        LogDAO logd = new LogDAO();
+        ArrayList<Log> listLog = logd.getAllLogs();
 
 
-        FeebackDAO dao = new FeebackDAO();
-
-
-        List<Feedback> listF = dao.getFeedback();
-
-
-        request.setAttribute("listFFF", listF);
-        request.getRequestDispatcher("customerContact.jsp").forward(request, response);
+        request.setAttribute("listLog", listLog);
+        request.getRequestDispatcher("log.jsp").forward(request, response);
 
     }
     @Override

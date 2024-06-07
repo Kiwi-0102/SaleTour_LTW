@@ -87,7 +87,7 @@ public class NewPassword extends HttpServlet {
 //                dispatcher.forward(request, response);
                 } catch (Exception e) {
 //                    System.out.println("Lỗi" + e.getMessage());
-                    logs.insert(new Log(Log.INFO, -1, adress, request.getRemoteAddr(), "Xác nhận đổi mật khẩu không thành công bằng mã OTP "+email, createdAt, 0));
+                    logs.insert(new Log(Log.INFO, -1,  request.getRemoteAddr(),adress, "Xác nhận đổi mật khẩu không thành công bằng mã OTP "+email, createdAt, 0));
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
