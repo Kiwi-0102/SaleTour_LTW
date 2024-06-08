@@ -48,11 +48,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <%@include file="header.jsp" %>
 <section class="home-section">
     <div class="home-content">
+        <% if (err != null && !err.isEmpty()) { %>
+        <div style="color: red"><%= err %></div>
+        <% } %>
         <div class="manager-product">
             <div class="title">Danh Sách Log</div>
-            <%if(err!=null || !err.isEmpty()){%>
-            <div style="color: red"><%=err%></div>
-            <%}%>
             <a href="StatisticalLog">Thống kê tài khoản không nằm trong hệ thống</a>
             <br>
             <a href="LoginFailedLog">Thống kê tài khoản đăng nhập sai</a>
@@ -65,6 +65,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 Thêm tài khoản</a>
                         </div> -->
                     </div>
+                    <button onclick="removeSelected()" type="button" id="btnxoa" style="margin-left: 1000px;display: none">Xóa</button>
                     <table id="table1" class="table table-hover table-bordered">
                         <thead>
                         <tr>
@@ -89,10 +90,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <td><%=log.getContent()%></td>
                             <td><%=log.getCreate_at()%></td>
                             <td>
-                                <button onclick="remove(<%=log.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
-                                        title="Xóa">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <%if(log.getLevel()==0 || log.getLevel() ==1){%>
+                                <input type="checkbox" name="checkdelete" class="checkdelete" data-id="<%=log.getId()%>" onchange="countChecked()">
+                                <%}%>
                                 <button onclick="remove(<%=log.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
                                         title="Xóa">
                                     <i class="fa-solid fa-circle-info"></i>
@@ -130,6 +130,50 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 }
             }
         )
+    }
+
+    function countChecked() {
+        var count = $('.checkdelete:checked').length;
+        $('#countResult').text('Số lượng checkbox được chọn: ' + count);
+        var btnxoa = document.getElementById("btnxoa");
+        btnxoa.innerText = 'Xóa ' + count;
+        btnxoa.style.display = count > 0 ? 'block' : 'none';
+    }
+
+    function removeSelected() {
+        var selectedIds = [];
+        $('.checkdelete:checked').each(function() {
+            selectedIds.push($(this).data('id'));
+        });
+        console.log('Các ID được chọn:', selectedIds);
+
+        var data = new URLSearchParams();
+        data.append('idDelete',selectedIds)
+
+        fetch('/Do_An_Web/RemoveLog', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded' // Đảm bảo đúng kiểu dữ liệu được gửi đi
+            },
+            body: 'idDelete=' + encodeURIComponent(JSON.stringify(selectedIds)) // Chuyển mảng thành chuỗi JSON
+        })
+
+            .then(response => {
+                if (response.ok) {
+                    // Xóa các dòng đã chọn trên giao diện
+                    selectedIds.forEach(id => {
+                        var table = $('#table1').DataTable();
+                        var row = table.row('#' + id);
+                        row.remove().draw();
+                        var btnxoa = document.getElementById("btnxoa");
+                        btnxoa.style.display = 'none';
+                    });
+                }
+            })
+
+        .catch(err =>{
+            console.log(err)
+        });
     }
 </script>
 </body>
