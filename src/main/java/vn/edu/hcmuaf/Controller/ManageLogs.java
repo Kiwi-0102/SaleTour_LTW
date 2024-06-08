@@ -23,8 +23,7 @@ public class ManageLogs extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        LogDAO logd = new LogDAO();
-        ArrayList<Log> listLog = logd.getAllLogs();
+        ArrayList<Log> listLog = LogDAO.getAllLogs();
 
 
         request.setAttribute("listLog", listLog);
