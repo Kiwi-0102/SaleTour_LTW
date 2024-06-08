@@ -99,12 +99,45 @@ public class LogDAO {
         return log;
     }
 
+    public int deleteLogsByIds(List<Integer> ids) {
+        String sql = "DELETE FROM logs WHERE id IN (";
+        for (int i = 0; i < ids.size(); i++) {
+            sql += "?"; // Thêm dấu ? cho mỗi ID
+            if (i < ids.size() - 1) {
+                sql += ", "; // Thêm dấu phẩy nếu không phải là ID cuối cùng
+            }
+        }
+        sql += ")";
+
+        connect = ConnectToDatabase.getConnect();
+        int rowsAffected = 0;
+        try {
+            pst = connect.prepareStatement(sql);
+            // Thiết lập giá trị cho các tham số ?
+            for (int i = 0; i < ids.size(); i++) {
+                pst.setInt(i + 1, ids.get(i)); // Tham số bắt đầu từ 1, vị trí ID bắt đầu từ 0
+            }
+
+            rowsAffected = pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(connect, pst, rs);
+        }
+        return rowsAffected;
+    }
+
+
     public static void main(String[] args) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", " ", " ", timestamp, 1);
+//        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", " ", " ", timestamp, 1);
         LogDAO logDAO = new LogDAO();
-        int rowsAffected = logDAO.insert(log);
-        System.out.println(logDAO.getLogbyId(30));
+//        int rowsAffected = logDAO.insert(log);
+        List<Integer> logList = new ArrayList<>();
+        logList.add(18);
+        logList.add(19);
+//        System.out.println(logDAO.deleteLogsByIds(logList));
+//        System.out.println(logDAO.getLogbyId(30));
     }
 
 
