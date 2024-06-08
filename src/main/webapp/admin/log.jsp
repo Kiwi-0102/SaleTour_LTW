@@ -42,6 +42,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <%
     ArrayList<Log> listlog = (ArrayList<Log>) request.getAttribute("listLog");
+    String err = (String) request.getAttribute("error");
 %>
 <body>
 <%@include file="header.jsp" %>
@@ -49,6 +50,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="home-content">
         <div class="manager-product">
             <div class="title">Danh Sách Log</div>
+            <%if(err!=null || !err.isEmpty()){%>
+            <div style="color: red"><%=err%></div>
+            <%}%>
             <a href="StatisticalLog">Thống kê tài khoản không nằm trong hệ thống</a>
             <br>
             <a href="LoginFailedLog">Thống kê tài khoản đăng nhập sai</a>

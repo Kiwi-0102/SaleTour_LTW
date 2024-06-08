@@ -71,12 +71,40 @@ public class LogDAO {
         return logs;
     }
 
+    public static Log getLogbyId(int id){
+        String sql = "select * from logs where id = ?";
+        Log log = new Log();
+        connect = ConnectToDatabase.getConnect();
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            while (rs.next()){
+                log.setId(rs.getInt("id"));
+                log.setLevel(rs.getInt("level"));
+                log.setSrc(rs.getString("src"));
+                log.setId_user(rs.getInt("userId"));
+                log.setIp_address(rs.getString("ipAddress"));
+                log.setContent(rs.getString("content"));
+                log.setCreate_at(rs.getTimestamp("createAt"));
+                log.setBeforeValue(rs.getString("beforeValue"));
+                log.setBeforeValue(rs.getString("currentValue"));
+                log.setStatus(rs.getInt("status"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connect, pst, rs);
+        }
+        return log;
+    }
+
     public static void main(String[] args) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", " ", " ", timestamp, 0);
+        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", " ", " ", timestamp, 1);
         LogDAO logDAO = new LogDAO();
         int rowsAffected = logDAO.insert(log);
-//        System.out.println(logDAO.getAllLogs());
+        System.out.println(logDAO.getLogbyId(30));
     }
 
 
