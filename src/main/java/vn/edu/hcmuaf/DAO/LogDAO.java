@@ -130,12 +130,12 @@ public class LogDAO {
 
     public static void main(String[] args) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", " ", " ", timestamp, 1);
+        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test", " ", " ", timestamp, 1);
         LogDAO logDAO = new LogDAO();
-//        int rowsAffected = logDAO.insert(log);
-        List<Integer> logList = new ArrayList<>();
-        logList.add(18);
-        logList.add(19);
+        int rowsAffected = logDAO.insert(log);
+//        List<Integer> logList = new ArrayList<>();
+//        logList.add(18);
+//        logList.add(19);
 //        System.out.println(logDAO.deleteLogsByIds(logList));
 //        System.out.println(logDAO.getLogbyId(30));
     }
