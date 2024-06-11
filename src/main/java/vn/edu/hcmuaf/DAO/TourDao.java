@@ -25,7 +25,9 @@ public class TourDao {
         List<Tour> tours = new ArrayList<>();
         try {
             String sql = "Select * from tours";
-            ResultSet rs = ConnectToDatabase.executeQuery(sql);
+            connection = ConnectToDatabase.getConnect();
+            rs = ConnectToDatabase.executeQuery(sql);
+            preparedStatement = connection.prepareStatement(sql);
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String region = rs.getString("region");
@@ -44,6 +46,8 @@ public class TourDao {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
         }
         return tours;
     }
@@ -290,12 +294,13 @@ public class TourDao {
 
         String sql = "SELECT * FROM tours WHERE schedule LIKE ? ORDER BY id DESC";
         Connection connect = ConnectToDatabase.getConnect();
-
+        ResultSet rs = null;
+        PreparedStatement pst;
+        pst = null;
         try {
-            PreparedStatement pst = connect.prepareStatement(sql);
+            pst = connect.prepareStatement(sql);
             pst.setString(1, "%" + search + "%");
-
-            ResultSet rs = pst.executeQuery();
+            rs = pst.executeQuery();
             while (rs.next()) {
                 int id1 = rs.getInt("id");
                 String region = rs.getString("region");
@@ -312,6 +317,8 @@ public class TourDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            closeResources(connect,pst,rs);
         }
         return listSearch;
     }
