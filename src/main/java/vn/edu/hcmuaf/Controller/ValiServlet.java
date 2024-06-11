@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.LogDAO;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
 import vn.edu.hcmuaf.bean.valies;
 
@@ -8,6 +10,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @WebServlet( "/ValiServlet")
@@ -28,28 +32,34 @@ public class ValiServlet extends HttpServlet {
             vl.setNumChildren(0);
             vl.setTourId(id);
 
+            LogDAO logs = new LogDAO();
+            InetAddress inet =InetAddress.getLocalHost();
+            String adress = inet.getHostAddress();
+            Timestamp createdAt = new Timestamp(System.currentTimeMillis());
             HttpSession ses = request.getSession();
             ArrayList<valies> vali_List = (ArrayList<valies>) ses.getAttribute("vali-List");
 
             if (vali_List == null) {
                 valiList.add(vl);
                 ses.setAttribute("vali-List",valiList);
-                    response.sendRedirect("CategorieServlet");
-                    out.println("<script>alert('Đã thêm vào giỏ hàng');</script>");
+                logs.insert(new Log(Log.INFO, user.getId(), request.getRemoteAddr(), adress, "Thêm sản phẩm giỏ hàng\n Mã sản phẩm: "+vl.getTourId(), createdAt, 0));
+                out.println("<script>alert('Đã thêm vào giỏ hàng');</script>");
+                response.sendRedirect("CategorieServlet");
             }else{
                 valiList=vali_List;
                 boolean exit = false;
                 for (valies v: vali_List) {
                     if(v.getId()==id){
                         exit=true;
-                        response.sendRedirect("CategorieServlet");
                         out.println("<script>alert('Sản phẩm đã tồn tại.');</script>");
+                        response.sendRedirect("CategorieServlet");
                     }
                 }
                     if(!exit){
                         valiList.add(vl);
-                        response.sendRedirect("CategorieServlet");
+                        logs.insert(new Log(Log.INFO, user.getId(), request.getRemoteAddr(), adress, "Thêm sản phẩm giỏ hàng\n Mã sản phẩm: "+vl.getTourId(), createdAt, 0));
                         out.println("<script>alert('Đã thêm vào giỏ hàng.');</script>");
+                        response.sendRedirect("CategorieServlet");
                     }
             }
         }

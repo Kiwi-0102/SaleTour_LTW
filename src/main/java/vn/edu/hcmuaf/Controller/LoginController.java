@@ -43,7 +43,6 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            Log log = new Log();
             LogDAO logs = new LogDAO();
             InetAddress inet =InetAddress.getLocalHost();
             String adress = inet.getHostAddress();
