@@ -75,6 +75,7 @@ public class Log implements Serializable {
         this.level = level;
         this.src = src;
         this.id_user = userId;
+        this.ip_address = ip_address;
         this.content = content;
         this.create_at = creatAt;
         this.status = status;
