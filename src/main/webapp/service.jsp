@@ -10,16 +10,15 @@
 <%
     indexDao indx = new indexDao();
     TourDao tdao = new TourDao();
-//    service_tours sv = (service_tours) request.getAttribute("service");
     ArrayList<service_tours> sv_list = (ArrayList<service_tours>) indx.service();
     Tour t;
     String id = (String) request.getAttribute("id");
-    System.out.println(id);
+//    System.out.print("service.jsp param id"+id);
     if(id!=null){
         t = tdao.findvalibyid(Integer.parseInt(id));
-        System.out.print(t);
         valies v = tdao.findvalibyid(t.getId());
     }else {
+        // request này được nhận từ ServiceServlet.java nếu click vào từ trang sản phẩm
          t = (Tour) request.getAttribute("tour");
         valies v = tdao.findvalibyid(t.getId());
     }

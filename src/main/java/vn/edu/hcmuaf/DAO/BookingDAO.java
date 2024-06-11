@@ -118,10 +118,11 @@ public class BookingDAO {
 
 
     public static int insertBooking(int userId, int tourId, int numChildren, int numAdult, String name, String phone,String email, String address,String dateBooking) {
+        ResultSet generatedKeys = null;
         try {
-            Connection connection = ConnectToDatabase.getConnect();
+            connection = ConnectToDatabase.getConnect();
             String sql = "INSERT INTO booking (userId, dateBooking, tourId, numChildren, numAdult, name, phone,email, address, dateStart) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, tourId);
             preparedStatement.setInt(3, numChildren);
@@ -134,7 +135,7 @@ public class BookingDAO {
 
             preparedStatement.executeUpdate();
 
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+             generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 return generatedKeys.getInt(1);
             } else {
@@ -143,6 +144,8 @@ public class BookingDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        }finally {
+            closeResources(connection,preparedStatement,generatedKeys);
         }
 
     }

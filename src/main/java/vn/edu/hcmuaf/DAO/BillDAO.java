@@ -80,7 +80,6 @@ public class BillDAO {
                 double toltalPrice = rs.getDouble("totalPrice");
                 String status = rs.getString("status");
 
-                // Tạo đối tượng Booking từ dữ liệu lấy ra từ cơ sở dữ liệu
                 Bill bill = new Bill(id, userId, paymentMethod, toltalPrice, status);
                 ListBill.add(bill);
             }
@@ -89,22 +88,24 @@ public class BillDAO {
             throw new RuntimeException(e);
         } finally {
             closeResources(connection, preparedStatement, rs);
+
         }
         return ListBill;
     }
 
     public static int insertBill(int bookingId, String paymentMethod, double totalPrice, String status) {
+        ResultSet generatedKeys = null;
         try {
-            Connection connection = ConnectToDatabase.getConnect();
+             connection = ConnectToDatabase.getConnect();
             String sql = "INSERT INTO bills (bookingId, paymentMethod, totalPrice, status) VALUES (?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, bookingId);
             preparedStatement.setString(2, paymentMethod);
             preparedStatement.setDouble(3, totalPrice);
             preparedStatement.setString(4, status);
             preparedStatement.executeUpdate();
 
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+           generatedKeys = preparedStatement.getGeneratedKeys();
             int insertedId = -1;
             if (generatedKeys.next()) {
                 insertedId = generatedKeys.getInt(1);
@@ -115,6 +116,8 @@ public class BillDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        }finally {
+            closeResources(connection,preparedStatement,generatedKeys);
         }
     }
 
