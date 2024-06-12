@@ -1,9 +1,12 @@
 package vn.edu.hcmuaf.Controller;
 
 
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DAO.UserDAO;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
 import vn.edu.hcmuaf.serice.Mahoa;
+import vn.edu.hcmuaf.serice.PublicIPFetcher;
 
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -19,8 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.Random;
+
+import static vn.edu.hcmuaf.serice.getNation.Nation;
 
 @WebServlet(name = "RegisterController", value = "/register")
 public class RegisterController extends HttpServlet {
@@ -41,21 +47,27 @@ public class RegisterController extends HttpServlet {
             String username = request.getParameter("userName") == null ? "" : request.getParameter("userName").trim();
             String url = "otp.jsp";
 
+            LogDAO logs = new LogDAO();
+            Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+
             String err = "";
             if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || username.isEmpty()) {
                 err = "Vui lòng nhập đầy đủ thông tin.";
                 request.setAttribute("err", err);
+                logs.insert(new Log(Log.INFO, -1, PublicIPFetcher.getPublicIP(), Nation(request),"Đăng kí tài khoản không thành công: \n"+"Lỗi"+err, createdAt, 0));
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
                 return;
             }
             if (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
                 err = "Email không hợp lệ.";
                 request.setAttribute("err", "Email không hợp lệ.");
+                logs.insert(new Log(Log.INFO, -1, PublicIPFetcher.getPublicIP(), Nation(request),"Đăng kí tài khoản không thành công: \n"+"Lỗi"+err, createdAt, 0));
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
                 return;
             }
             if (!password.equals(confirmPassword)) {
                 err = "Mật khẩu và xác nhận mật khẩu không khớp.";
+                logs.insert(new Log(Log.INFO, -1, PublicIPFetcher.getPublicIP(), Nation(request),"Đăng kí tài khoản không thành công: \n"+"Lỗi"+err, createdAt, 0));
                 request.setAttribute("err", "Mật khẩu và xác nhận mật khẩu không khớp.");
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
                 return;
@@ -63,6 +75,7 @@ public class RegisterController extends HttpServlet {
             UserDAO userDAO = new UserDAO();
             if (userDAO.isEmailExists(email)) {
                 err = "Email đã tồn tại.";
+                logs.insert(new Log(Log.INFO, -1, PublicIPFetcher.getPublicIP(), Nation(request),"Đăng kí tài khoản không thành công: \n"+"Lỗi"+err, createdAt, 0));
                 request.setAttribute("err", "Email đã tồn tại.");
                 request.getRequestDispatcher("./register.jsp").forward(request, response);
                 return;

@@ -30,6 +30,9 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
+import static vn.edu.hcmuaf.serice.getNation.Nation;
+
 @WebServlet(name = "ForgotPassword", value = "/forgotPassword")
 public class ForgotPassword extends HttpServlet {
     @Override
@@ -75,7 +78,7 @@ public class ForgotPassword extends HttpServlet {
             request.setAttribute("error", error);
             dispatcher = request.getRequestDispatcher(url);
             dispatcher.forward(request, response);
-            logs.insert(new Log(Log.INFO, -1,  request.getRemoteAddr(),adress, "Xác nhận quên mật khẩu không thành công vì lỗi "+error, createdAt, 0));
+            logs.insert(new Log(Log.INFO, -1,  getPublicIP(),Nation(request), "Xác nhận quên mật khẩu không thành công vì lỗi "+error, createdAt, 0));
         } else if (checkError==false) {
             int otpvalue = 0;
             HttpSession forgot_Session = request.getSession();
@@ -84,7 +87,7 @@ public class ForgotPassword extends HttpServlet {
                 Random rand = new Random();
                 otpvalue = rand.nextInt(900000)+100000;
 
-                logs.insert(new Log(Log.INFO,  adress,-1, request.getRemoteAddr(), "Xác nhận quên mật khẩu thành công", createdAt,"","", 0));
+                logs.insert(new Log(Log.INFO,  Nation(request),-1, getPublicIP(), "Xác nhận quên mật khẩu thành công", createdAt,"","", 0));
                 String to = email;
 
                 Properties props = new Properties();

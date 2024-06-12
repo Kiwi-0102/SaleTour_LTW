@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DAO.UserDAO;
 import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
+import vn.edu.hcmuaf.serice.getNation;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -13,6 +14,9 @@ import java.net.InetAddress;
 import java.sql.Timestamp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
+import static vn.edu.hcmuaf.serice.getNation.Nation;
 
 @WebServlet(name = "InforUser", value = "/InforUser")
 public class InforUser extends HttpServlet {
@@ -71,12 +75,14 @@ public class InforUser extends HttpServlet {
             boolean kq = userDAO.editInforUser(name, phone, address, user.getEmail());
             if (kq) {
                 System.out.println("kq" + kq);
-                logs.insert(new Log(Log.INFO, adress,user.getId(),  request.getRemoteAddr(), "Xác nhận thay đổi thông tin khách hàng ", createdAt,
+                logs.insert(new Log(Log.INFO, Nation(request),user.getId(), getPublicIP(), "Xác nhận thay đổi thông tin khách hàng ", createdAt,
                         "=6hjghgd5VFdwg","Tên: "+name+"\n"+"Phone: "+phone+"\n"+"Địa chỉ: "+address+"\n", 0));
                 request.setAttribute("status", "Thay đổi thông tin thành công");
                 request.getRequestDispatcher("infor.jsp").forward(request,response);
             } else {
                 request.setAttribute("err", "Thay đổi thông tin không thành công");
+                logs.insert(new Log(Log.INFO, Nation(request),user.getId(),  getPublicIP(), "Thay đổi thông tin không thành công", createdAt,
+                        "","",0));
                 request.getRequestDispatcher("infor.jsp").forward(request,response);
             }
         }
