@@ -4,7 +4,10 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DAO.TourDao;
+import vn.edu.hcmuaf.bean.Log;
+import vn.edu.hcmuaf.bean.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +16,13 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.sql.Timestamp;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+
+import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
+import static vn.edu.hcmuaf.serice.getNation.Nation;
 
 @WebServlet(name = "ADD", urlPatterns = {"/admin/add"})
 public class AddTour extends HttpServlet {
@@ -30,9 +37,10 @@ public class AddTour extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User usser = (User) request.getAttribute("user");
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-
+        LogDAO logs = new LogDAO();
         String action = request.getParameter("action");
         if (action != null) {
             String pname = request.getParameter("name");
@@ -55,10 +63,6 @@ public class AddTour extends HttpServlet {
 //            System.out.println("pregion"+pregion);
 //            System.out.println("quantity"+quantity);
 //
-
-
-
-
 
 
 
@@ -103,6 +107,8 @@ public class AddTour extends HttpServlet {
                 idtour = TourDao.addTour(pregion, 1, pname, img, price, pstartTime, pduration, pschedule, pdescription, Integer.parseInt(quantity));
                 System.out.println("imgidtrc"+idtour);
 
+                logs.insert(new Log(Log.ALERT,Nation(request), -1,  getPublicIP(), "Thêm sản phẩm mới", new Timestamp(System.currentTimeMillis()),"","Mã sản phẩm"+idtour+", Tên sản phẩm"+pname, 0));
+
                 String pschedul1 = request.getParameter("schedule1");
                 String img1 = request.getParameter("img1");
                 String pschedul2 = request.getParameter("schedule2");
@@ -133,32 +139,19 @@ public class AddTour extends HttpServlet {
                 }
 
                 td.insertDetailDuration(idtour,pschedul1,pschedul2,pschedul3,pschedul4,pschedul5);
-//        System.out.println("pschedul1 "+pschedul1);
-//        System.out.println("pschedul2 "+pschedul2);
-//        System.out.println("pschedul3 "+pschedul3);
-//        System.out.println("pschedul4 "+pschedul4);
-//        System.out.println("pschedul5 "+pschedul5);
-//
-//        System.out.println("img1"+img1);
-//        System.out.println("img2"+img2);
-//        System.out.println("img3"+img3);
-//        System.out.println("img4"+img4);
-//        System.out.println("img5"+img5);
-//                System.out.println("----------------------------------------------------------");
 
             }
         } else {
             if (!ServletFileUpload.isMultipartContent(request)) {
                 System.out.println("Content type is not multipart/form-data");
+                logs.insert(new Log(Log.ALERT,Nation(request), usser.getId(),  getPublicIP(), "Thêm sản phẩm mới thất bại", new Timestamp(System.currentTimeMillis()),"","", 0));
                 throw new ServletException("Content type is not multipart/form-data");
             }
 
             try {
-//                int idTour = (int) session.getAttribute("idtour");
                 List<FileItem> fileItemsList = uploader.parseRequest(request);
                 Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
                 System.out.println("id sau"+idtour);
-//                System.out.println(fileItemsIterator.toString());
                 while (fileItemsIterator.hasNext()) {
                     FileItem fileItem = fileItemsIterator.next();
                     if (fileItem.getName() != null) {
@@ -166,9 +159,6 @@ public class AddTour extends HttpServlet {
                         File file = new File(request.getServletContext().getRealPath("/") + "assets\\images\\item\\" + fileItem.getName());
                         fileItem.write(file);
                     }
-//                DB.me().insert(new Log(Log.WARNING, uu.getId(), ipAddress, "Quản lý sản phẩm", "Thêm ảnh sản phẩm.Tên sản phẩm: " + ProductDao.getInstance().selectName(id), 0));
-
-//                PictureDao.getInstance().add("images/" + fileItem.getName(), id);
 
                 }
             } catch (FileUploadException e) {
@@ -207,22 +197,6 @@ public class AddTour extends HttpServlet {
         String img5 = request.getParameter("img5");
 
         String pprice = request.getParameter("price");
-//        System.out.println("pname"+pname);
-//        System.out.println("img"+img);
-//        System.out.println("pdescription"+pdescription);
-//        System.out.println("pregion"+pregion);
-//
-//        System.out.println("pschedul1"+pschedul1);
-//        System.out.println("pschedul2"+pschedul2);
-//        System.out.println("pschedul3"+pschedul3);
-//        System.out.println("pschedul4"+pschedul4);
-//        System.out.println("pschedul5"+pschedul5);
-//
-//        System.out.println("img1"+img1);
-//        System.out.println("img2"+img2);
-//        System.out.println("img3"+img3);
-//        System.out.println("img4"+img4);
-//        System.out.println("img5"+img5);
         int price = 0; //
         if (pprice != null && !pprice.isEmpty()) {
             try {
@@ -234,7 +208,6 @@ public class AddTour extends HttpServlet {
         }
         if (pregion == null || pregion.trim().isEmpty()) {
             request.getRequestDispatcher("/admin/managerProduct").forward(request, response);
-            System.out.println("lỏ cak");
         } else {
 
             TourDao dao = new TourDao();

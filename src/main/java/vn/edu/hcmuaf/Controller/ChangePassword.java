@@ -80,12 +80,12 @@ public class ChangePassword extends HttpServlet {
 
                 int roundCount = pst.executeUpdate();
                 if (roundCount > 0) {
-                    logs.insert(new Log(Log.INFO,Nation(request), user.getId(),  getPublicIP(), "Xác nhận đổi mật khẩu", createdAt,"Mật khẩu cũ "+Mahoa.toSHA1(oldpass),"Mật khẩu mới mã hóa n lần "+Mahoa.toSHA1(Mahoa.toSHA1(newpass1)), 0));
+                    logs.insert(new Log(Log.ALERT,Nation(request), user.getId(),  getPublicIP(), "Xác nhận đổi mật khẩu", createdAt,"Mật khẩu cũ "+Mahoa.toSHA1(oldpass),"Mật khẩu mới mã hóa n lần "+Mahoa.toSHA1(Mahoa.toSHA1(newpass1)), 0));
                     request.setAttribute("status", "Thay đổi mật khẩu thành công");
                     request.getSession().invalidate();
                     response.sendRedirect("login.jsp");
                 } else {
-                    logs.insert(new Log(Log.INFO, -1,  getPublicIP(),Nation(request), "Xác nhận đổi mật khẩu không thành công", createdAt, 0));
+                    logs.insert(new Log(Log.ALERT, -1,  getPublicIP(),Nation(request), "Xác nhận đổi mật khẩu không thành công", createdAt, 0));
                     request.setAttribute("error", "Thay đổi mật khẩu không thành công. Xin vui lòng thực hiện lại");
                     dispatcher = request.getRequestDispatcher("infor.jsp");
                 }

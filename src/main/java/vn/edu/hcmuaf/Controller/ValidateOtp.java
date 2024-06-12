@@ -44,13 +44,16 @@ public class ValidateOtp extends HttpServlet {
             }
 
             int opt_mail = (int) session.getAttribute("otp");
+            String email = (String) session.getAttribute("email");
 
             try {
                 if (otp == opt_mail) {
                     request.setAttribute("status", "Thành công");
+                    logs.insert(new Log(Log.INFO,Nation(request), -1,  getPublicIP(), "OTP quên mật khẩu thành công", createdAt,"","Email+"+email+"\nOTP: "+opt_mail, 0));
                     url = "newpassword.jsp";
                     request.getRequestDispatcher(url).forward(request, response);
                 } else {
+                    logs.insert(new Log(Log.INFO,Nation(request), -1,  getPublicIP(), "OTP quên mật khẩu không đúng", createdAt,"","Email+"+email+"\nOTP: "+opt_mail, 0));
                     request.setAttribute("status", "Mã OTP không đúng");
                     url = "otp.jsp";
                     request.getRequestDispatcher(url).forward(request, response);
@@ -82,16 +85,19 @@ public class ValidateOtp extends HttpServlet {
                     User user = (User) session.getAttribute("register");
                     UserDAO userDO = new UserDAO();
                     userDO.addUser(user);
-                    logs.insert(new Log(Log.INFO,Nation(request), -1,  getPublicIP(), "Đăng kí tài khoản thành công", createdAt,"","Email đăng kí: "+user.getEmail(), 0));
+                    logs.insert(new Log(Log.ALERT,Nation(request), -1,  getPublicIP(), "OTP đăng kí được xác nhận - Đăng kí tài khoản thành công", createdAt,"","Email đăng kí: "+user.getEmail(), 0));
                     request.getRequestDispatcher("./login.jsp").forward(request, response);
                 } else {
+                    User user = (User) session.getAttribute("register");
+                    logs.insert(new Log(Log.ALERT,Nation(request), -1,  getPublicIP(), "OTP đăng kí không đúng - Đăng kí tài khoản không thành công", createdAt,"","Email đăng kí: "+user.getEmail(), 0));
                     request.setAttribute("status", "Mã OTP không đúng");
                     url = "otp.jsp";
                     request.getRequestDispatcher(url).forward(request, response);
                 }
             } catch (Exception e) {
+                User user = (User) session.getAttribute("register");
                 request.setAttribute("status", "Có lỗi xảy ra .Vui lòng thực hiện lại sau");
-                logs.insert(new Log(Log.INFO, -1, PublicIPFetcher.getPublicIP(), Nation(request),"Đăng kí tài khoản không thành công:", createdAt, 0));
+                logs.insert(new Log(Log.INFO, -1, PublicIPFetcher.getPublicIP(), Nation(request),"Không thể gửi OTP đăng kí tài khoản "+user.getEmail(), createdAt, 0));
                 e.printStackTrace();
                 url = "otp.jsp";
                 request.getRequestDispatcher(url).forward(request, response);

@@ -331,13 +331,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         var imagedetal5 = document.getElementsByName("imagedetail5")[0] ? document.getElementsByName("imagedetail5")[0].name : null;
 
 
-
-        console.log("Tên tệp tin imagedetail1: " + imagedetal1);
-        console.log("Tên tệp tin imagedetail2: " + imagedetal2);
-        console.log("Tên tệp tin imagedetail3: " + imagedetal3);
-        console.log("Tên tệp tin imagedetail4: " + imagedetal4);
-        console.log("Tên tệp tin imagedetail5: " + imagedetal5);
-
         param2.append('img1', imagedetal1);
         param2.append('img2', imagedetal2);
         param2.append('img3', imagedetal3);

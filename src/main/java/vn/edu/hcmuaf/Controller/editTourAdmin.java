@@ -1,14 +1,22 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DAO.TourDao;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.Tour;
+import vn.edu.hcmuaf.bean.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
+
+import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
+import static vn.edu.hcmuaf.serice.getNation.Nation;
 
 @WebServlet(name = "editTourAdmin", urlPatterns = {"/admin/editTourAdmin"})
 public class editTourAdmin extends HttpServlet {
@@ -16,6 +24,8 @@ public class editTourAdmin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         TourDao tourDao = new TourDao();
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
@@ -25,13 +35,15 @@ public class editTourAdmin extends HttpServlet {
         String startTime = request.getParameter("startTime");
         String schedule = request.getParameter("schedule");
         String description = request.getParameter("description");
-
+        LogDAO logs = new LogDAO();
         boolean tourdao = tourDao.updateTour(region,name,price,startTime,schedule,description,quantity,id);
         if(tourdao) {
+            request.setAttribute("status", "Sửa tour thành công");
+            logs.insert(new Log(Log.WARNING,Nation(request), user.getId(),  getPublicIP(), "Sửa sản phẩm \n"+"Mã sản phẩm \n"+id+", Tên sản phẩm \n"+name, new Timestamp(System.currentTimeMillis()),"Tour: "+tourDao.findtourbyID(id).toString(),"region "+region+", "+name+name+", "+"price "+price+", "+"startTime "+startTime+", "+"schedule "+schedule+", "+"description "+description+", "+"quantity "+quantity+", "+"id "+id, 0));
             request.setAttribute("tour", tourDao.findtourbyid(id));
-            request.setAttribute("status", "Thêm tour thành công");
         }else {
-            request.setAttribute("status", "Thêm tour thất bại");
+            logs.insert(new Log(Log.WARNING,Nation(request), user.getId(),  getPublicIP(), "Sửa sản phẩm thất bại", new Timestamp(System.currentTimeMillis()),"","Mã sản phẩm"+id+", Tên sản phẩm"+name, 0));
+            request.setAttribute("status", "Sửa tour thất bại");
         }
         request.getRequestDispatcher("./editProduct.jsp").forward(request, response);
 

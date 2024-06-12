@@ -81,7 +81,7 @@ public class NewPassword extends HttpServlet {
                         // Xóa session
                         request.getSession().invalidate();
                         response.sendRedirect("login.jsp");
-                        logs.insert(new Log(Log.INFO, Nation(request),-1,  getPublicIP(), "Xác nhận đổi mật khẩu thành công bằng mã OTP cho email "+email, createdAt,"=6hjghgd5VFdwg","mat khau moi ***", 0));
+                        logs.insert(new Log(Log.ALERT, Nation(request),-1,  getPublicIP(), "Xác nhận đổi mật khẩu thành công bằng mã OTP cho email "+email, createdAt,"=6hjghgd5VFdwg","mat khau moi ***", 0));
 
                     } else {
                         request.setAttribute("error", "Thay đổi mật khẩu không thành công. Xin vui lòng thực hiện lại");
@@ -90,7 +90,7 @@ public class NewPassword extends HttpServlet {
 //                dispatcher.forward(request, response);
                 } catch (Exception e) {
 //                    System.out.println("Lỗi" + e.getMessage());
-                    logs.insert(new Log(Log.INFO, -1, getPublicIP(),Nation(request), "Xác nhận đổi mật khẩu không thành công bằng mã OTP "+email, createdAt, 0));
+                    logs.insert(new Log(Log.ALERT, -1, getPublicIP(),Nation(request), "Xác nhận đổi mật khẩu không thành công bằng mã OTP "+email, createdAt, 0));
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
