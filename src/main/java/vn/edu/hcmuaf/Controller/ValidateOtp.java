@@ -1,7 +1,10 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.LogDAO;
 import vn.edu.hcmuaf.DAO.UserDAO;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.User;
+import vn.edu.hcmuaf.serice.PublicIPFetcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
+
+import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
+import static vn.edu.hcmuaf.serice.getNation.Nation;
 
 @WebServlet(name = "ValidateOtp", value = "/ValidateOtp")
 public class ValidateOtp extends HttpServlet {
@@ -22,6 +29,8 @@ public class ValidateOtp extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String action = (String) session.getAttribute("action");
+        LogDAO logs = new LogDAO();
+        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
         if (action == null || action.isEmpty()) {
             String url = "";
             int otp = 0;
@@ -70,10 +79,10 @@ public class ValidateOtp extends HttpServlet {
                 if (otp == opt_mail) {
                     request.setAttribute("status", "Thành công");
                     url = "login.jsp";
-
                     User user = (User) session.getAttribute("register");
                     UserDAO userDO = new UserDAO();
                     userDO.addUser(user);
+                    logs.insert(new Log(Log.INFO,Nation(request), -1,  getPublicIP(), "Đăng kí tài khoản thành công", createdAt,"","Email đăng kí: "+user.getEmail(), 0));
                     request.getRequestDispatcher("./login.jsp").forward(request, response);
                 } else {
                     request.setAttribute("status", "Mã OTP không đúng");
@@ -82,6 +91,7 @@ public class ValidateOtp extends HttpServlet {
                 }
             } catch (Exception e) {
                 request.setAttribute("status", "Có lỗi xảy ra .Vui lòng thực hiện lại sau");
+                logs.insert(new Log(Log.INFO, -1, PublicIPFetcher.getPublicIP(), Nation(request),"Đăng kí tài khoản không thành công:", createdAt, 0));
                 e.printStackTrace();
                 url = "otp.jsp";
                 request.getRequestDispatcher(url).forward(request, response);

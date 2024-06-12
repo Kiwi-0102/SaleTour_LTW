@@ -24,6 +24,9 @@ import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
+import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
+import static vn.edu.hcmuaf.serice.getNation.Nation;
+
 @WebServlet(name = "NewPassword", value = "/NewPassword")
 public class NewPassword extends HttpServlet {
     @Override
@@ -41,7 +44,7 @@ public class NewPassword extends HttpServlet {
             RequestDispatcher dispatcher = null;
         LogDAO logs = new LogDAO();
         InetAddress inet =InetAddress.getLocalHost();
-        String adress = inet.getHostAddress();
+
         Timestamp createdAt = new Timestamp(System.currentTimeMillis());
             if (newpass1 == null || newpass1.trim().isEmpty()) {
                 error = "Vui lòng nhập mật khẩu mới";
@@ -78,7 +81,7 @@ public class NewPassword extends HttpServlet {
                         // Xóa session
                         request.getSession().invalidate();
                         response.sendRedirect("login.jsp");
-                        logs.insert(new Log(Log.INFO, adress,-1,  request.getRemoteAddr(), "Xác nhận đổi mật khẩu thành công bằng mã OTP cho email "+email, createdAt,"=6hjghgd5VFdwg","mat khau moi ***", 0));
+                        logs.insert(new Log(Log.INFO, Nation(request),-1,  getPublicIP(), "Xác nhận đổi mật khẩu thành công bằng mã OTP cho email "+email, createdAt,"=6hjghgd5VFdwg","mat khau moi ***", 0));
 
                     } else {
                         request.setAttribute("error", "Thay đổi mật khẩu không thành công. Xin vui lòng thực hiện lại");
@@ -87,7 +90,7 @@ public class NewPassword extends HttpServlet {
 //                dispatcher.forward(request, response);
                 } catch (Exception e) {
 //                    System.out.println("Lỗi" + e.getMessage());
-                    logs.insert(new Log(Log.INFO, -1,  request.getRemoteAddr(),adress, "Xác nhận đổi mật khẩu không thành công bằng mã OTP "+email, createdAt, 0));
+                    logs.insert(new Log(Log.INFO, -1, getPublicIP(),Nation(request), "Xác nhận đổi mật khẩu không thành công bằng mã OTP "+email, createdAt, 0));
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }

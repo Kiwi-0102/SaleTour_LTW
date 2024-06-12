@@ -14,6 +14,9 @@ import java.net.InetAddress;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
+import static vn.edu.hcmuaf.serice.getNation.Nation;
+
 @WebServlet( "/ValiServlet")
 public class ValiServlet extends HttpServlet {
     @Override
@@ -42,7 +45,7 @@ public class ValiServlet extends HttpServlet {
             if (vali_List == null) {
                 valiList.add(vl);
                 ses.setAttribute("vali-List",valiList);
-                logs.insert(new Log(Log.INFO, user.getId(), request.getRemoteAddr(), adress, "Thêm sản phẩm giỏ hàng\n Mã sản phẩm: "+vl.getTourId(), createdAt, 0));
+                logs.insert(new Log(Log.INFO, user.getId(), getPublicIP(), Nation(request), "Thêm sản phẩm giỏ hàng\n Mã sản phẩm: "+vl.getTourId(), createdAt, 0));
                 out.println("<script>alert('Đã thêm vào giỏ hàng');</script>");
                 response.sendRedirect("CategorieServlet");
             }else{
@@ -57,7 +60,7 @@ public class ValiServlet extends HttpServlet {
                 }
                     if(!exit){
                         valiList.add(vl);
-                        logs.insert(new Log(Log.INFO, user.getId(), request.getRemoteAddr(), adress, "Thêm sản phẩm giỏ hàng\n Mã sản phẩm: "+vl.getTourId(), createdAt, 0));
+                        logs.insert(new Log(Log.INFO, user.getId(), getPublicIP(), Nation(request), "Thêm sản phẩm giỏ hàng\n Mã sản phẩm: "+vl.getTourId(), createdAt, 0));
                         out.println("<script>alert('Đã thêm vào giỏ hàng.');</script>");
                         response.sendRedirect("CategorieServlet");
                     }

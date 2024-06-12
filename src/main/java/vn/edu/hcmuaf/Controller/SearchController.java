@@ -1,13 +1,20 @@
 package vn.edu.hcmuaf.Controller;
 
+import vn.edu.hcmuaf.DAO.LogDAO;
+import vn.edu.hcmuaf.bean.Log;
 import vn.edu.hcmuaf.bean.Tour;
+import vn.edu.hcmuaf.bean.User;
 import vn.edu.hcmuaf.serice.TourService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
+import static vn.edu.hcmuaf.serice.getNation.Nation;
 
 @WebServlet(name = "SearchController", value = "/SearchController")
 public class SearchController extends HttpServlet {
@@ -21,10 +28,13 @@ public class SearchController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=utf-8");
+        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+        LogDAO logs = new LogDAO();
 
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
 //        System.out.println(action);
+        User user = (User) session.getAttribute("user");
 
         if (action == null) {
 //            System.out.println("Khong thuc hien duoc gi het");
@@ -34,20 +44,15 @@ public class SearchController extends HttpServlet {
 
             String startInput = request.getParameter("dxp");
             String endInput = request.getParameter("diemden");
-//            System.out.println("dxp " + startInput);
-//            System.out.println("diemden " + endInput);
-//            System.out.println("--------------------------------------");
 
             ArrayList<Tour> searchResults = (ArrayList<Tour>) new TourService().findAll();
             int size = searchResults.size();
-//            System.out.println(size);
 
             ArrayList<Tour> kqtimkiem = new ArrayList<>();
 
             for (Tour t : searchResults) {
                 String input = t.getName();
 
-// Nếu cả hai điểm đều không được nhập
                 if ((startInput == null || startInput.isEmpty()) && (endInput == null || endInput.isEmpty())) {
                     kqtimkiem.add(t);
                 } else {
@@ -81,6 +86,8 @@ public class SearchController extends HttpServlet {
                     }
                 }
             }
+            logs.insert(new Log(Log.INFO,Nation(request), user.getId(),  getPublicIP(), "Tìm sản phẩm", createdAt,"","Điểm bắt đầu: "+startInput+" , Điểm kết thúc: "+endInput, 0));
+
 //            System.out.println("kqtk: " + kqtimkiem.size());
             session.setAttribute("ListTour", kqtimkiem);
             request.getRequestDispatcher("catelogy.jsp").forward(request, response);
@@ -97,6 +104,7 @@ public class SearchController extends HttpServlet {
                 request.getRequestDispatcher("catelogy.jsp").forward(request, response);
             }else{
                 ArrayList<Tour> kqtimkiem = new TourService().getListTourbySearch(param);
+                logs.insert(new Log(Log.INFO,Nation(request), user.getId(),  getPublicIP(), "Tìm sản phẩm", createdAt,"","Tìm sán phẩm với tên: "+param, 0));
                 session.setAttribute("ListTour", kqtimkiem);
                 request.getRequestDispatcher("catelogy.jsp").forward(request, response);
             }
