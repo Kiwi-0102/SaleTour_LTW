@@ -127,13 +127,106 @@ public class LogDAO {
         return rowsAffected;
     }
 
+    public static ArrayList<Log> getLoglogin(){
+        ArrayList<Log> logs = new ArrayList<>();
+
+//        String sql = "SELECT * FROM logs where SELECT * FROM logs WHERE LOWER(content) LIKE '%login%'";
+        connect = ConnectToDatabase.getConnect();
+        try {
+            pst = connect.prepareStatement("SELECT * FROM logs WHERE LOWER(content) LIKE '%login%'");
+            rs = pst.executeQuery();
+            while (rs.next()){
+                Log log = new Log();
+                log.setId(rs.getInt("id"));
+                log.setLevel(rs.getInt("level"));
+                log.setSrc(rs.getString("src"));
+                log.setId_user(rs.getInt("userId"));
+                log.setIp_address(rs.getString("ipAddress"));
+                log.setContent(rs.getString("content"));
+                log.setCreate_at(rs.getTimestamp("createAt"));
+                log.setBeforeValue(rs.getString("beforeValue"));
+                log.setCurrentValue(rs.getString("currentValue"));
+                log.setStatus(rs.getInt("status"));
+                logs.add(log);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            closeResources(connect,pst,rs);
+        }
+        return logs;
+    }
+
+
+    public static ArrayList<Log> getLogbyday(int day){
+        ArrayList<Log> logs = new ArrayList<>();
+
+        String sql = "SELECT * " + "FROM logs " + "WHERE createAt >= DATE_SUB(CURRENT_DATE, INTERVAL ? DAY) " + "ORDER BY createAt DESC";
+        connect = ConnectToDatabase.getConnect();
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setInt(1,day);
+            rs = pst.executeQuery();
+            while (rs.next()){
+                Log log = new Log();
+                log.setId(rs.getInt("id"));
+                log.setLevel(rs.getInt("level"));
+                log.setSrc(rs.getString("src"));
+                log.setId_user(rs.getInt("userId"));
+                log.setIp_address(rs.getString("ipAddress"));
+                log.setContent(rs.getString("content"));
+                log.setCreate_at(rs.getTimestamp("createAt"));
+                log.setBeforeValue(rs.getString("beforeValue"));
+                log.setCurrentValue(rs.getString("currentValue"));
+                log.setStatus(rs.getInt("status"));
+                logs.add(log);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            closeResources(connect,pst,rs);
+        }
+        return logs;
+    }
+
+    public static ArrayList<Log> getstatustLogin(String status){
+        ArrayList<Log> logs = new ArrayList<>();
+
+//        String sql = "SELECT * FROM logs where SELECT * FROM logs WHERE LOWER(content) LIKE '%login%'";
+        connect = ConnectToDatabase.getConnect();
+        try {
+            pst = connect.prepareStatement("SELECT * FROM logs WHERE LOWER(content) LIKE ?");
+            pst.setString(1,status);
+            rs = pst.executeQuery();
+            while (rs.next()){
+                Log log = new Log();
+                log.setId(rs.getInt("id"));
+                log.setLevel(rs.getInt("level"));
+                log.setSrc(rs.getString("src"));
+                log.setId_user(rs.getInt("userId"));
+                log.setIp_address(rs.getString("ipAddress"));
+                log.setContent(rs.getString("content"));
+                log.setCreate_at(rs.getTimestamp("createAt"));
+                log.setBeforeValue(rs.getString("beforeValue"));
+                log.setCurrentValue(rs.getString("currentValue"));
+                log.setStatus(rs.getInt("status"));
+                logs.add(log);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            closeResources(connect,pst,rs);
+        }
+        return logs;
+    }
+
 
     public static void main(String[] args) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test", "abc123", "dfe456", timestamp, 1);
         LogDAO logDAO = new LogDAO();
-        Log rowsAffected = logDAO.getLogbyId(147);
-        System.out.println(rowsAffected.getCurrentValue());
+//        Log rowsAffected = logDAO.getLogbyId(147);
+        System.out.println(logDAO.getstatustLogin("Login không thành công"));
 //        List<Integer> logList = new ArrayList<>();
 //        logList.add(18);
 //        logList.add(19);

@@ -52,10 +52,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div style="color: red"><%= err %></div>
         <% } %>
         <div class="manager-product">
-            <div class="title">Danh Sách Log</div>
+            <div class="title" style="font-size: 30px">Danh Sách Log</div>
+            <hr>
             <a href="StatisticalLog">Thống kê tài khoản không nằm trong hệ thống</a>
             <br>
-            <a href="LoginFailedLog">Thống kê tài khoản đăng nhập sai</a>
+            <a href="${pageContext.request.contextPath}/admin/LoginFailedLog?action=LoginFailedLog">Thống kê tài khoản đăng nhập</a>
             <div class="row">
                 <div class="col-md-12">
                     <div class="row element-button">
