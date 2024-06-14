@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 
 <!DOCTYPE html>
 <head>
@@ -91,28 +91,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="leftside-navigation">
                 <ul class="sidebar-menu" id="nav-accordion">
                     <li>
-                        <a  href="managerProduct">
+                        <a  href="${pageContext.request.contextPath}/admin/managerProduct">
                             <i class="fa fa-list-alt"></i>
                             <span>Quản lí sản phẩm</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="managerOrder">
+                        <a href="${pageContext.request.contextPath}/admin/managerOrder">
                             <i class="fa fa-book"></i>
                             <span>Quản lí đơn hàng</span>
                         </a>
 
                     </li>
                     <li>
-                        <a href="managerUser">
+                        <a href="${pageContext.request.contextPath}/admin/managerUser">
                             <i class="fa fa-user"></i>
                             <span>Quản lí khách hàng</span>
                         </a>
                     </li>
 
                     <li class="sub-menu">
-                        <a href="revenue">
+                        <a href="${pageContext.request.contextPath}/admin/revenue">
                             <i class="fa fa-tasks"></i>
                             <span>Thống Kê Số Liệu</span>
                         </a>
@@ -123,15 +123,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </li>
 
                     <li class="sub-menu">
-                        <a href="manageContact">
+                        <a href="${pageContext.request.contextPath}/admin/manageContact">
                             <i class="fa fa-comment"></i>
                             <span>Quản lý đánh giá và hỗ trợ</span>
                         </a>
 
                     </li>
                     <li class="sub-menu">
-                        <a href="manageLogs">
-                            <i class="fa fa-comment"></i>
+                        <a href="${pageContext.request.contextPath}/admin/manageLogs">
+                            <i class="fa-solid fa-note-sticky"></i>
                             <span>Quản lý Log</span>
                         </a>
 
