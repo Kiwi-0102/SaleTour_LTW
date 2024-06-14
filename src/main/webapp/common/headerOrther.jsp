@@ -50,6 +50,9 @@
                                     <ul id="service_account">
                                         <li><a id="myInfor" href="infor.jsp">Tài Khoản</a></li>
                                         <li><a id="bill" href="bill.jsp">Hóa Đơn </a></li>
+                                        <%if(user.getRoleId() ==1){%>
+                                        <li><a id="admin" href="${pageContext.request.contextPath}/admin/admin.jsp">Admin </a></li>
+                                        <%}%>
                                         <li>
                                             <form action="login" method="get">
                                                 <button type="submit" name="action" id="logout" value="logout">Đăng Xuất</button>

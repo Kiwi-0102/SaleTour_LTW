@@ -88,7 +88,7 @@ public class LogDAO {
                 log.setContent(rs.getString("content"));
                 log.setCreate_at(rs.getTimestamp("createAt"));
                 log.setBeforeValue(rs.getString("beforeValue"));
-                log.setBeforeValue(rs.getString("currentValue"));
+                log.setCurrentValue(rs.getString("currentValue"));
                 log.setStatus(rs.getInt("status"));
             }
         } catch (SQLException e) {
@@ -130,9 +130,10 @@ public class LogDAO {
 
     public static void main(String[] args) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test", " ", " ", timestamp, 1);
+        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test", "abc123", "dfe456", timestamp, 1);
         LogDAO logDAO = new LogDAO();
-        int rowsAffected = logDAO.insert(log);
+        Log rowsAffected = logDAO.getLogbyId(147);
+        System.out.println(rowsAffected.getCurrentValue());
 //        List<Integer> logList = new ArrayList<>();
 //        logList.add(18);
 //        logList.add(19);

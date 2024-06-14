@@ -181,11 +181,12 @@ public class Log implements Serializable {
 
     public String getCurrentValue() {
         if(currentValue==null){
-            return "Không có";
+            return "Không có.";
         }if(currentValue.isEmpty()){
             return "Không có";
+        }else{
+            return currentValue;
         }
-        return currentValue;
     }
 
     public void setCurrentValue(String currentValue) {

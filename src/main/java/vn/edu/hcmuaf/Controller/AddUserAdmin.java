@@ -38,12 +38,14 @@ public class AddUserAdmin extends HttpServlet {
 
             if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
                 request.setAttribute("err", "Vui lòng nhập đầy đủ thông tin.");
-                request.getRequestDispatcher("admin/addUser.jsp").forward(request, response);
+//                request.getRequestDispatcher("admin/addUser.jsp").forward(request, response);
+                response.sendRedirect("admin/addUser.jsp");
                 return;
             }
             if (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
                 request.setAttribute("err", "Email không hợp lệ.");
                 request.getRequestDispatcher("admin/addUser.jsp").forward(request, response);
+//                response.sendRedirect("admin/addUser.jsp");
                 return;
             }
             UserDAO userDAO = new UserDAO();

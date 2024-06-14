@@ -85,7 +85,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <button class="btn btn-save" type="submit" style="
     margin-left: 15px;">Lưu lại
                     </button>
-                    <a class="btn btn-cancel" href="UserAdmin">Hủy bỏ</a>
+                    <a class="btn btn-cancel" href="${pageContext.request.contextPath}/admin/addUser.jsp">Hủy bỏ</a>
                 </form>
             </div>
         </div>

@@ -90,13 +90,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <td><%=log.getContent()%></td>
                             <td><%=log.getCreate_at()%></td>
                             <td>
-                                <%if(log.getLevel()==0 || log.getLevel() ==1){%>
-                                <input type="checkbox" name="checkdelete" class="checkdelete" data-id="<%=log.getId()%>" onchange="countChecked()">
-                                <%}%>
                                 <a href="DetailsLog?id=<%=log.getId()%>" class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết">
                                     <i class="fa-solid fa-circle-info"></i>
                                 </a>
-
+                                <%if(log.getLevel()==0 || log.getLevel() ==1){%>
+                                <input type="checkbox" name="checkdelete" class="checkdelete" data-id="<%=log.getId()%>" onchange="countChecked()">
+                                <%}%>
                             </td>
                         </tr>
                         <%}%>
