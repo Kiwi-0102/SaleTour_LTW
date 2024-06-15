@@ -128,6 +128,7 @@
     </div>
 
     <form action="BillController" method="post">
+        <input style="display: none" name="action" value="booking">
     <div class="checkout">
         <section class="checkout-head">
             <div class="container">
