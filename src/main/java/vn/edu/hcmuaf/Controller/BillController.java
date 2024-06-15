@@ -52,6 +52,7 @@ public class BillController extends HttpServlet {
         Integer quantitycc = (Integer) session.getAttribute("quatitycc");
         int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 1;
         User user = (User) session.getAttribute("user");
+        String action = request.getParameter("action");
 //        System.out.println("paypay");
 //        System.out.println("userdk"+userdk);
 //        System.out.println("userht"+user);
@@ -60,16 +61,18 @@ public class BillController extends HttpServlet {
 //        System.out.println(quatitycc);
 //        System.out.println(id);
 //        String sql = "INSERT INTO booking (userId, date, tourId, numChildren, numAdult, name, phone,email, address) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?)";
+        if(action == null){
+            System.out.println("view bill");
+        } else if (action.equalsIgnoreCase("booking")) {
+            BookingDAO bkd = new BookingDAO();
+            int idbk = BookingDAO.insertBooking(user.getId(), tour.getId(), quatity, quatitycc, userdk.getUserName(), userdk.getPhoneNumber(), userdk.getEmail(), userdk.getAddress(), tour.getStartTime());
 
-        BookingDAO bkd = new BookingDAO();
-        int idbk = BookingDAO.insertBooking(user.getId(),tour.getId(),quatity,quatitycc,userdk.getUserName(),userdk.getPhoneNumber(), userdk.getEmail(),userdk.getAddress(),tour.getStartTime());
+            BillDAO billDao = new BillDAO();
+            int idb = BillDAO.insertBill(idbk, payment, 100000.0, "Chờ Xác nhận");
 
-        BillDAO billDao = new BillDAO();
-        int idb = BillDAO.insertBill(idbk, payment, 100000.0, "Chờ Xác nhận");
-
-        CustomerDAO ctm = new CustomerDAO();
-        ctm.insertListCustomer(dscus,idb);
-
+            CustomerDAO ctm = new CustomerDAO();
+            ctm.insertListCustomer(dscus, idb);
+        }
         request.getRequestDispatcher("bill.jsp").forward(request,response);
     }
 }

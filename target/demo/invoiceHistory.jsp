@@ -142,7 +142,7 @@
                                         <%--Chờ xác nhận--%>
                                         <div class="choxacnhan" >
                                         <%for (Bill bill : choxacnhan) { %>
-                                        <form action="BillController" method="post">
+                                        <form action="BillController" method="post" id="<%=bill.getId()%>">
                                             <div class="item mb-4" class="pills-all-tab" name="itemOrder"
                                                  style="box-sizing: border-box; margin-bottom: 1.5rem;">
                                                 <h4 class="fw-bolder"
@@ -311,7 +311,7 @@
 
                                                                     <button type="submit">Xem chi tiết</button>
                                                                     <%if(bill.getStatus().equalsIgnoreCase("Chờ xác nhận")){%>
-                                                                    <button type="submit">Hủy đơn</button>
+                                                                    <div onclick="destroybill(<%=bill.getId()%>)">Hủy đơn</div>
                                                                     <%}%>
                                                                 </div>
                                                             </div>
@@ -815,6 +815,14 @@
         document.getElementById(idclick).classList.add('backgroudhover');
         document.getElementById(idclick).classList.remove('hover');
         document.querySelector('.'+idclick).classList.remove('none');
+
+
+    }
+
+
+    function destroybill(id) {
+        var idclick = document.getElementById(id);
+        alert(idclick)
     }
 </script>
 
