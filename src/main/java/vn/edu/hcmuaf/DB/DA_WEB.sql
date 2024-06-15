@@ -680,9 +680,9 @@ INSERT INTO `options` (`departDate`, `serviceId`, `valiId`) VALUES
 
 -- Thêm dữ liệu cho bảng `bills`
 INSERT INTO `bills` (`bookingId`, `paymentMethod`, `totalPrice`, `status`) VALUES
-    (1, 'Thanh toán khi nhận hàng', 500000, 'Chưa thanh toán'),
-    (2, 'Chuyển khoản ngân hàng', 750000, 'Đã thanh toán'),
-    (3, 'Thanh toán khi nhận hàng', 1000000, 'Đã thanh toán');
+    (1, 'Thanh toán khi nhận hàng', 500000, 'Chờ xác nhận'),
+    (2, 'Chuyển khoản ngân hàng', 750000, 'Đã xác nhận'),
+    (3, 'Thanh toán khi nhận hàng', 1000000, 'Đã hủy');
 
 -- Thêm dữ liệu cho bảng `customer`
 INSERT INTO `customer` (`name`, `male`, `dateOfBirth`, `billId`) VALUES

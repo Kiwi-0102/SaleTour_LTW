@@ -76,7 +76,7 @@ public class InforUser extends HttpServlet {
             if (kq) {
                 System.out.println("kq" + kq);
                 logs.insert(new Log(Log.INFO, Nation(request),user.getId(), getPublicIP(), "Xác nhận thay đổi thông tin khách hàng ", createdAt,
-                        "=6hjghgd5VFdwg","Tên: "+name+"\n"+"Phone: "+phone+"\n"+"Địa chỉ: "+address+"\n", 0));
+                        ""+user,"Tên: "+name+"\n"+",Phone: "+phone+"\n"+",Địa chỉ: "+address+"\n", 0));
                 request.setAttribute("status", "Thay đổi thông tin thành công");
                 request.getRequestDispatcher("infor.jsp").forward(request,response);
             } else {

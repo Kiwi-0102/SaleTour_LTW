@@ -84,7 +84,10 @@
         window.location.href = "infor.jsp";
     });
     document.getElementById("bill").addEventListener("click", function () {
-        window.location.href = "bill.jsp";
+        window.location.href = "${pageContext.request.contextPath}/ListBill";
+    });
+    document.getElementById("admin").addEventListener("click", function () {
+        window.location.href="${pageContext.request.contextPath}/admin/admin.jsp";
     });
 </script>
 

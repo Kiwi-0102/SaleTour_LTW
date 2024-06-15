@@ -26,6 +26,7 @@ import static vn.edu.hcmuaf.serice.getNation.Nation;
 public class RemoveLog extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 
     @Override

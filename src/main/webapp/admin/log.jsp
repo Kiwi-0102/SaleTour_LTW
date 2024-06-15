@@ -7,8 +7,6 @@
     <title>Quản lí khách hàng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <link rel="shortcut icon" type="image/icon" href="../assets/logo/favicon.png"/>
     <link rel="stylesheet" href="css/bootstrap.min.css" >
     <link rel="stylesheet" href="css/admin.css">
@@ -54,7 +52,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="manager-product">
             <div class="title" style="font-size: 30px">Danh Sách Log</div>
             <hr>
-            <a href="StatisticalLog">Thống kê tài khoản không nằm trong hệ thống</a>
+<%--            <a href="StatisticalLog">Thống kê tài khoản không nằm trong hệ thống</a>--%>
             <br>
             <a href="${pageContext.request.contextPath}/admin/LoginFailedLog?action=LoginFailedLog">Thống kê tài khoản đăng nhập</a>
             <div class="row">
@@ -102,20 +100,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <%}%>
                         </tbody>
                     </table>
-                    <a href="RemoveAllLogAdmin">Xóa tất cả log</a>
+                    <button id="xoaAllLog">Xóa tất cả log</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<%--<script src="bootstrap/js/jquery.min.js"></script>--%>
-<%--<script src="${pageContext.request.contextPath}/AdminWeb/js/jquery.dataTables.js"></script>--%>
-<%--<script type="text/javascript" charset="utf8" src="bootstrap/js/bootstrap.bundle.min.js"></script>--%>
-<%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>--%>
-<%--<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>--%>
 <script>
     $(document).ready(function () {
-        $('#table1').DataTable();
+        $('#table1').DataTable({
+            "pageLength": 50
+        });
+
+        // Thêm sự kiện click cho nút "Xóa tất cả log"
+        $('#xoaAllLog').click(function() {
+            $('.checkdelete').prop('checked', true);
+            countChecked();
+        });
     });
 
     function remove(id) {
@@ -171,9 +172,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 }
             })
 
-        .catch(err =>{
-            console.log(err)
-        });
+            .catch(err =>{
+                console.log(err)
+            });
     }
 </script>
 </body>

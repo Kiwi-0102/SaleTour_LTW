@@ -23,9 +23,9 @@ public class TourDao {
 
     public static List<Tour> findAll() {
         List<Tour> tours = new ArrayList<>();
+        Connection connection = ConnectToDatabase.getConnect();
         try {
             String sql = "Select * from tours";
-            connection = ConnectToDatabase.getConnect();
             rs = ConnectToDatabase.executeQuery(sql);
             preparedStatement = connection.prepareStatement(sql);
             while (rs.next()) {
@@ -54,7 +54,7 @@ public class TourDao {
 
     public static void Updatequatity(int quatity,int id){
         Tour tour = null;
-        connection = ConnectToDatabase.getConnect();
+        Connection connection = ConnectToDatabase.getConnect();
         String sql ="UPDATE tours SET quantity = ? where id = ?";
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -70,7 +70,7 @@ public class TourDao {
 
     public static Tour findtourbyid(int id) {
         Tour tour = null;
-        connection = ConnectToDatabase.getConnect();
+        Connection connection = ConnectToDatabase.getConnect();
         try {
             String sql = "SELECT * FROM tours where id =?";
             preparedStatement = connection.prepareStatement(sql);
@@ -140,7 +140,7 @@ public class TourDao {
     }
     public Tour findtourbyID(int id) {
         Tour tour = null;
-        connection = ConnectToDatabase.getConnect();
+        Connection connection = ConnectToDatabase.getConnect();
         try {
             String sql = "SELECT * FROM tours where id =?";
             preparedStatement = connection.prepareStatement(sql);
@@ -180,10 +180,10 @@ public class TourDao {
 
     public static List<valies> getValiTour(ArrayList<valies> valiList) {
         List<valies> product = new ArrayList<>();
+        Connection connection = ConnectToDatabase.getConnect();
         try {
             if (valiList.size() > 0) {
                 for (valies vl : valiList) {
-                    connection = ConnectToDatabase.getConnect();
                     String sql = "SELECT * FROM tours where id =?";
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setInt(1, vl.getId());
@@ -215,8 +215,8 @@ public class TourDao {
 
     public valies findvalibyid(int id) throws SQLException {
         valies row = null;
+        Connection connection = ConnectToDatabase.getConnect();
         try {
-            connection = ConnectToDatabase.getConnect();
             String sql = "SELECT * FROM valies where id =?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
@@ -236,14 +236,10 @@ public class TourDao {
         return row;
     }
 
-    public int numAldul (int num){
-        return num;
-    }
-
     public static void insertVali(ArrayList<valies> valiList) {
+        Connection connection = ConnectToDatabase.getConnect();
         try {
             for (valies vl : valiList) {
-                connection = ConnectToDatabase.getConnect();
                 String sql = "INSERT INTO vali (userId, tourId, numChildren, numAdult) VALUES (?, ?, ?, ?)";
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1, vl.getUserId());
@@ -262,11 +258,11 @@ public class TourDao {
 
     public int getTotalCartPrice(ArrayList<valies> valiList) {
         int sum = 0;
+        Connection connection = ConnectToDatabase.getConnect();
         double cout = 0.6;
         try {
             if (valiList.size() > 0) {
                 for (valies vl : valiList) {
-                    connection = ConnectToDatabase.getConnect();
                     String sql = "SELECT * FROM tours where id =?";
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setInt(1, vl.getId());
@@ -324,7 +320,7 @@ public class TourDao {
     }
 
     public void savePaymentInfo(int id, String date, String selectedIds) {
-        connection = ConnectToDatabase.getConnect();
+        Connection connection = ConnectToDatabase.getConnect();
         String sql = "INSERT INTO options (departDate, serviceId, valiId) VALUES (?, ?, ?)";
         try {
             // Kết nối đến cơ sở dữ liệu
@@ -589,7 +585,7 @@ public class TourDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            closeResources(connection, preparedStatement, rs);
+            closeResources(connect, preparedStatement, rs);
         }
         return total;
     }
