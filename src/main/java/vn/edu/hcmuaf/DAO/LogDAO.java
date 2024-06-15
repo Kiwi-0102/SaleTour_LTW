@@ -192,7 +192,6 @@ public class LogDAO {
     public static ArrayList<Log> getstatustLogin(String status){
         ArrayList<Log> logs = new ArrayList<>();
 
-//        String sql = "SELECT * FROM logs where SELECT * FROM logs WHERE LOWER(content) LIKE '%login%'";
         connect = ConnectToDatabase.getConnect();
         try {
             pst = connect.prepareStatement("SELECT * FROM logs WHERE LOWER(content) LIKE ?");
@@ -225,13 +224,7 @@ public class LogDAO {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test", "abc123", "dfe456", timestamp, 1);
         LogDAO logDAO = new LogDAO();
-//        Log rowsAffected = logDAO.getLogbyId(147);
         System.out.println(logDAO.getstatustLogin("Login không thành công"));
-//        List<Integer> logList = new ArrayList<>();
-//        logList.add(18);
-//        logList.add(19);
-//        System.out.println(logDAO.deleteLogsByIds(logList));
-//        System.out.println(logDAO.getLogbyId(30));
     }
 
 

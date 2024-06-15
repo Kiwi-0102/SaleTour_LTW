@@ -23,9 +23,9 @@ public class LoginFailedLog extends HttpServlet {
             int day = Integer.parseInt(request.getParameter("day"));
             ArrayList<Log> listLog = LogDAO.getLogbyday(day);
             request.setAttribute("listLog",listLog);
-        } else if (action.equals("checkLogin")) {
+        } else if (action.equalsIgnoreCase("checkLogin")) {
             String checkLogin = request.getParameter("login");
-            if(checkLogin.equals("true")){
+            if(checkLogin.equalsIgnoreCase("true")){
                 ArrayList<Log> listLog = LogDAO.getstatustLogin("Login thành công");
                 request.setAttribute("listLog",listLog);
             }else{

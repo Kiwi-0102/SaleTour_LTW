@@ -65,7 +65,7 @@ public class BillController extends HttpServlet {
         int idbk = BookingDAO.insertBooking(user.getId(),tour.getId(),quatity,quatitycc,userdk.getUserName(),userdk.getPhoneNumber(), userdk.getEmail(),userdk.getAddress(),tour.getStartTime());
 
         BillDAO billDao = new BillDAO();
-        int idb = BillDAO.insertBill(idbk, payment, 100000.0, "Chưa thanh toán");
+        int idb = BillDAO.insertBill(idbk, payment, 100000.0, "Chờ Xác nhận");
 
         CustomerDAO ctm = new CustomerDAO();
         ctm.insertListCustomer(dscus,idb);

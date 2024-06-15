@@ -115,7 +115,7 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + "password" + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", address='" + address + '\'' +
                 ", roleId=" + roleId +

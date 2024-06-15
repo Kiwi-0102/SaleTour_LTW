@@ -54,7 +54,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="manager-product">
             <div class="title" style="font-size: 30px">Log đăng nhập</div>
             <hr>
-            <a href="StatisticalLog">Thống kê tài khoản không nằm trong hệ thống</a>
+<%--            <a href="StatisticalLog">Thống kê tài khoản không nằm trong hệ thống</a>--%>
             <br>
             <a href="${pageContext.request.contextPath}/admin/manageLogs">Tất cả log</a>
             <div class="row">
@@ -138,27 +138,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 window.location.href = '${pageContext.request.contextPath}/admin/LoginFailedLog?action=checkday&day=30';
                 break;
             case '5':
-                window.location.href = '${pageContext.request.contextPath}/admin/LoginFailedLog?action=checkLogin?&login=false';
+                window.location.href = '${pageContext.request.contextPath}/admin/LoginFailedLog?action=checkLogin&login=false';
                 break;
             case '6':
-                window.location.href = '${pageContext.request.contextPath}/admin/LoginFailedLog?action=checkLogin?&login=true';
+                window.location.href = '${pageContext.request.contextPath}/admin/LoginFailedLog?action=checkLogin&login=true';
                 break;
             default:
                 break;
         }
-    }
-    function remove(id) {
-        $.ajax({
-                url: "RemoveLogAdmin",
-                type: "get",
-                data: {
-                    idU: id
-                },
-                success: function () {
-                    $("tr").remove("#" + id)
-                }
-            }
-        )
     }
 
     function countChecked() {
