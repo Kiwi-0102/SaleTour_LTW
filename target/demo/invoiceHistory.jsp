@@ -1,12 +1,9 @@
-<%@ page import="vn.edu.hcmuaf.bean.User" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="vn.edu.hcmuaf.bean.Bill" %>
 <%@ page import="vn.edu.hcmuaf.DAO.BillDAO" %>
 <%@ page import="vn.edu.hcmuaf.DAO.BookingDAO" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
-<%@ page import="vn.edu.hcmuaf.bean.Customer" %>
 <%@ page import="vn.edu.hcmuaf.DAO.CustomerDAO" %>
-<%@ page import="vn.edu.hcmuaf.bean.Booking" %><%--
+<%@ page import="vn.edu.hcmuaf.bean.*" %><%--
   Created by IntelliJ IDEA.
   User: HP
   Date: 5/1/2024
@@ -311,7 +308,7 @@
 
                                                                     <button type="submit">Xem chi tiết</button>
                                                                     <%if(bill.getStatus().equalsIgnoreCase("Chờ xác nhận")){%>
-                                                                    <div onclick="destroybill(<%=bill.getId()%>)">Hủy đơn</div>
+                                                                    <button id="huydon<%=bill.getId()%>" onclick="destroybill(<%=bill.getId()%>)">Hủy đơn</button>
                                                                     <%}%>
                                                                 </div>
                                                             </div>
@@ -798,8 +795,6 @@
 
 <script>
     const show = idclick => {
-        console.log(idclick);
-
         // Xóa lớp 'backgroudhover' của tất cả các <li>
         document.getElementById('choxacnhan').classList.remove('backgroudhover');
         document.getElementById('daxacnhan').classList.remove('backgroudhover');
@@ -815,15 +810,49 @@
         document.getElementById(idclick).classList.add('backgroudhover');
         document.getElementById(idclick).classList.remove('hover');
         document.querySelector('.'+idclick).classList.remove('none');
-
-
     }
-
 
     function destroybill(id) {
-        var idclick = document.getElementById(id);
-        alert(idclick)
+        event.preventDefault();
+
+        var data = new URLSearchParams();
+        data.append('id', id);
+        data.append('status', '<%=Const.DAHUY%>');
+        data.append('action', 'huybill');
+
+        fetch("ListBill", {
+            method: 'POST',
+            body: data
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Sửa thành công');
+
+                    // Lấy thẻ form có id tương ứng
+                    const form = document.getElementById(id);
+
+                    // Tìm thẻ với class dahuy để di chuyển form vào
+                    const dahuyContainer = document.querySelector('.dahuy');
+
+                    const bnthuy = document.getElementById('huydon'+id);
+                    // Thêm form vào dahuyContainer
+                    if (form && dahuyContainer) {
+                        dahuyContainer.appendChild(form);
+
+                        bnthuy.style.display = 'none';
+                        // Xóa thẻ form từ dangcho
+                        // form.remove();
+                    }
+                } else {
+                    console.log('Có lỗi xảy ra');
+                }
+            })
+            .catch(err => {
+                console.log('Lỗi: ' + err);
+            });
     }
+
+
 </script>
 
 </body>

@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.Controller;
 
 import vn.edu.hcmuaf.DAO.BillDAO;
 import vn.edu.hcmuaf.bean.Bill;
+import vn.edu.hcmuaf.bean.Const;
 import vn.edu.hcmuaf.bean.User;
 
 import javax.servlet.ServletException;
@@ -25,13 +26,13 @@ public class ListBill extends HttpServlet {
         ArrayList<Bill> dahuy = new ArrayList<>();
         ArrayList<Bill> daxong = new ArrayList<>();
         for (Bill bill : listBill) {
-            if (bill.getStatus().equalsIgnoreCase("Đã xác nhận")){
+            if (bill.getStatus().equalsIgnoreCase(Const.DAXACNHAN)){
                 daxacnhan.add(bill);
-            } else if (bill.getStatus().equalsIgnoreCase("Chờ xác nhận")) {
+            } else if (bill.getStatus().equalsIgnoreCase(Const.CHOXACNHAN)) {
                 choxacnhan.add(bill);
-            } else if (bill.getStatus().equalsIgnoreCase("Đã Xong")) {
+            } else if (bill.getStatus().equalsIgnoreCase(Const.DAHUY)) {
                 dahuy.add(bill);
-            } else if (bill.getStatus().equalsIgnoreCase("Đã hủy")) {
+            } else if (bill.getStatus().equalsIgnoreCase(Const.DAXONG)) {
                 daxong.add(bill);
             }
         }
@@ -46,6 +47,16 @@ public class ListBill extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String action = request.getParameter("action");
+        if(action == null){
+            System.out.println("Khong thuc hien duoc gi!");
+        }else if(action.equalsIgnoreCase("huybill")){
+            int id = Integer.parseInt(request.getParameter("id"));
+            String status = request.getParameter("status");
+            BillDAO billDAO = new BillDAO();
+            billDAO.updateStatusBill(id,status);
+//            System.out.println("đã hủy bill "+id+"status "+status);
+        }
+//        request.getRequestDispatcher("invoiceHistory.jsp").forward(request,response);
     }
 }
