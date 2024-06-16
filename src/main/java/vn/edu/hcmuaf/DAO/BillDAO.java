@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.DAO;
 
 import vn.edu.hcmuaf.DB.ConnectToDatabase;
 import vn.edu.hcmuaf.bean.Bill;
+import vn.edu.hcmuaf.bean.Const;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -155,7 +156,8 @@ public class BillDAO {
             closeResources(connection, preparedStatement, rs);
         }
     }
+
     public static void main(String[] args) {
-        new BillDAO().updateStatusBill(2,"đã đã hủy hủy");
+        new BillDAO().updateStatusBill(2, Const.DAHUY);
     }
 }
