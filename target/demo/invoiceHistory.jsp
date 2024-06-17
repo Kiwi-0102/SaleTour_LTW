@@ -3,7 +3,8 @@
 <%@ page import="vn.edu.hcmuaf.DAO.BookingDAO" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
 <%@ page import="vn.edu.hcmuaf.DAO.CustomerDAO" %>
-<%@ page import="vn.edu.hcmuaf.bean.*" %><%--
+<%@ page import="vn.edu.hcmuaf.bean.*" %>
+<%@ page import="vn.edu.hcmuaf.serice.Const" %><%--
   Created by IntelliJ IDEA.
   User: HP
   Date: 5/1/2024

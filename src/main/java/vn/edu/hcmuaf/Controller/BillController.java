@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.DAO.TourDao;
 import vn.edu.hcmuaf.bean.Customer;
 import vn.edu.hcmuaf.bean.Tour;
 import vn.edu.hcmuaf.bean.User;
+import vn.edu.hcmuaf.serice.Const;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -33,26 +34,8 @@ public class BillController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=utf-8");
         HttpSession session = request.getSession();
-        String date = request.getParameter("date");
-        String id = request.getParameter("tour");
-        String payment = request.getParameter("pay");
-
-        TourDao tourDao = new TourDao();
-        request.setAttribute("date",date);
-        Tour tour = tourDao.findtourbyid(Integer.parseInt(id));
-        request.setAttribute("tour", tour);
-        request.setAttribute("pay", payment);
-
-        User userdk = (User) session.getAttribute("userdk");
-        ArrayList<Customer> dscus = (ArrayList<Customer>) session.getAttribute("dskh");
-        Integer quantity = (Integer) session.getAttribute("quatity");
-        int quatity = (quantity != null) ? quantity.intValue() : 1;
-        session.setAttribute("quatity",quatity);
-
-        Integer quantitycc = (Integer) session.getAttribute("quatitycc");
-        int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 1;
-        User user = (User) session.getAttribute("user");
         String action = request.getParameter("action");
+
 //        System.out.println("paypay");
 //        System.out.println("userdk"+userdk);
 //        System.out.println("userht"+user);
@@ -63,12 +46,34 @@ public class BillController extends HttpServlet {
 //        String sql = "INSERT INTO booking (userId, date, tourId, numChildren, numAdult, name, phone,email, address) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?)";
         if(action == null){
             System.out.println("view bill");
+            String date = request.getParameter("date");
+            String id = request.getParameter("tour");
+            String payment = request.getParameter("pay");
         } else if (action.equalsIgnoreCase("booking")) {
+            String date = request.getParameter("date");
+            String id = request.getParameter("tour");
+            String payment = request.getParameter("pay");
+
+            TourDao tourDao = new TourDao();
+            request.setAttribute("date",date);
+            Tour tour = tourDao.findtourbyid(Integer.parseInt(id));
+            request.setAttribute("tour", tour);
+            request.setAttribute("pay", payment);
+
+            User userdk = (User) session.getAttribute("userdk");
+            ArrayList<Customer> dscus = (ArrayList<Customer>) session.getAttribute("dskh");
+            Integer quantity = (Integer) session.getAttribute("quatity");
+            int quatity = (quantity != null) ? quantity.intValue() : 1;
+            session.setAttribute("quatity",quatity);
+
+            Integer quantitycc = (Integer) session.getAttribute("quatitycc");
+            int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 1;
+            User user = (User) session.getAttribute("user");
             BookingDAO bkd = new BookingDAO();
             int idbk = BookingDAO.insertBooking(user.getId(), tour.getId(), quatity, quatitycc, userdk.getUserName(), userdk.getPhoneNumber(), userdk.getEmail(), userdk.getAddress(), tour.getStartTime());
 
             BillDAO billDao = new BillDAO();
-            int idb = BillDAO.insertBill(idbk, payment, 100000.0, "Chờ Xác nhận");
+            int idb = BillDAO.insertBill(idbk, payment, 100000.0, Const.CHOXACNHAN);
 
             CustomerDAO ctm = new CustomerDAO();
             ctm.insertListCustomer(dscus, idb);

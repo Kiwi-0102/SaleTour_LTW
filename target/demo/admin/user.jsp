@@ -248,11 +248,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         })
 
             .then(response =>{
-                console.log('nd:', typeof(response));
                 if(response.ok){
                     var table = $('#table1').DataTable();
                     var row = table.row('#' + id);
                     row.remove().draw();
+                    return response.text();
+
                 }else{
                     console.log('josn: ',response.json())
                     console.log('Lỗi không thể xóa user'+id)

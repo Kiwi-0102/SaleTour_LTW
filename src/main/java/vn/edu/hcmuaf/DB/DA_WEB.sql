@@ -669,9 +669,9 @@ INSERT INTO `valies` (`userId`, `tourId`, `numChildren`, `numAdult`) VALUES
 
 -- Thêm dữ liệu cho bảng `Booking`
 INSERT INTO `booking` (`userId`, `dateBooking`, `tourId`, `numChildren`, `numAdult`, `name`, `phone`,`email`, `address`,`dateStart`) VALUES
-    (1, '2024-07-01', 1, 2, 3, 'Nguyễn Văn A', '123456789','123@gmail.com', '123 Đường ABC, Quận XYZ','25-03-2024'),
+    (2, '2024-07-01', 1, 2, 3, 'Nguyễn Văn A', '123456789','123@gmail.com', '123 Đường ABC, Quận XYZ','25-03-2024'),
     (2, '2024-07-02', 2, 1, 2, 'Trần Thị B', '987654321','123@gmail.com', '456 Đường XYZ, Quận ABC','23-10-2024'),
-    (3, '2024-07-03', 3, 2, 2, 'Phạm Văn C', '456123789','123@gmail.com', '789 Đường XYZ, Quận ABC','17-04-2024');
+    (2, '2024-07-03', 3, 2, 2, 'Phạm Văn C', '456123789','123@gmail.com', '789 Đường XYZ, Quận ABC','17-04-2024');
 -- Chèn dữ liệu vào bảng `options`
 INSERT INTO `options` (`departDate`, `serviceId`, `valiId`) VALUES
     ('2024-04-01', 1, 1),

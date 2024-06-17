@@ -2,7 +2,7 @@ package vn.edu.hcmuaf.Controller;
 
 import vn.edu.hcmuaf.DAO.BillDAO;
 import vn.edu.hcmuaf.bean.Bill;
-import vn.edu.hcmuaf.bean.Const;
+import vn.edu.hcmuaf.serice.Const;
 import vn.edu.hcmuaf.bean.User;
 
 import javax.servlet.ServletException;
