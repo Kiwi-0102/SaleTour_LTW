@@ -3,7 +3,8 @@
 <%@ page import="vn.edu.hcmuaf.DAO.BookingDAO" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
 <%@ page import="vn.edu.hcmuaf.DAO.CustomerDAO" %>
-<%@ page import="vn.edu.hcmuaf.bean.*" %><%--
+<%@ page import="vn.edu.hcmuaf.bean.*" %>
+<%@ page import="vn.edu.hcmuaf.serice.Const" %><%--
   Created by IntelliJ IDEA.
   User: HP
   Date: 5/1/2024
@@ -57,7 +58,7 @@
                             <div class="info d-flex align-items-center mb-md-3">
                                 <div class="image me-3">
                                     <a class="" href="/profile/info"><img class="rounded-circle"
-                                                                          src="https://lh3.googleusercontent.com/a/ACg8ocIFd6kbpE_YrzyEVricdw7xUwQPhmFLxu84QFXXdSBPdaeDTA=s96-c"
+                                                                          src=""
                                                                           alt=""/></a>
                                 </div>
                                 <div class="info-wrapper">
@@ -139,7 +140,7 @@
                                         <%--Chờ xác nhận--%>
                                         <div class="choxacnhan" >
                                         <%for (Bill bill : choxacnhan) { %>
-                                        <form action="BillController" method="post" id="<%=bill.getId()%>">
+                                        <form action="DetailBill" method="post" id="<%=bill.getId()%>">
                                             <div class="item mb-4" class="pills-all-tab" name="itemOrder"
                                                  style="box-sizing: border-box; margin-bottom: 1.5rem;">
                                                 <h4 class="fw-bolder"
@@ -150,27 +151,9 @@
                                                     đặt <%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>
                                                 </p>
 
-                                                <input name="date"
-                                                       value="<%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>"
-                                                       style="display: none">
-                                                <input name="tour"
-                                                       value="<%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId()%>"
-                                                       style="display: none">
-                                                <input name="pay" value="<%=bill.getPaymentMethod()%>"
+                                                <input name="billid" value="<%=bill.getId()%>"
                                                        style="display: none">
 
-                                                <%
-                                                    HttpSession session1 = request.getSession();
-                                                    ArrayList<Customer> lctm = CustomerDAO.getCustomerBybillid(bill.getId());
-                                                    Booking bkd = BookingDAO.getBookingbyId(bill.getBookingId());
-                                                    User usdk = new User(bkd.getName(), bkd.getPhone(), bkd.getEmail(), bkd.getAddress());
-
-                                                    session1.setAttribute("userdk", usdk);
-                                                    session1.setAttribute("dskh", lctm);
-                                                    session.setAttribute("quatity", bkd.getNumAdult());
-                                                    session.setAttribute("quatitycc", bkd.getNumChildren());
-
-                                                %>
 
                                                 <div
                                                         class="card mb-3 p-md-3"
@@ -307,7 +290,7 @@
                                                                     </h5>
 
                                                                     <button type="submit">Xem chi tiết</button>
-                                                                    <%if(bill.getStatus().equalsIgnoreCase("Chờ xác nhận")){%>
+                                                                    <%if(bill.getStatus().equalsIgnoreCase(Const.CHOXACNHAN)){%>
                                                                     <button id="huydon<%=bill.getId()%>" onclick="destroybill(<%=bill.getId()%>)">Hủy đơn</button>
                                                                     <%}%>
                                                                 </div>
@@ -324,7 +307,7 @@
                                         <%--Đã xác nhận--%>
                                             <div class="daxacnhan none">
                                                 <%for (Bill bill : daxacnhan) { %>
-                                                <form action="BillController" method="post">
+                                                <form action="DetailBill" method="post">
                                                     <div class="item mb-4" class="pills-all-tab" name="itemOrder"
                                                          style="box-sizing: border-box; margin-bottom: 1.5rem;">
                                                         <h4 class="fw-bolder"
@@ -335,27 +318,9 @@
                                                             đặt <%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>
                                                         </p>
 
-                                                        <input name="date"
-                                                               value="<%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>"
-                                                               style="display: none">
-                                                        <input name="tour"
-                                                               value="<%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId()%>"
-                                                               style="display: none">
-                                                        <input name="pay" value="<%=bill.getPaymentMethod()%>"
+                                                        <input name="billid" value="<%=bill.getId()%>"
                                                                style="display: none">
 
-                                                        <%
-                                                            HttpSession session1 = request.getSession();
-                                                            ArrayList<Customer> lctm = CustomerDAO.getCustomerBybillid(bill.getId());
-                                                            Booking bkd = BookingDAO.getBookingbyId(bill.getBookingId());
-                                                            User usdk = new User(bkd.getName(), bkd.getPhone(), bkd.getEmail(), bkd.getAddress());
-
-                                                            session1.setAttribute("userdk", usdk);
-                                                            session1.setAttribute("dskh", lctm);
-                                                            session.setAttribute("quatity", bkd.getNumAdult());
-                                                            session.setAttribute("quatitycc", bkd.getNumChildren());
-
-                                                        %>
 
                                                         <div
                                                                 class="card mb-3 p-md-3"
@@ -492,7 +457,7 @@
                                                                             </h5>
 
                                                                             <button type="submit">Xem chi tiết</button>
-                                                                            <%if(bill.getStatus().equalsIgnoreCase("Chờ xác nhận")){%>
+                                                                            <%if(bill.getStatus().equalsIgnoreCase(Const.CHOXACNHAN)){%>
                                                                             <button type="submit">Hủy đơn</button>
                                                                             <%}%>
                                                                         </div>
@@ -509,28 +474,14 @@
                                             <%--Đã hủy--%>
                                             <div class="dahuy none">
                                                 <% for (Bill bill : dahuy) { %>
-                                                <form action="BillController" method="post">
-                                                    <div class="item mb-4" class="pills-all-tab" name="itemOrder" style="box-sizing: border-box; margin-bottom: 1.5rem;">
+                                                <form action="DetailBill" method="post">
+                                                    <div class="item mb-4 pills-all-tab" name="itemOrder" style="box-sizing: border-box; margin-bottom: 1.5rem;">
                                                         <h4 class="fw-bolder" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: calc(1.275rem + 0.3vw); font-weight: 900;"></h4>
                                                         <p class="text-muted" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; color: rgb(108, 117, 125);">
                                                             Ngày đặt <%= BookingDAO.getBookingbyId(bill.getBookingId()).getDate() %>
                                                         </p>
 
-                                                        <input name="date" value="<%= BookingDAO.getBookingbyId(bill.getBookingId()).getDate() %>" style="display: none">
-                                                        <input name="tour" value="<%= TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId() %>" style="display: none">
-                                                        <input name="pay" value="<%= bill.getPaymentMethod() %>" style="display: none">
-
-                                                        <%
-                                                            HttpSession session1 = request.getSession();
-                                                            ArrayList<Customer> lctm = CustomerDAO.getCustomerBybillid(bill.getId());
-                                                            Booking bkd = BookingDAO.getBookingbyId(bill.getBookingId());
-                                                            User usdk = new User(bkd.getName(), bkd.getPhone(), bkd.getEmail(), bkd.getAddress());
-
-                                                            session1.setAttribute("userdk", usdk);
-                                                            session1.setAttribute("dskh", lctm);
-                                                            session.setAttribute("quatity", bkd.getNumAdult());
-                                                            session.setAttribute("quatitycc", bkd.getNumChildren());
-                                                        %>
+                                                        <input name="billid" value="<%= bill.getId() %>" style="display: none">
 
                                                         <div class="card mb-3 p-md-3" style="position: relative; display: flex; flex-direction: column; min-width: 0px; overflow-wrap: break-word; background: rgb(255, 255, 255); border: 0.5px solid rgb(213, 213, 213); border-radius: 10px; box-sizing: border-box; margin-bottom: 1rem; padding: 1rem;">
                                                             <div class="row g-0" style="box-sizing: border-box; display: flex; flex-wrap: wrap;">
@@ -571,7 +522,7 @@
                                                                             <h5 class="text-primary fw-bold" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);"><%= bill.getToltalPrice() %>₫</h5>
 
                                                                             <button type="submit">Xem chi tiết</button>
-                                                                            <% if (bill.getStatus().equalsIgnoreCase("Chờ xác nhận")) { %>
+                                                                            <% if (bill.getStatus().equalsIgnoreCase(Const.CHOXACNHAN)) { %>
                                                                             <button type="submit">Hủy đơn</button>
                                                                             <% } %>
                                                                         </div>
@@ -585,181 +536,60 @@
                                             </div>
                                             <%--end Đã hủy--%>
 
-
-                                        <%--Đã xong--%>
+                                            <%--Đã xong--%>
                                             <div class="daxong none">
-                                                <%for (Bill bill : daxong) { %>
-                                                <form action="BillController" method="post">
-                                                    <div class="item mb-4" class="pills-all-tab" name="itemOrder"
-                                                         style="box-sizing: border-box; margin-bottom: 1.5rem;">
-                                                        <h4 class="fw-bolder"
-                                                            style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: calc(1.275rem + 0.3vw); font-weight: 900;"></h4>
-                                                        <p class="text-muted"
-                                                           style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; color: rgb(108, 117, 125);">
-                                                            Ngày
-                                                            đặt <%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>
+                                                <% for (Bill bill : daxong) { %>
+                                                <form action="DetailBill" method="post">
+                                                    <div class="item mb-4 pills-all-tab" name="itemOrder" style="box-sizing: border-box; margin-bottom: 1.5rem;">
+                                                        <h4 class="fw-bolder" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: calc(1.275rem + 0.3vw); font-weight: 900;"></h4>
+                                                        <p class="text-muted" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; color: rgb(108, 117, 125);">
+                                                            Ngày đặt <%= BookingDAO.getBookingbyId(bill.getBookingId()).getDate() %>
                                                         </p>
 
-                                                        <input name="date"
-                                                               value="<%=BookingDAO.getBookingbyId(bill.getBookingId()).getDate()%>"
-                                                               style="display: none">
-                                                        <input name="tour"
-                                                               value="<%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId()%>"
-                                                               style="display: none">
-                                                        <input name="pay" value="<%=bill.getPaymentMethod()%>"
-                                                               style="display: none">
+                                                        <input name="billid" value="<%= bill.getId() %>" style="display: none">
 
-                                                        <%
-                                                            HttpSession session1 = request.getSession();
-                                                            ArrayList<Customer> lctm = CustomerDAO.getCustomerBybillid(bill.getId());
-                                                            Booking bkd = BookingDAO.getBookingbyId(bill.getBookingId());
-                                                            User usdk = new User(bkd.getName(), bkd.getPhone(), bkd.getEmail(), bkd.getAddress());
-
-                                                            session1.setAttribute("userdk", usdk);
-                                                            session1.setAttribute("dskh", lctm);
-                                                            session.setAttribute("quatity", bkd.getNumAdult());
-                                                            session.setAttribute("quatitycc", bkd.getNumChildren());
-
-                                                        %>
-
-                                                        <div
-                                                                class="card mb-3 p-md-3"
-                                                                style="
-                                                            position: relative;
-                                                            display: flex;
-                                                            flex-direction: column;
-                                                            min-width: 0px;
-                                                            overflow-wrap: break-word;
-                                                            background: rgb(255, 255, 255);
-                                                            border: 0.5px solid rgb(213, 213, 213);
-                                                            border-radius: 10px;
-                                                            box-sizing: border-box;
-                                                            margin-bottom: 1rem;
-                                                            padding: 1rem;
-                                                        "
-                                                        >
-                                                            <div class="row g-0"
-                                                                 style="box-sizing: border-box; display: flex; flex-wrap: wrap;">
-                                                                <div class="col-md-3 col-12"
-                                                                     style="box-sizing: border-box; max-width: 100%; margin-top: 0px; flex: 0 0 auto; -webkit-box-flex: 0; width: 25%;">
-                                                                    <div class="image"
-                                                                         style="box-sizing: border-box; overflow: hidden; position: relative; padding-top: 68%;">
-                                                                        <a
-                                                                                href="index.jsp"
-                                                                                target="_blank"
-                                                                                style="box-sizing: border-box; background-color: transparent; text-decoration: none; color: rgb(45, 66, 113);"
-                                                                        >
-                                                                            <img
-                                                                            <%--                                                                        <%=BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()%>--%>
-                                                                                    src="assets/images/item/<%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getImage()%>"
-                                                                                    style="
-                                                                                box-sizing: border-box;
-                                                                                border-style: none;
-                                                                                vertical-align: middle;
-                                                                                max-width: 100%;
-                                                                                border-radius: 10px;
-                                                                                transition: transform 200ms ease 0s, -webkit-transform 200ms ease 0s;
-                                                                                height: 100%;
-                                                                                width: 100%;
-                                                                                transform: translate(-50%, -50%);
-                                                                                position: absolute;
-                                                                                top: 50%;
-                                                                                left: 50%;
-                                                                                right: unset;
-                                                                                bottom: unset;
-                                                                                object-fit: cover;
-                                                                            "
-                                                                            />
+                                                        <div class="card mb-3 p-md-3" style="position: relative; display: flex; flex-direction: column; min-width: 0px; overflow-wrap: break-word; background: rgb(255, 255, 255); border: 0.5px solid rgb(213, 213, 213); border-radius: 10px; box-sizing: border-box; margin-bottom: 1rem; padding: 1rem;">
+                                                            <div class="row g-0" style="box-sizing: border-box; display: flex; flex-wrap: wrap;">
+                                                                <div class="col-md-3 col-12" style="box-sizing: border-box; max-width: 100%; margin-top: 0px; flex: 0 0 auto; -webkit-box-flex: 0; width: 25%;">
+                                                                    <div class="image" style="box-sizing: border-box; overflow: hidden; position: relative; padding-top: 68%;">
+                                                                        <a href="index.jsp" target="_blank" style="box-sizing: border-box; background-color: transparent; text-decoration: none; color: rgb(45, 66, 113);">
+                                                                            <img src="assets/images/item/<%= TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getImage() %>" style="box-sizing: border-box; border-style: none; vertical-align: middle; max-width: 100%; border-radius: 10px; transition: transform 200ms ease 0s, -webkit-transform 200ms ease 0s; height: 100%; width: 100%; transform: translate(-50%, -50%); position: absolute; top: 50%; left: 50%; right: unset; bottom: unset; object-fit: cover;" />
                                                                         </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-9 col-12 p-3"
-                                                                     style="box-sizing: border-box; max-width: 100%; margin-top: 0px; flex: 0 0 auto; -webkit-box-flex: 0; width: 75%; padding: 1rem;">
-                                                                    <h5 class="card-title h5 h6-sm fw-bolder mb-3"
-                                                                        style="box-sizing: border-box; margin-top: 0px; line-height: 1.2; font-size: 1.25rem; margin-bottom: 1rem; font-weight: 900;">
-                                                                        <a
-                                                                                href="https://travel.com.vn/du-lich/track-booking-no-210607080237/tra-cuu-booking.aspx"
-                                                                                style="box-sizing: border-box; background-color: transparent; text-decoration: none; color: rgb(45, 66, 113);"
-                                                                        ></a>
+                                                                <div class="col-md-9 col-12 p-3" style="box-sizing: border-box; max-width: 100%; margin-top: 0px; flex: 0 0 auto; -webkit-box-flex: 0; width: 75%; padding: 1rem;">
+                                                                    <h5 class="card-title h5 h6-sm fw-bolder mb-3" style="box-sizing: border-box; margin-top: 0px; line-height: 1.2; font-size: 1.25rem; margin-bottom: 1rem; font-weight: 900;">
+                                                                        <a href="https://travel.com.vn/du-lich/track-booking-no-210607080237/tra-cuu-booking.aspx" style="box-sizing: border-box; background-color: transparent; text-decoration: none; color: rgb(45, 66, 113);"></a>
                                                                     </h5>
-                                                                    <div
-                                                                            class="row align-items-center"
-                                                                            style="box-sizing: border-box; display: flex; flex-wrap: wrap; margin-right: calc(-0.75rem); margin-left: calc(-0.75rem); -webkit-box-align: center; align-items: center;"
-                                                                    >
-                                                                        <div
-                                                                                class="col-md-8 col-7"
-                                                                                style="
-                                                                            box-sizing: border-box;
-                                                                            max-width: 100%;
-                                                                            padding-right: calc(0.75rem);
-                                                                            padding-left: calc(0.75rem);
-                                                                            margin-top: 0px;
-                                                                            flex: 0 0 auto;
-                                                                            -webkit-box-flex: 0;
-                                                                            width: 66.6667%;
-                                                                        "
-                                                                        >
-                                                                            <div class="d-flex d-lg-block justify-content-between"
-                                                                                 style="box-sizing: border-box; -webkit-box-pack: justify; justify-content: space-between; display: block;">
+                                                                    <div class="row align-items-center" style="box-sizing: border-box; display: flex; flex-wrap: wrap; margin-right: calc(-0.75rem); margin-left: calc(-0.75rem); -webkit-box-align: center; align-items: center;">
+                                                                        <div class="col-md-8 col-7" style="box-sizing: border-box; max-width: 100%; padding-right: calc(0.75rem); padding-left: calc(0.75rem); margin-top: 0px; flex: 0 0 auto; -webkit-box-flex: 0; width: 66.6667%;">
+                                                                            <div class="d-flex d-lg-block justify-content-between" style="box-sizing: border-box; -webkit-box-pack: justify; justify-content: space-between; display: block;">
                                                                                 <div style="box-sizing: border-box;">
-                                                                                    <div class="s-rate"
-                                                                                         style="box-sizing: border-box; display: flex; -webkit-box-align: center; align-items: center; margin-right: 22px; margin-bottom: 25px;">
-                                                                                        <div class="s-comment"
-                                                                                             style="box-sizing: border-box;">
-                                                                                            <h6 class="fw-bold mb-0"
-                                                                                                style="box-sizing: border-box; margin-top: 0px; line-height: 1.2; font-size: 1rem; margin-bottom: 0px; font-weight: 700;"></h6>
-                                                                                            <p style="box-sizing: border-box; margin: 0px; color: rgb(45, 66, 113);"><%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getName()%>
-                                                                                            </p>
+                                                                                    <div class="s-rate" style="box-sizing: border-box; display: flex; -webkit-box-align: center; align-items: center; margin-right: 22px; margin-bottom: 25px;">
+                                                                                        <div class="s-comment" style="box-sizing: border-box;">
+                                                                                            <h6 class="fw-bold mb-0" style="box-sizing: border-box; margin-top: 0px; line-height: 1.2; font-size: 1rem; margin-bottom: 0px; font-weight: 700;"></h6>
+                                                                                            <p style="box-sizing: border-box; margin: 0px; color: rgb(45, 66, 113);"><%= TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getName() %></p>
                                                                                         </div>
                                                                                     </div>
                                                                                     <p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem;">
-                                                                            <span class="text-muted"
-                                                                                  style="box-sizing: border-box; color: rgb(108, 117, 125);">Mã hóa đơn: <%=bill.getBookingId()%></span><br
-                                                                                            style="box-sizing: border-box;"/>
-                                                                                        <span class="text-muted"
-                                                                                              style="box-sizing: border-box; color: rgb(108, 117, 125);">Mã Tour: <%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId()%> </span>
-                                                                                        <br/>
-                                                                                        <span class="text-muted"
-                                                                                              style="box-sizing: border-box; color: rgb(108, 117, 125);">ngày bắt đầu : <%=BookingDAO.getBookingbyId(bill.getBookingId()).getDateStart()%> </span>
+                                                                                        <span class="text-muted" style="box-sizing: border-box; color: rgb(108, 117, 125);">Mã hóa đơn: <%= bill.getBookingId() %></span><br style="box-sizing: border-box;" />
+                                                                                        <span class="text-muted" style="box-sizing: border-box; color: rgb(108, 117, 125);">Mã Tour: <%= TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getId() %> </span><br />
+                                                                                        <span class="text-muted" style="box-sizing: border-box; color: rgb(108, 117, 125);">ngày bắt đầu : <%= BookingDAO.getBookingbyId(bill.getBookingId()).getDateStart() %> </span>
                                                                                     </p>
-                                                                                    <p class="card-text"
-                                                                                       style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0px;">
-                                                                                        <small class="text-muted"
-                                                                                               style="box-sizing: border-box; font-size: 0.875em; color: rgb(108, 117, 125);"><%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getName()%>
-                                                                                        </small>
+                                                                                    <p class="card-text" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0px;">
+                                                                                        <small class="text-muted" style="box-sizing: border-box; font-size: 0.875em; color: rgb(108, 117, 125);"><%= TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getName() %></small>
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div
-                                                                                class="col-md-4 col-5 text-end"
-                                                                                style="
-                                                                            box-sizing: border-box;
-                                                                            max-width: 100%;
-                                                                            padding-right: calc(0.75rem);
-                                                                            padding-left: calc(0.75rem);
-                                                                            margin-top: 0px;
-                                                                            flex: 0 0 auto;
-                                                                            -webkit-box-flex: 0;
-                                                                            width: 33.3333%;
-                                                                            text-align: right;
-                                                                        "
-                                                                        >
-                                                                            <h6
-                                                                                    class="text-primary"
-                                                                                    style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; font-size: 1rem; color: rgb(253, 80, 86);">
-                                                                                <%=bill.getPaymentMethod()%>
-                                                                            </h6>
-                                                                            <h5
-                                                                                    class="text-primary fw-bold"
-                                                                                    style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);">
-                                                                                <%=bill.getToltalPrice()%>₫
-                                                                            </h5>
+                                                                        <div class="col-md-4 col-5 text-end" style="box-sizing: border-box; max-width: 100%; padding-right: calc(0.75rem); padding-left: calc(0.75rem); margin-top: 0px; flex: 0 0 auto; -webkit-box-flex: 0; width: 33.3333%; text-align: right;">
+                                                                            <h6 class="text-primary" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; font-size: 1rem; color: rgb(253, 80, 86);"><%= bill.getPaymentMethod() %></h6>
+                                                                            <h5 class="text-primary fw-bold" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);"><%= bill.getToltalPrice() %>₫</h5>
 
                                                                             <button type="submit">Xem chi tiết</button>
-                                                                            <%if(bill.getStatus().equalsIgnoreCase("Chờ xác nhận")){%>
+                                                                            <% if (bill.getStatus().equalsIgnoreCase(Const.CHOXACNHAN)) { %>
                                                                             <button type="submit">Hủy đơn</button>
-                                                                            <%}%>
+                                                                            <% } %>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -767,9 +597,10 @@
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <%} %>
+                                                <% } %>
                                             </div>
-                                        <%--end Đã xong--%>
+                                            <%--end Đã xong--%>
+
 
 
                                     </div>

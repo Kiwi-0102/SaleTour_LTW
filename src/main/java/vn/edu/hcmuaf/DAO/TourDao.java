@@ -625,7 +625,8 @@ public class TourDao {
 
             public static void main(String[] args) {
 
-        new TourDao().Updatequatity(100,1);
+        int sc = new TourDao().sochoconlai(100);
+                System.out.println(sc);
         }
 
 }

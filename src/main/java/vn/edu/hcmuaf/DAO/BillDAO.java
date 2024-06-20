@@ -2,7 +2,7 @@ package vn.edu.hcmuaf.DAO;
 
 import vn.edu.hcmuaf.DB.ConnectToDatabase;
 import vn.edu.hcmuaf.bean.Bill;
-import vn.edu.hcmuaf.bean.Const;
+import vn.edu.hcmuaf.serice.Const;
 
 import java.sql.*;
 import java.util.ArrayList;
