@@ -76,7 +76,7 @@ body {
     display: block;
     height: 100%;
     width: 100%;
-    border-radius: 15px;
+    border-radius: 10px;
     background: #00d8fe;
     border: none;
     color: white;
@@ -157,4 +157,40 @@ body {
 .forget a:hover{
     text-decoration: underline;
     color: red;
+}
+#content .social-login {
+    text-align: center;
+    margin-top: 20px;
+}
+#content .social-login button {
+    width: 240px;
+    height: 40px;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+#content .social-login .google-btn {
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    border: 1px solid lightgray;
+    box-shadow: 0px   0px  5px 5px rgba(211, 211, 211, 0.32);
+}
+#content .social-login .facebook-btn {
+    border-radius: 10px;
+    background-color: #3b5998;
+    border: 1px solid lightgray;
+    box-shadow: 0px   0px  5px 5px rgba(211, 211, 211, 0.32);
+}
+#content .social-login button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }

@@ -257,8 +257,8 @@
                                                                             </p>
                                                                             <p class="card-text"
                                                                                style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0px;">
-                                                                                <small class="text-muted"
-                                                                                       style="box-sizing: border-box; font-size: 0.875em; color: rgb(108, 117, 125);"><%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getName()%>
+                                                                                <small class="text-muted" id="huyhuydon<%=bill.getId()%>"
+                                                                                       style="box-sizing: border-box; font-size: 0.875em; color: red; !important;"><%=bill.getNoteBill() == null ? "" : bill.getNoteBill()%>
                                                                                 </small>
                                                                             </p>
                                                                         </div>
@@ -425,7 +425,7 @@
                                                                                     <p class="card-text"
                                                                                        style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0px;">
                                                                                         <small class="text-muted"
-                                                                                               style="box-sizing: border-box; font-size: 0.875em; color: rgb(108, 117, 125);"><%=TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getName()%>
+                                                                                               style="box-sizing: border-box; font-size: 0.875em; color: red;"><%=bill.getNoteBill() == null ? "" : bill.getNoteBill()%>
                                                                                         </small>
                                                                                     </p>
                                                                                 </div>
@@ -512,7 +512,9 @@
                                                                                         <span class="text-muted" style="box-sizing: border-box; color: rgb(108, 117, 125);">ngày bắt đầu : <%= BookingDAO.getBookingbyId(bill.getBookingId()).getDateStart() %> </span>
                                                                                     </p>
                                                                                     <p class="card-text" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0px;">
-                                                                                        <small class="text-muted" style="box-sizing: border-box; font-size: 0.875em; color: rgb(108, 117, 125);"><%= TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getName() %></small>
+                                                                                        <small class="text-muted"
+                                                                                               style="box-sizing: border-box; font-size: 0.875em; color: red !important;"><%=bill.getNoteBill() == null ? "" : bill.getNoteBill()%>
+                                                                                        </small>
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
@@ -577,8 +579,9 @@
                                                                                         <span class="text-muted" style="box-sizing: border-box; color: rgb(108, 117, 125);">ngày bắt đầu : <%= BookingDAO.getBookingbyId(bill.getBookingId()).getDateStart() %> </span>
                                                                                     </p>
                                                                                     <p class="card-text" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0px;">
-                                                                                        <small class="text-muted" style="box-sizing: border-box; font-size: 0.875em; color: rgb(108, 117, 125);"><%= TourDao.findtourbyid(BookingDAO.getBookingbyId(bill.getBookingId()).getTourId()).getName() %></small>
-                                                                                    </p>
+                                                                                        <small class="text-muted"
+                                                                                               style="box-sizing: border-box; font-size: 0.875em; color: red;"><%=bill.getNoteBill() == null ? "" : bill.getNoteBill()%>
+                                                                                        </small>                                                                                    </p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -664,12 +667,12 @@
 
                     // Tìm thẻ với class dahuy để di chuyển form vào
                     const dahuyContainer = document.querySelector('.dahuy');
-
+                    const huyhuydon = document.getElementById('huyhuydon'+id);
                     const bnthuy = document.getElementById('huydon'+id);
                     // Thêm form vào dahuyContainer
                     if (form && dahuyContainer) {
                         dahuyContainer.appendChild(form);
-
+                        huyhuydon.innerText = 'Đã hủy bởi khách hàng'
                         bnthuy.style.display = 'none';
                         // Xóa thẻ form từ dangcho
                         // form.remove();

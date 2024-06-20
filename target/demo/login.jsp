@@ -41,6 +41,14 @@
                 <button type="submit" name="btn" id="btn">ĐĂNG NHẬP</button>
             </div>
         </form>
+        <div class="social-login">
+            <button onclick="location.href='#'" class="google-btn">
+                <img src="assets/logo/google.png"  alt="Google Icon"> Đăng nhập bằng Google
+            </button>
+            <button onclick="location.href='#'" class="facebook-btn">
+                <img src="assets/logo/facebook.png" style="background-size: 20px" alt="Facebook Icon"> Đăng nhập bằng Facebook
+            </button>
+        </div>
 
         <div class="forget"><a href="forgetpass.jsp">Quên mật khẩu?</a></div>
         <div class="ques">Bạn muốn trải nghiệm

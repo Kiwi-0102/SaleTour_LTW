@@ -30,7 +30,7 @@ public class DetailBill extends HttpServlet {
         ArrayList<Customer> customers = CustomerDAO.getCustomerBybillid(billId);
 
         User user = new User(booking.getName(), booking.getPhone(), booking.getEmail(),booking.getAddress());
-        Tour tour = TourDao.findtourbyid(booking.getId());
+        Tour tour = TourDao.findtourbyid(booking.getTourId());
 
         request.setAttribute("userdk",user);
         request.setAttribute("tour",tour);

@@ -160,6 +160,7 @@ CREATE TABLE `bills` (
                          `paymentMethod` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                          `totalPrice` int(11) NOT NULL,
                          `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                         `noteBill` varchar(255) DEFAULT NULL,
                          PRIMARY KEY (`id`),
                          KEY `fk_Booking_Id` (`bookingId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -679,10 +680,10 @@ INSERT INTO `options` (`departDate`, `serviceId`, `valiId`) VALUES
     ('2024-04-03', 3, 3);
 
 -- Thêm dữ liệu cho bảng `bills`
-INSERT INTO `bills` (`bookingId`, `paymentMethod`, `totalPrice`, `status`) VALUES
-    (1, 'Thanh toán khi nhận hàng', 500000, 'Chờ xác nhận'),
-    (2, 'Chuyển khoản ngân hàng', 750000, 'Đã xác nhận'),
-    (3, 'Thanh toán khi nhận hàng', 1000000, 'Đã hủy');
+INSERT INTO `bills` (`bookingId`, `paymentMethod`, `totalPrice`, `status`,`noteBill`) VALUES
+    (1, 'Thanh toán khi nhận hàng', 500000, 'Chờ xác nhận',null),
+    (2, 'Chuyển khoản ngân hàng', 750000, 'Đã xác nhận',null),
+    (3, 'Thanh toán khi nhận hàng', 1000000, 'Đã hủy','Hủy bởi khách hàng');
 
 -- Thêm dữ liệu cho bảng `customer`
 INSERT INTO `customer` (`name`, `male`, `dateOfBirth`, `billId`) VALUES
