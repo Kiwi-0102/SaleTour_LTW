@@ -7,22 +7,17 @@ public class Bill {
     private double toltalPrice;
     private String status;
 
+    private String noteBill;
     public Bill() {
     }
 
-    public Bill(int id, int bookingId, String paymentMethod, double toltalPrice, String status) {
+    public Bill(int id, int bookingId, String paymentMethod, double toltalPrice, String status, String noteBill) {
         this.id = id;
         this.bookingId = bookingId;
         this.paymentMethod = paymentMethod;
         this.toltalPrice = toltalPrice;
         this.status = status;
-    }
-    public Bill(int id, int valiId, double toltalPrice, String status) {
-        this.id = id;
-        this.bookingId = valiId;
-
-        this.toltalPrice = toltalPrice;
-        this.status = status;
+        this.noteBill = noteBill;
     }
 
     public int getId() {
@@ -65,6 +60,14 @@ public class Bill {
         this.status = status;
     }
 
+    public String getNoteBill() {
+        return noteBill;
+    }
+
+    public void setNoteBill(String noteBill) {
+        this.noteBill = noteBill;
+    }
+
     @Override
     public String toString() {
         return "Bill{" +
@@ -73,6 +76,7 @@ public class Bill {
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", toltalPrice=" + toltalPrice +
                 ", status='" + status + '\'' +
+                ", noteBill='" + noteBill + '\'' +
                 '}';
     }
 }

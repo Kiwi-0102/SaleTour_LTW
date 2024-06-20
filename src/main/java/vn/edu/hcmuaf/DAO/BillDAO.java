@@ -27,9 +27,9 @@ public class BillDAO {
                 String paymentMethod = rs.getString("paymentMethod");
                 double toltalPrice = rs.getDouble("toltalPrice");
                 String status = rs.getString("status");
-
+                String noteBill = rs.getString("noteBill");
                 // Tạo đối tượng Booking từ dữ liệu lấy ra từ cơ sở dữ liệu
-                Bill bill = new Bill(id, userId, paymentMethod, toltalPrice, status);
+                Bill bill = new Bill(id, userId, paymentMethod, toltalPrice, status,noteBill);
                 ListBill.add(bill);
             }
         } catch (Exception e) {
@@ -55,7 +55,8 @@ public class BillDAO {
                 String paymentMethod = rs.getString("paymentMethod");
                 double toltalPrice = rs.getDouble("totalPrice");
                 String status = rs.getString("status");
-                bill = new Bill(id, userId, paymentMethod, toltalPrice, status);
+                String noteBill = rs.getString("noteBill");
+                bill = new Bill(id, userId, paymentMethod, toltalPrice, status,noteBill);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,8 +81,9 @@ public class BillDAO {
                 String paymentMethod = rs.getString("paymentMethod");
                 double toltalPrice = rs.getDouble("totalPrice");
                 String status = rs.getString("status");
+                String noteBill = rs.getString("noteBill");
 
-                Bill bill = new Bill(id, userId, paymentMethod, toltalPrice, status);
+                Bill bill = new Bill(id, userId, paymentMethod, toltalPrice, status,noteBill);
                 ListBill.add(bill);
             }
         } catch (Exception e) {
@@ -94,16 +96,18 @@ public class BillDAO {
         return ListBill;
     }
 
-    public static int insertBill(int bookingId, String paymentMethod, double totalPrice, String status) {
+    public static int insertBill(int bookingId, String paymentMethod, double totalPrice, String status,String note) {
         ResultSet generatedKeys = null;
         try {
              connection = ConnectToDatabase.getConnect();
-            String sql = "INSERT INTO bills (bookingId, paymentMethod, totalPrice, status) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO bills (bookingId, paymentMethod, totalPrice, status,noteBill) VALUES (?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, bookingId);
             preparedStatement.setString(2, paymentMethod);
             preparedStatement.setDouble(3, totalPrice);
             preparedStatement.setString(4, status);
+            preparedStatement.setString(5, note);
+
             preparedStatement.executeUpdate();
 
            generatedKeys = preparedStatement.getGeneratedKeys();
@@ -122,10 +126,10 @@ public class BillDAO {
         }
     }
 
-    public static void updateBill(int billId, int bookingId, String paymentMethod, double totalPrice, String status) {
+    public static void updateBill(int billId, int bookingId, String paymentMethod, double totalPrice, String status,String note) {
         try {
             connection = ConnectToDatabase.getConnect();
-            String sql = "UPDATE bills SET bookingId = ?, paymentMethod = ?, totalPrice = ?, status = ? WHERE id = ?";
+            String sql = "UPDATE bills SET bookingId = ?, paymentMethod = ?, totalPrice = ?, status = ?,noteBill = ? WHERE id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, bookingId);
             preparedStatement.setString(2, paymentMethod);
@@ -147,6 +151,22 @@ public class BillDAO {
             String sql = "UPDATE bills SET status = ? WHERE id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, billId);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+    }
+
+    public static void noteBill(int billId, String note) {
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "UPDATE bills SET noteBill = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, note);
             preparedStatement.setInt(2, billId);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

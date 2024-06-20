@@ -25,9 +25,11 @@ public class DAO {
                 int billId = rs.getInt("bills.id");
                 int valiId = rs.getInt("bills.bookingId");
                 int userId = rs.getInt("users.id");
+                String method = rs.getString("bills.paymentMethod");
                 double price = rs.getDouble("bills.totalPrice");
                 String stt = rs.getString("bills.status");
-                Bill bill = new Bill(billId,valiId,price,stt);
+                String note = rs.getString("bills.noteBill");
+                Bill bill = new Bill(billId,valiId,method,price,stt,note);
                 listBill.add(bill);
             }
             connect.close();
