@@ -296,9 +296,9 @@
                                                 </div>
                                             </div>
                                             <div class="row item">
-                                                <div class="col-md-3 col-12 label" style="display: none">Thời gian thanh toán</div>
+                                                <div class="col-md-3 col-12 label" style="display: none">Ghi chú</div>
                                                 <div class="col-md-9 col-12 text">
-                                                    <span class="text-primary fw-bold" style="display: none">13/11/23 23:29:59</span> (Theo giờ Việt Nam)
+                                                    <span class="text-primary fw-bold" style="display: none">13/11/23 23:29:59</span> Ghi chú: <%=bill.getNoteBill() == null ? " " : bill.getNoteBill()%>
                                                 </div>
                                             </div>
                                         </div>

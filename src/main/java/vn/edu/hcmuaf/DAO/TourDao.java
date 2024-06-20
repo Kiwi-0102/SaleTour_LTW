@@ -574,7 +574,7 @@ public class TourDao {
         int total = 0;
         Connection connect = ConnectToDatabase.getConnect();
         try {
-            preparedStatement = connect.prepareStatement("SELECT numChildren,numAdult FROM `booking`where STR_TO_DATE(dateStart, '%Y-%m-%d')>CURRENT_DATE() AND tourId = ?");
+            preparedStatement = connect.prepareStatement("SELECT numChildren,numAdult FROM `booking` INNER JOIN bills ON bills.bookingId = booking.id where STR_TO_DATE(dateStart, '%Y-%m-%d')>CURRENT_DATE() AND tourId = ? AND (bills.status NOT IN ('Đã hủy','Đã xong'))");
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -608,6 +608,7 @@ public class TourDao {
         }
     }
 
+
     public static String getEnd(int idtour) {
         String startTimeString =  new TourDao().findtourbyID(idtour).getStartTime(); // Chuỗi ngày bắt đầu
         LocalDate startTime = LocalDate.parse(startTimeString); // Chuyển đổi chuỗi thành LocalDate
@@ -624,9 +625,7 @@ public class TourDao {
     }
 
             public static void main(String[] args) {
-
-        int sc = new TourDao().sochoconlai(100);
-                System.out.println(sc);
+                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
         }
 
 }

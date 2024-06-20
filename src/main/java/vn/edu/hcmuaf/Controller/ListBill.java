@@ -55,6 +55,7 @@ public class ListBill extends HttpServlet {
             String status = request.getParameter("status");
             BillDAO billDAO = new BillDAO();
             billDAO.updateStatusBill(id,status);
+            billDAO.noteBill(id,"Đã hủy bởi khách hàng");
 //            System.out.println("đã hủy bill "+id+"status "+status);
         }
 //        request.getRequestDispatcher("invoiceHistory.jsp").forward(request,response);
