@@ -9,8 +9,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lí đơn hàng</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" type="image/icon" href="../assets/logo/favicon.png"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/admin.css">
@@ -49,7 +47,6 @@
 
         .white-box {
             background-color: white;
-
             border: 1px solid black;
         }
 
@@ -57,7 +54,6 @@
             position: absolute;
             color: black;
             top: 18%;
-
             transform: translateX(14%);
             white-space: nowrap;
         }
@@ -66,7 +62,6 @@
             position: absolute;
             color: black;
             top: 18%;
-
             transform: translateX(31%);
             white-space: nowrap;
         }
@@ -80,20 +75,18 @@
             color: black;
             position: absolute;
             top: 18%;
-
             transform: translateX(13.5%);
             white-space: nowrap;
         }
 
         body {
-            font-family: Arial, sans-serif; /* Đảm bảo bạn đang sử dụng font chữ hợp lệ */
+            font-family: Arial, sans-serif;
         }
 
         table.dataTable {
-            font-family: inherit; /* Sử dụng font chữ của phần tử cha */
+            font-family: inherit;
         }
 
-        /* Hoặc bạn có thể thiết lập font chữ cụ thể cho bảng DataTables */
         table.dataTable {
             font-family: 'Arial', sans-serif;
         }
@@ -101,16 +94,46 @@
         .none {
             display: none;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modal-footer button {
+            margin-left: 10px;
+        }
     </style>
-    <!-- Tải jQuery trước -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Tải các script phụ thuộc vào jQuery sau -->
     <script src="pluggin/datatables.min.js"></script>
     <script src="js/raphael-min.js"></script>
     <script src="js/morris.js"></script>
     <script src="js/jquery2.0.3.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 </head>
+<body>
 <%
     User use = (User) session.getAttribute("user");
     ArrayList<Bill> choxacnhan = (ArrayList<Bill>) request.getAttribute("choxacnhan");
@@ -118,12 +141,28 @@
     ArrayList<Bill> dahuy = (ArrayList<Bill>) request.getAttribute("dahuy");
     ArrayList<Bill> daxong = (ArrayList<Bill>) request.getAttribute("daxong");
 %>
-<body>
 <%@include file="header.jsp" %>
 <section class="home-section">
     <div class="home-content">
         <div class="manager-checkout" style="width: 98%">
             <div class="title">Quản Lý Đơn Hàng</div>
+
+            <!-- Nút mở hộp thoại -->
+            <button id="openModalBtn" style="display:none;">Mở hộp thoại</button>
+
+            <!-- Hộp thoại -->
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <h2 id="notebile">Ghi chú</h2>
+                    <input type="text" style="width: 350px;height: 230px" id="inputContent"
+                           placeholder="Nhập nội dung tại đây...">
+                    <div class="modal-footer">
+                        <button id="confirmBtn">Xác nhận</button>
+                        <button id="cancelBtn">Hủy</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="container none">
                 <div class="box red-box">
                     <div class="text invalid">Hóa đơn không hợp lệ, nội dung không giống với ban đầu</div>
@@ -137,15 +176,16 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="tab row element-button ">
+                    <div class="tab row element-button">
                         <button class="tablinks col-sm-2" id="defaultOpen" onclick="openCity(event, 'tab1')">Chờ xác
                             nhận
                         </button>
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab2')">Đã xác nhận</button>
-                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab5')">Đã hủy</button>
+                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab3')">Đã hủy</button>
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab4')">Đã xong</button>
-                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab3')">Sắp bắt đầu</button>
+                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab5')">Sắp bắt đầu</button>
                     </div>
+                    <!-- Chờ xác nhận -->
                     <div id="tab1" class="tabcontent">
                         <table id="table-id-1" class="table table-hover table-bordered">
                             <thead>
@@ -162,8 +202,58 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%for(Bill bill : choxacnhan){%>
-                            <tr id="<%=bill.getId()%>" style="background-color: #82cd47">
+                            <%for (Bill bill : choxacnhan) {%>
+                            <tr id="<%=bill.getId()%>">
+                                <th scope="row"><%=bill.getId()%>
+                                </th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%>
+                                </td>
+                                <td>
+                                    <a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult() + getBookingbyId(bill.getBookingId()).getNumChildren()%>
+                                    </a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%>
+                                </td>
+                                <td><%=bill.getToltalPrice()%>
+                                </td>
+                                <td>
+                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick"
+                                            type="button" title="check">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash"
+                                            type="button" title="Xóa">
+                                        <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>                                    </button>
+                                </td>
+                            </tr>
+                            <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Đã xác nhận -->
+                    <div id="tab2" class="tabcontent">
+                        <table id="table-id-2" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mã hóa đơn</th>
+                                <th scope="col">Mã tài khoản</th>
+                                <th scope="col">Mã tour</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Số khách</th>
+                                <th scope="col">Ngày bắt đầu</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <%for(Bill bill : daxacnhan){%>
+                            <tr id="<%=bill.getId()%>"  >
                                 <th scope="row"><%=bill.getId()%></th>
                                 <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
                                 <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
@@ -171,12 +261,12 @@
                                 <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
                                 <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
                                 <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
+                                <td><%=bill.getToltalPrice()%></td>
                                 <td>
-                                    <button onclick="confirm('1')" class="btn btn-primary btn-sm tick" type="button" title="check">
+                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
                                         <i class="fa-solid fa-check"></i>
                                     </button>
-                                    <button onclick="remove('1')" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
@@ -185,352 +275,125 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="tab2" class="tabcontent">
-                        <table id="table-id-2" class="table table-hover table-bordered">
-                            <thead>
-                            <tr>
-                                <th scope="col">Mã đơn hàng</th>
-                                <th scope="col">Mã tài khoản</th>
-                                <th scope="col">Người nhận</th>
-                                <th scope="col">Ngày đặt</th>
-                                <th scope="col">Số điện thoại</th>
-                                <th scope="col">Sản phẩm</th>
-                                <th scope="col">Địa chỉ</th>
-                                <th scope="col">Tổng tiền</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody id="confirm">
-                            <c:forEach items="${bco}" var="bw">
-                                <c:choose>
-                                    <c:when test="${not empty bw.hash and bw.verify(bw.id, bw.idinfo, bw.idUser, bw.hash)}">
-                                        <tr id="${bw.id}" style="background-color: #82cd47">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-                                                <button onclick="movetoship('${bw.id}')"
-                                                        class="btn btn-primary btn-sm tick"
-                                                        type="button" title="Gửi cho bên giao hàng">
-                                                    <i class="fa-solid fa-truck"></i>
-                                                </button>
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:when>
-
-
-                                    <c:when test="${empty bw.hash || bw.hash eq ''}">
-
-                                        <tr id="${bw.id}" style="background-color: white; color: black">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:set var="result" value="${bw.updateBillchanged(bw.id)}"/>
-                                        <tr id="${bw.id}" style="background-color: red; color: white">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
+                    <!-- Đã hủy -->
                     <div id="tab3" class="tabcontent">
                         <table id="table-id-3" class="table table-hover table-bordered">
                             <thead>
                             <tr>
-                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Mã hóa đơn</th>
                                 <th scope="col">Mã tài khoản</th>
-                                <th scope="col">Người nhận</th>
+                                <th scope="col">Mã tour</th>
                                 <th scope="col">Ngày đặt</th>
                                 <th scope="col">Số điện thoại</th>
-                                <th scope="col">Sản phẩm</th>
-                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Số khách</th>
+                                <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${bca}" var="bw">
-                                <c:choose>
-                                    <c:when test="${not empty bw.hash and bw.verify(bw.id, bw.idinfo, bw.idUser, bw.hash)}">
-                                        <tr id="${bw.id}" style="background-color: #82cd47">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:when>
-
-
-                                    <c:when test="${empty bw.hash || bw.hash eq ''}">
-
-                                        <tr id="${bw.id}" style="background-color: white; color: black">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:when>
-                                    <c:otherwise>
-
-                                        <tr id="${bw.id}" style="background-color: red; color: white">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
+                            <%for(Bill bill : dahuy){%>
+                            <tr id="<%=bill.getId()%>"  >
+                                <th scope="row"><%=bill.getId()%></th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
+                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
+                                <td><%=bill.getToltalPrice()%></td>
+                                <td>
+                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <%}%>
                             </tbody>
                         </table>
                     </div>
+                    <!-- Đã xong -->
                     <div id="tab4" class="tabcontent">
                         <table id="table-id-4" class="table table-hover table-bordered">
                             <thead>
                             <tr>
-                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Mã hóa đơn</th>
                                 <th scope="col">Mã tài khoản</th>
-                                <th scope="col">Người nhận</th>
+                                <th scope="col">Mã tour</th>
                                 <th scope="col">Ngày đặt</th>
                                 <th scope="col">Số điện thoại</th>
-                                <th scope="col">Sản phẩm</th>
-                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Số khách</th>
+                                <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${bd}" var="bw">
-                                <c:choose>
-                                    <c:when test="${not empty bw.hash and bw.verify(bw.id, bw.idinfo, bw.idUser, bw.hash)}">
-                                        <tr id="${bw.id}" style="background-color: #82cd47">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:when>
-                                    <c:when test="${empty bw.hash || bw.hash eq ''}">
-
-                                        <tr id="${bw.id}" style="background-color: white; color: black">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:set var="result" value="${bw.updateBillchanged(bw.id)}"/>
-                                        <tr id="${bw.id}" style="background-color: red; color: white">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
+                            <tbody>
+                            <%for(Bill bill : daxong){%>
+                            <tr id="<%=bill.getId()%>"  >
+                                <th scope="row"><%=bill.getId()%></th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
+                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
+                                <td><%=bill.getToltalPrice()%></td>
+                                <td>
+                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <%}%>
+                            </tbody>
                             </tbody>
                         </table>
                     </div>
+                    <!-- Sắp bắt đầu -->
                     <div id="tab5" class="tabcontent">
                         <table id="table-id-5" class="table table-hover table-bordered">
                             <thead>
                             <tr>
-                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Mã hóa đơn</th>
                                 <th scope="col">Mã tài khoản</th>
-                                <th scope="col">Người nhận</th>
+                                <th scope="col">Mã tour</th>
                                 <th scope="col">Ngày đặt</th>
                                 <th scope="col">Số điện thoại</th>
-                                <th scope="col">Sản phẩm</th>
-                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Số khách</th>
+                                <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody id="movetoship">
-                            <c:forEach items="${bs}" var="bw">
-                                <c:choose>
-                                    <c:when test="${not empty bw.hash and bw.verify(bw.id, bw.idinfo, bw.idUser, bw.hash)}">
-                                        <tr id="${bw.id}" style="background-color: #82cd47">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:when>
-
-
-                                    <c:when test="${empty bw.hash || bw.hash eq ''}">
-
-                                        <tr id="${bw.id}" style="background-color: white; color: black">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:set var="result" value="${bw.updateBillchanged(bw.id)}"/>
-                                        <tr id="${bw.id}" style="background-color: red; color: white">
-                                            <th scope="row">${bw.id}</th>
-                                            <td>${bw.idUser}</td>
-                                            <td>${bw.getNameReceive()}</td>
-                                            <td>${bw.getDate()}</td>
-                                            <td>${bw.getPhoneReceive()}</td>
-                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
-                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
-                                            <td>${bw.total} VND</td>
-                                            <td>
-
-                                                <button onclick="remove('${bw.id}')"
-                                                        class="btn btn-primary btn-sm trash"
-                                                        type="button" title="Xóa">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
+                            <tbody>
+                            <%for(Bill bill : choxacnhan){%>
+                            <tr id="<%=bill.getId()%>"  >
+                                <th scope="row"><%=bill.getId()%></th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
+                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
+                                <td><%=bill.getToltalPrice()%></td>
+                                <td>
+                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <%}%>
                             </tbody>
                         </table>
                     </div>
@@ -539,12 +402,15 @@
         </div>
     </div>
 </section>
+
 <script>
-    $("#table-id-1").DataTable();
-    $("#table-id-2").DataTable();
-    $("#table-id-3").DataTable();
-    $("#table-id-4").DataTable();
-    $("#table-id-5").DataTable();
+    $(document).ready(function () {
+        $('#table-id-1').DataTable();
+        $('#table-id-2').DataTable();
+        $('#table-id-3').DataTable();
+        $('#table-id-4').DataTable();
+        $('#table-id-5').DataTable();
+    });
 
     function openCity(evt, cityName) {
         var i, tabcontent, tablinks;
@@ -560,49 +426,67 @@
         evt.currentTarget.className += " active";
     }
 
-    // Mở tab mặc định
+    // Mở tab đầu tiên theo mặc định
     document.getElementById("defaultOpen").click();
 
     function confirm(id) {
-        $.ajax({
-            url: "ConfirmBill",
-            type: "get",
-            data: {
-                id: id
-            },
-            success: function (data) {
-                $("tr").remove("#" + id)
-                $("#confirm").html(data);
-            }
+        var notebile = document.getElementById("notebile");
+        notebile.innerText = `Ghi chú cho hóa đơn: ` + id;
+        var modal = document.getElementById("myModal");
+        var confirmBtn = document.getElementById("confirmBtn");
+        var cancelBtn = document.getElementById("cancelBtn");
+        var inputContent = document.getElementById("inputContent");
+
+        modal.style.display = "block";
+
+        cancelBtn.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Gỡ bỏ tất cả các sự kiện 'click' trước khi thêm mới
+        confirmBtn.replaceWith(confirmBtn.cloneNode(true));
+        confirmBtn = document.getElementById("confirmBtn");
+
+        // Khi nhấn nút Xác nhận
+        confirmBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+            var data = new URLSearchParams();
+            data.append("id",id);
+            data.append("note",inputContent.value);
+            data.append("action","huybill")
+            fetch('InvoiceProcessing',{
+                method: 'POST',
+                body: data
+            })
+                .then(response=>{
+                    if(response.ok){
+                        alert("Ghi chú: " + id);
+                        inputContent.value = '';
+                        console.log("sửa thành công")
+                    }else{
+                        alert("Co loi");
+                        console.log("co loi")
+                    }
+                })
+
+                .catch(err=>{
+                    alert(err)
+                    console.log(err)
+                })
+
         });
+
+        cancelBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+
+        // Khi nhấn ra ngoài hộp thoại
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     }
 
-    function remove(id) {
-        $.ajax({
-            url: "RemoveBill",
-            type: "get",
-            data: {
-                id: id
-            },
-            success: function () {
-                $("tr").remove("#" + id)
-            }
-        });
-    }
-
-    function movetoship(id) {
-        $.ajax({
-            url: "ShipBill",
-            type: "get",
-            data: {
-                id: id
-            },
-            success: function (data) {
-                $("tr").remove("#" + id)
-                $("#movetoship").html(data);
-            }
-        });
-    }
 </script>
 </body>
-</html>
