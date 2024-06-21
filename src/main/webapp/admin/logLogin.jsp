@@ -23,6 +23,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="pluggin/datatables.min.css" rel="stylesheet">
     <script src="pluggin/datatables.min.js"></script>
     <style>
+        .market-updates {
+            display: none;
+            margin: 1.5em 0;
+        }
         .home-content .manager-product {
             margin-top: 0;
             margin-left: 252px;

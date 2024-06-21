@@ -1,172 +1,608 @@
+<%@ page import="vn.edu.hcmuaf.bean.User" %>
 <%@ page import="vn.edu.hcmuaf.bean.Bill" %>
-<%@ page import="java.util.List" %>
-<!--A Design by W3layouts
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="static vn.edu.hcmuaf.DAO.BookingDAO.getBookingbyId" %>
 <!DOCTYPE html>
-<%@ page contentType="text/html; charset=UTF-8" %>
-
+<html lang="en">
 <head>
+    <%@ page contentType="text/html; charset=UTF-8" %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lí đơn hàng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" type="image/icon" href="../assets/logo/favicon.png"/>
-    <!-- bootstrap-css -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/admin.css">
-    <!-- //bootstrap-css -->
-    <!-- Custom CSS -->
-    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel='stylesheet' type='text/css'/>
     <link href="css/style-responsive.css" rel="stylesheet"/>
-    <!-- font CSS -->
-    <!--<link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>-->
-    <!-- font-awesome icons-->
-    <!--<link rel="stylesheet" href="admin/css/font.css" type="text/css"/>-->
-    <!--<link href="admin/css/font-awesome.css" rel="stylesheet">-->
-    <!--<link rel="stylesheet" href="admin/css/morris.css" type="text/css"/>-->
-    <!-- calendar -->
-    <link rel="stylesheet" href="css/monthly.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css" integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- //calendar -->
-    <!-- //font-awesome icons -->
-    <!--    <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>-->
-    <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            rel="stylesheet"
-    />
-    <!--     // Google Fonts-->
-    <!--    <link-->
-    <!--            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"-->
-    <!--            rel="stylesheet"-->
-    <!--    />-->
-    <!--     MDB-->
-    <!--    <link-->
-    <!--            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"-->
-    <!--            rel="stylesheet"-->
-    <!--    />-->
-    <script src="js/jquery2.0.3.min.js"></script>
+    <link rel="stylesheet" href="css/monthly.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"
+          integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="pluggin/datatables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <style>
+        .home-section {
+            margin-left: 260px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .box {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .red-box {
+            background-color: red;
+        }
+
+        .green-box {
+            background-color: #82cd47;
+        }
+
+        .white-box {
+            background-color: white;
+
+            border: 1px solid black;
+        }
+
+        .text {
+            position: absolute;
+            color: black;
+            top: 18%;
+
+            transform: translateX(14%);
+            white-space: nowrap;
+        }
+
+        .text2 {
+            position: absolute;
+            color: black;
+            top: 18%;
+
+            transform: translateX(31%);
+            white-space: nowrap;
+        }
+
+        .market-updates {
+            display: none;
+            margin: 1.5em 0;
+        }
+
+        .text.invalid {
+            color: black;
+            position: absolute;
+            top: 18%;
+
+            transform: translateX(13.5%);
+            white-space: nowrap;
+        }
+
+        body {
+            font-family: Arial, sans-serif; /* Đảm bảo bạn đang sử dụng font chữ hợp lệ */
+        }
+
+        table.dataTable {
+            font-family: inherit; /* Sử dụng font chữ của phần tử cha */
+        }
+
+        /* Hoặc bạn có thể thiết lập font chữ cụ thể cho bảng DataTables */
+        table.dataTable {
+            font-family: 'Arial', sans-serif;
+        }
+
+        .none {
+            display: none;
+        }
+    </style>
+    <!-- Tải jQuery trước -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Tải các script phụ thuộc vào jQuery sau -->
+    <script src="pluggin/datatables.min.js"></script>
     <script src="js/raphael-min.js"></script>
     <script src="js/morris.js"></script>
-
+    <script src="js/jquery2.0.3.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 </head>
+<%
+    User use = (User) session.getAttribute("user");
+    ArrayList<Bill> choxacnhan = (ArrayList<Bill>) request.getAttribute("choxacnhan");
+    ArrayList<Bill> daxacnhan = (ArrayList<Bill>) request.getAttribute("daxacnhan");
+    ArrayList<Bill> dahuy = (ArrayList<Bill>) request.getAttribute("dahuy");
+    ArrayList<Bill> daxong = (ArrayList<Bill>) request.getAttribute("daxong");
+%>
 <body>
-<section id="container">
-    <!--header start-->
-    <header class="header fixed-top clearfix">
-        <!--logo start-->
-        <div class="brand">
-            <a href="admin1.jsp" class="logo">
-                ADMIN
-            </a>
-            <div class="sidebar-toggle-box">
-                <div class="fa fa-bars"></div>
+<%@include file="header.jsp" %>
+<section class="home-section">
+    <div class="home-content">
+        <div class="manager-checkout" style="width: 98%">
+            <div class="title">Quản Lý Đơn Hàng</div>
+            <div class="container none">
+                <div class="box red-box">
+                    <div class="text invalid">Hóa đơn không hợp lệ, nội dung không giống với ban đầu</div>
+                </div>
+                <div class="box green-box">
+                    <div class="text">Hóa đơn đã được xác thực, nội dung không bị thay đổi</div>
+                </div>
+                <div class="box white-box">
+                    <div class="text2">Hóa đơn chưa xác thực</div>
+                </div>
             </div>
-        </div>
-        <!--logo end-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tab row element-button ">
+                        <button class="tablinks col-sm-2" id="defaultOpen" onclick="openCity(event, 'tab1')">Chờ xác
+                            nhận
+                        </button>
+                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab2')">Đã xác nhận</button>
+                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab5')">Đã hủy</button>
+                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab4')">Đã xong</button>
+                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab3')">Sắp bắt đầu</button>
+                    </div>
+                    <div id="tab1" class="tabcontent">
+                        <table id="table-id-1" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mã hóa đơn</th>
+                                <th scope="col">Mã tài khoản</th>
+                                <th scope="col">Mã tour</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Số khách</th>
+                                <th scope="col">Ngày bắt đầu</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <%for(Bill bill : choxacnhan){%>
+                            <tr id="<%=bill.getId()%>" style="background-color: #82cd47">
+                                <th scope="row"><%=bill.getId()%></th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
+                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
+                                <td>
+                                    <button onclick="confirm('1')" class="btn btn-primary btn-sm tick" type="button" title="check">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                    <button onclick="remove('1')" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tab2" class="tabcontent">
+                        <table id="table-id-2" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Mã tài khoản</th>
+                                <th scope="col">Người nhận</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="confirm">
+                            <c:forEach items="${bco}" var="bw">
+                                <c:choose>
+                                    <c:when test="${not empty bw.hash and bw.verify(bw.id, bw.idinfo, bw.idUser, bw.hash)}">
+                                        <tr id="${bw.id}" style="background-color: #82cd47">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+                                                <button onclick="movetoship('${bw.id}')"
+                                                        class="btn btn-primary btn-sm tick"
+                                                        type="button" title="Gửi cho bên giao hàng">
+                                                    <i class="fa-solid fa-truck"></i>
+                                                </button>
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:when>
 
 
-    </header>
-    <!--header end-->
-    <!-- main-menu Start -->
-    <%@include file="header.jsp" %>
-    <!-- main-menu End -->
-    <!--main content start-->
-    <section id="main-content">
+                                    <c:when test="${empty bw.hash || bw.hash eq ''}">
+
+                                        <tr id="${bw.id}" style="background-color: white; color: black">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="result" value="${bw.updateBillchanged(bw.id)}"/>
+                                        <tr id="${bw.id}" style="background-color: red; color: white">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tab3" class="tabcontent">
+                        <table id="table-id-3" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Mã tài khoản</th>
+                                <th scope="col">Người nhận</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${bca}" var="bw">
+                                <c:choose>
+                                    <c:when test="${not empty bw.hash and bw.verify(bw.id, bw.idinfo, bw.idUser, bw.hash)}">
+                                        <tr id="${bw.id}" style="background-color: #82cd47">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:when>
 
 
-        <div  id="container11" style="height: 100%;">
-            <section class="h-100 h-custom">
-                <h3 style="margin-left: 50px">Quản lý đơn hàng</h3>
-                <div  class="container h-100 py-5">
-                    <div  class="row d-flex justify-content-center align-items-center h-100">
-                        <div class="col">
+                                    <c:when test="${empty bw.hash || bw.hash eq ''}">
 
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr style="margin-left: 30px">
+                                        <tr id="${bw.id}" style="background-color: white; color: black">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
 
-                                        <th   scope="col">BillID</th>
-                                        <th   scope="col">ValiID</th>
-                                        <th scope="col">Tổng số tiền</th>
-                                        <th scope="col" style="width:170px;padding-left: 40px">Trạng thái</th>
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
 
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <%
-                                        List<Bill> listA = (List<Bill>) request.getAttribute("BBB");
-                                        if (listA != null && !listA.isEmpty()) {
-                                            for (Bill bill : listA) {
-                                    %>
-                                    <tr >
+                                        <tr id="${bw.id}" style="background-color: red; color: white">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tab4" class="tabcontent">
+                        <table id="table-id-4" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Mã tài khoản</th>
+                                <th scope="col">Người nhận</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${bd}" var="bw">
+                                <c:choose>
+                                    <c:when test="${not empty bw.hash and bw.verify(bw.id, bw.idinfo, bw.idUser, bw.hash)}">
+                                        <tr id="${bw.id}" style="background-color: #82cd47">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                    <c:when test="${empty bw.hash || bw.hash eq ''}">
+
+                                        <tr id="${bw.id}" style="background-color: white; color: black">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="result" value="${bw.updateBillchanged(bw.id)}"/>
+                                        <tr id="${bw.id}" style="background-color: red; color: white">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tab5" class="tabcontent">
+                        <table id="table-id-5" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Mã tài khoản</th>
+                                <th scope="col">Người nhận</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="movetoship">
+                            <c:forEach items="${bs}" var="bw">
+                                <c:choose>
+                                    <c:when test="${not empty bw.hash and bw.verify(bw.id, bw.idinfo, bw.idUser, bw.hash)}">
+                                        <tr id="${bw.id}" style="background-color: #82cd47">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
+
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:when>
 
 
-                                        <td class="align-middle">
-                                            <p class="mb-0" style="font-weight: 500;"><%=bill.getId()%></p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="mb-0" style="font-weight: 500;"><%=bill.getBookingId()%></p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <div style="margin-left: 5px"><%=bill.getToltalPrice()%></div>
-                                        </td>
-                                        <td class="align-middle">
-                                            <div style="margin-left: 35px"><%=bill.getStatus()%></div>
-                                        </td>
-                                            <%
-                            }
-                        } else {
-                        %>
-                                    <tr>
-                                        <td colspan="4">No Orders available.</td>
-                                    </tr>
-                                    <%
-                                        }
-                                    %>
+                                    <c:when test="${empty bw.hash || bw.hash eq ''}">
 
+                                        <tr id="${bw.id}" style="background-color: white; color: black">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
 
-                                    </tr>
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="result" value="${bw.updateBillchanged(bw.id)}"/>
+                                        <tr id="${bw.id}" style="background-color: red; color: white">
+                                            <th scope="row">${bw.id}</th>
+                                            <td>${bw.idUser}</td>
+                                            <td>${bw.getNameReceive()}</td>
+                                            <td>${bw.getDate()}</td>
+                                            <td>${bw.getPhoneReceive()}</td>
+                                            <td><a href="BillDetailAdmin?id=${bw.id}">Nhấp để xem</a></td>
+                                            <td>${bw.getAdressReceive()}, ${bw.getWardReceive()}, ${bw.getDistrictReceive()}, ${bw.getProvinceReceive()}</td>
+                                            <td>${bw.total} VND</td>
+                                            <td>
 
-                                    </tbody>
-                                </table>
-                            </div>
-
-
-
-                        </div>
+                                                <button onclick="remove('${bw.id}')"
+                                                        class="btn btn-primary btn-sm trash"
+                                                        type="button" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </section>
-        </div>
-
-
-
-
-        </div>
-        <!-- footer -->
-        <div class="footer">
-            <div class="wthree-copyright">
-                <p>&copy; 2023-2024 <a href="https://github.com/MinhThinhrine/Do_An_Web">Nhóm 18</a>. All Right Reserved.</p>
             </div>
         </div>
-        <!-- / footer -->
-    </section>
-    <!--main content end-->
+    </div>
 </section>
-<script src="js/bootstrap.js"></script>
-<script src="js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="js/scripts.js"></script>
-<script src="js/jquery.slimscroll.js"></script>
-<script src="js/jquery.nicescroll.js"></script>
-<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
-<script src="js/jquery.scrollTo.js"></script>
-<!-- morris JavaScript -->
+<script>
+    $("#table-id-1").DataTable();
+    $("#table-id-2").DataTable();
+    $("#table-id-3").DataTable();
+    $("#table-id-4").DataTable();
+    $("#table-id-5").DataTable();
 
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
 
+    // Mở tab mặc định
+    document.getElementById("defaultOpen").click();
+
+    function confirm(id) {
+        $.ajax({
+            url: "ConfirmBill",
+            type: "get",
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("tr").remove("#" + id)
+                $("#confirm").html(data);
+            }
+        });
+    }
+
+    function remove(id) {
+        $.ajax({
+            url: "RemoveBill",
+            type: "get",
+            data: {
+                id: id
+            },
+            success: function () {
+                $("tr").remove("#" + id)
+            }
+        });
+    }
+
+    function movetoship(id) {
+        $.ajax({
+            url: "ShipBill",
+            type: "get",
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("tr").remove("#" + id)
+                $("#movetoship").html(data);
+            }
+        });
+    }
+</script>
 </body>
 </html>

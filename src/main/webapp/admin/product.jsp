@@ -29,6 +29,10 @@
     body {
       font-family: 'Roboto', sans-serif;
     }
+    .market-updates {
+      display: none;
+      margin: 1.5em 0;
+    }
   </style>
 </head>
 <body>

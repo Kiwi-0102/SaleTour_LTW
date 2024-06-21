@@ -32,7 +32,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="js/jquery2.0.3.min.js"></script>
     <script src="js/raphael-min.js"></script>
     <script src="js/morris.js"></script>
-
+    <style>
+        .market-updates {
+            display: none;
+            margin: 1.5em 0;
+        }
+    </style>
 </head>
 
 <%

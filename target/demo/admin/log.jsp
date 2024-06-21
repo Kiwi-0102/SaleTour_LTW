@@ -36,6 +36,10 @@
                 text-align: center;
             }
         }
+        .market-updates {
+            display: none;
+            margin: 1.5em 0;
+        }
     </style>
 </head>
 <%

@@ -25,7 +25,7 @@ public class BillDAO {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("bookingId");
                 String paymentMethod = rs.getString("paymentMethod");
-                double toltalPrice = rs.getDouble("toltalPrice");
+                double toltalPrice = rs.getDouble("totalPrice");
                 String status = rs.getString("status");
                 String noteBill = rs.getString("noteBill");
                 // Tạo đối tượng Booking từ dữ liệu lấy ra từ cơ sở dữ liệu
