@@ -646,5 +646,81 @@
         }
     }
 
+    // Sự kiện này dùng để chuyển sang trạng thái chuẩn bị tour
+    function plan(id) {
+        var notebile = document.getElementById("notebile");
+        notebile.innerText = `Ghi chú cho hóa đơn: ` + id;
+        var modal = document.getElementById("myModal");
+        var confirmBtn = document.getElementById("confirmBtn");
+        var cancelBtn = document.getElementById("cancelBtn");
+        var inputContent = document.getElementById("inputContent");
+
+        modal.style.display = "block";
+        inputContent.value = 'Đơn hàng đã chuẩn bị đủ các điều kiện để bắt đầu ';
+
+        cancelBtn.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Gỡ bỏ tất cả các sự kiện 'click' trước khi thêm mới
+        confirmBtn.replaceWith(confirmBtn.cloneNode(true));
+        confirmBtn = document.getElementById("confirmBtn");
+
+        // Khi nhấn nút Xác nhận
+        confirmBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+            var data = new URLSearchParams();
+            data.append("id",id);
+            data.append("note",inputContent.value);
+            data.append("action","chuanbitour")
+            fetch('InvoiceProcessing',{
+                method: 'POST',
+                body: data
+            })
+                .then(response=>{
+                    if(response.ok){
+                        inputContent.value = '';
+
+                        var table2 = $('#table-id-2').DataTable();
+                        var table6 = $('#table-id-6').DataTable();
+                        var row = table2.row('#' + id);
+                        var rowData = row.data();
+
+                        row.remove().draw();
+                        table6.row.add(rowData).draw();
+                        document.getElementById("remove"+id).classList.add("none");
+                        document.getElementById("plane"+id).classList.add("none");
+                        var element = document.getElementById("confirm" + id);
+                        if (element) {
+                            element.classList.add("none");
+                        } else {
+                            console.error("Element with id 'confirm" + id + "' not found.");
+                        }
+                        console.log("Sửa thành công");
+                    }else{
+                        alert("Co loi");
+                        console.log("co loi")
+                    }
+                })
+
+                .catch(err=>{
+                    alert(err)
+                    console.log(err)
+                })
+
+        });
+
+        cancelBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+
+        // Khi nhấn ra ngoài hộp thoại
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+
 </script>
 </body>
