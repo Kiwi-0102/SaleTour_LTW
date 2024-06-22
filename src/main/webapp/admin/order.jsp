@@ -140,6 +140,8 @@
     ArrayList<Bill> daxacnhan = (ArrayList<Bill>) request.getAttribute("daxacnhan");
     ArrayList<Bill> dahuy = (ArrayList<Bill>) request.getAttribute("dahuy");
     ArrayList<Bill> daxong = (ArrayList<Bill>) request.getAttribute("daxong");
+    ArrayList<Bill> dangxuly = (ArrayList<Bill>) request.getAttribute("dangxuly");
+
 %>
 <%@include file="header.jsp" %>
 <section class="home-section">
@@ -154,11 +156,10 @@
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <h2 id="notebile">Ghi chú</h2>
-                    <input type="text" style="width: 350px;height: 230px" id="inputContent"
-                           placeholder="Nhập nội dung tại đây...">
+                    <textarea id="inputContent" style="width: 350px;height: 140px" placeholder="Nhập nội dung tại đây..."></textarea>
                     <div class="modal-footer">
-                        <button id="confirmBtn">Xác nhận</button>
-                        <button id="cancelBtn">Hủy</button>
+                        <button id="confirmBtn" style="background-color: #0dcaf0">Xác nhận</button>
+                        <button id="cancelBtn" style="background-color: #e39c9c">Hủy</button>
                     </div>
                 </div>
             </div>
@@ -181,6 +182,7 @@
                             nhận
                         </button>
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab2')">Đã xác nhận</button>
+                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab6')">Đã chuẩn bị Tour</button>
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab3')">Đã hủy</button>
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab4')">Đã xong</button>
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab5')">Sắp bắt đầu</button>
@@ -222,13 +224,24 @@
                                 <td><%=bill.getToltalPrice()%>
                                 </td>
                                 <td>
-                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick"
+<%--                                    remove ---> confirm ||| confirm ---> remove--%>
+                                    <button onclick="remove(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>" class="btn btn-primary btn-sm tick"
                                             type="button" title="check">
                                         <i class="fa-solid fa-check"></i>
                                     </button>
-                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash"
+                                    <button onclick="confirm(<%=bill.getId()%>)" id="remove<%=bill.getId()%>" class="btn btn-primary btn-sm trash"
+                                            type="button" title="Hủy đơn hàng">
+                                        <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
+                                    </button>
+                                    <button onclick="plan(<%=bill.getId()%>)" id="plane<%=bill.getId()%>" class="btn btn-primary btn-sm trash none"
                                             type="button" title="Xóa">
-                                        <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>                                    </button>
+                                        <i class="fa-solid fa-plane-departure"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
+                                            onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                    </button>
+
                                 </td>
                             </tr>
                             <%}%>
@@ -263,11 +276,17 @@
                                 <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
                                 <td><%=bill.getToltalPrice()%></td>
                                 <td>
-                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
-                                        <i class="fa-solid fa-check"></i>
+                                    <button onclick="confirm(<%=bill.getId()%>)" id="remove<%=bill.getId()%>" class="btn btn-primary btn-sm trash"
+                                            type="button" title="Hủy đơn hàng">
+                                        <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
                                     </button>
-                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                        <i class="fas fa-trash-alt"></i>
+                                    <button onclick="plan(<%=bill.getId()%>)" id="plane<%=bill.getId()%>" class="btn btn-primary btn-sm trash"
+                                            type="button" title="Đã chuẩn bị Tour">
+                                        <i class="fa-solid fa-plane-departure"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
+                                            onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
+                                        <i class="fa-solid fa-circle-info"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -303,11 +322,9 @@
                                 <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
                                 <td><%=bill.getToltalPrice()%></td>
                                 <td>
-                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
-                                        <i class="fa-solid fa-check"></i>
-                                    </button>
-                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                        <i class="fas fa-trash-alt"></i>
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
+                                            onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
+                                        <i class="fa-solid fa-circle-info"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -344,11 +361,9 @@
                                 <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
                                 <td><%=bill.getToltalPrice()%></td>
                                 <td>
-                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
-                                        <i class="fa-solid fa-check"></i>
-                                    </button>
-                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                        <i class="fas fa-trash-alt"></i>
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
+                                            onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
+                                        <i class="fa-solid fa-circle-info"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -391,12 +406,57 @@
                                     <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
+                                            onclick="window.location.href='your-target-url-here'">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                    </button>
                                 </td>
                             </tr>
                             <%}%>
                             </tbody>
                         </table>
                     </div>
+                    <!-- Đã chuẩn bị Tour -->
+                    <div id="tab6" class="tabcontent">
+                        <table id="table-id-6" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mã hóa đơn</th>
+                                <th scope="col">Mã tài khoản</th>
+                                <th scope="col">Mã tour</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Số khách</th>
+                                <th scope="col">Ngày bắt đầu</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <%for(Bill bill : dangxuly){%>
+                            <tr id="<%=bill.getId()%>"  >
+                                <th scope="row"><%=bill.getId()%></th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
+                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
+                                <td><%=bill.getToltalPrice()%></td>
+                                <td>
+                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -410,6 +470,8 @@
         $('#table-id-3').DataTable();
         $('#table-id-4').DataTable();
         $('#table-id-5').DataTable();
+        $('#table-id-6').DataTable();
+
     });
 
     function openCity(evt, cityName) {
@@ -429,6 +491,7 @@
     // Mở tab đầu tiên theo mặc định
     document.getElementById("defaultOpen").click();
 
+    // Sự kiện này để hủy đơn
     function confirm(id) {
         var notebile = document.getElementById("notebile");
         notebile.innerText = `Ghi chú cho hóa đơn: ` + id;
@@ -437,7 +500,9 @@
         var cancelBtn = document.getElementById("cancelBtn");
         var inputContent = document.getElementById("inputContent");
 
+
         modal.style.display = "block";
+        inputContent.value = 'Đơn hàng được hủy bởi hệ thống';
 
         cancelBtn.onclick = function () {
             modal.style.display = "none";
@@ -460,9 +525,102 @@
             })
                 .then(response=>{
                     if(response.ok){
-                        alert("Ghi chú: " + id);
                         inputContent.value = '';
-                        console.log("sửa thành công")
+
+                        var table1 = $('#table-id-1').DataTable();
+                        var table3 = $('#table-id-3').DataTable();
+                        var row = table1.row('#' + id);
+                        var rowData = row.data();
+
+                        if (!row.node()) {
+                            var table2 = $('#table-id-2').DataTable();
+                            var row = table2.row('#' + id);
+                            var rowData = row.data();
+                            row.remove().draw();
+                            table3.row.add(rowData).draw();
+                            document.getElementById("remove"+id).classList.add("none");
+                            document.getElementById("confirm"+id).classList.add("none");
+                            document.getElementById("plane"+id).classList.add("none");
+
+                        }else{
+                        row.remove().draw();
+                        table3.row.add(rowData).draw();
+                        document.getElementById("remove"+id).classList.add("none");
+                        document.getElementById("confirm"+id).classList.add("none");
+                        document.getElementById("plane"+id).classList.add("none");
+                            console.log("Sửa thành công");
+                        }
+                    }else{
+                        alert("Co loi");
+                        console.log("co loi")
+                    }
+                })
+
+                .catch(err=>{
+                    alert(err)
+                    console.log(err)
+                })
+
+        });
+
+        cancelBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+
+        // Khi nhấn ra ngoài hộp thoại
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+
+    // Sự kiện này dùng để xác nhận đơn hàng
+    function remove(id) {
+        var notebile = document.getElementById("notebile");
+        notebile.innerText = `Ghi chú cho hóa đơn: ` + id;
+        var modal = document.getElementById("myModal");
+        var confirmBtn = document.getElementById("confirmBtn");
+        var cancelBtn = document.getElementById("cancelBtn");
+        var inputContent = document.getElementById("inputContent");
+
+        modal.style.display = "block";
+        inputContent.value = 'Đơn hàng đã được xác nhận';
+
+        cancelBtn.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Gỡ bỏ tất cả các sự kiện 'click' trước khi thêm mới
+        confirmBtn.replaceWith(confirmBtn.cloneNode(true));
+        confirmBtn = document.getElementById("confirmBtn");
+
+        // Khi nhấn nút Xác nhận
+        confirmBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+            var data = new URLSearchParams();
+            data.append("id",id);
+            data.append("note",inputContent.value);
+            data.append("action","xacnhanbill")
+            fetch('InvoiceProcessing',{
+                method: 'POST',
+                body: data
+            })
+                .then(response=>{
+                    if(response.ok){
+                        inputContent.value = '';
+
+                        var table1 = $('#table-id-1').DataTable();
+                        var table2 = $('#table-id-2').DataTable();
+                        var row = table1.row('#' + id);
+                        var rowData = row.data();
+
+                        row.remove().draw();
+                        table2.row.add(rowData).draw();
+                        // document.getElementById("remove"+id).classList.add("none");
+                        document.getElementById("plane"+id).classList.remove("none");
+                        document.getElementById("confirm"+id).classList.add("none");
+                        console.log("Sửa thành công");
                     }else{
                         alert("Co loi");
                         console.log("co loi")

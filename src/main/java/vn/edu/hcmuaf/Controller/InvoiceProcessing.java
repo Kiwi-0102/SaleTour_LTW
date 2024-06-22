@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.Controller;
 
 import vn.edu.hcmuaf.DAO.BillDAO;
+import vn.edu.hcmuaf.bean.Bill;
 import vn.edu.hcmuaf.serice.Const;
 
 import javax.servlet.*;
@@ -24,6 +25,13 @@ public class InvoiceProcessing extends HttpServlet {
 
             BillDAO billDAO = new BillDAO();
             billDAO.updateStatusBill(id, Const.DAHUY);
+            billDAO.noteBill(id,note);
+        }else if(action.equals("xacnhanbill")){
+            String note = request.getParameter("note");
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            BillDAO billDAO = new BillDAO();
+            billDAO.updateStatusBill(id, Const.DAXACNHAN);
             billDAO.noteBill(id,note);
         }
     }

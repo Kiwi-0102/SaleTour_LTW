@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// Sau khi đã xác nhận đơn hàng thì chỉ admin mới hủy được đơn hàng
 @WebServlet(name = "ListBill", value = "/ListBill")
 public class ListBill extends HttpServlet {
     @Override
@@ -34,6 +35,8 @@ public class ListBill extends HttpServlet {
                 dahuy.add(bill);
             } else if (bill.getStatus().equalsIgnoreCase(Const.DAXONG)) {
                 daxong.add(bill);
+            } else if (bill.getStatus().equalsIgnoreCase(Const.DACHUANBITOUR)) {
+                daxacnhan.add(bill);
             }
         }
         request.setAttribute("choxacnhan",choxacnhan);
