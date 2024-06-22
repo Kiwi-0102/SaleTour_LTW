@@ -28,6 +28,8 @@ public class ManageOrder extends HttpServlet {
         ArrayList<Bill> daxacnhan = new ArrayList<>();
         ArrayList<Bill> dahuy = new ArrayList<>();
         ArrayList<Bill> daxong = new ArrayList<>();
+        ArrayList<Bill> dangxuly = new ArrayList<>();
+
         for (Bill bill : listBill) {
             if (bill.getStatus().equalsIgnoreCase(Const.DAXACNHAN)){
                 daxacnhan.add(bill);
@@ -37,12 +39,16 @@ public class ManageOrder extends HttpServlet {
                 dahuy.add(bill);
             } else if (bill.getStatus().equalsIgnoreCase(Const.DAXONG)) {
                 daxong.add(bill);
+            } else if (bill.getStatus().equalsIgnoreCase(Const.DACHUANBITOUR)) {
+                dangxuly.add(bill);
             }
         }
         request.setAttribute("choxacnhan",choxacnhan);
         request.setAttribute("daxacnhan",daxacnhan);
         request.setAttribute("dahuy",dahuy);
         request.setAttribute("daxong",daxong);
+        request.setAttribute("dangxuly",dangxuly);
+
 
         request.getRequestDispatcher("order.jsp").forward(request,response);
 
@@ -52,8 +58,7 @@ public class ManageOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        processRequest(request, response);
+        processRequest(request,response);
     }
 
 

@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.Controller;
 
 import vn.edu.hcmuaf.DAO.BillDAO;
+import vn.edu.hcmuaf.bean.Bill;
 import vn.edu.hcmuaf.serice.Const;
 
 import javax.servlet.*;
@@ -18,13 +19,27 @@ public class InvoiceProcessing extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        if(action.equals("huybill")){
+        if (action.equals("huybill")) {
             String note = request.getParameter("note");
             int id = Integer.parseInt(request.getParameter("id"));
 
             BillDAO billDAO = new BillDAO();
             billDAO.updateStatusBill(id, Const.DAHUY);
-            billDAO.noteBill(id,note);
+            billDAO.noteBill(id, note);
+        } else if (action.equals("xacnhanbill")) {
+            String note = request.getParameter("note");
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            BillDAO billDAO = new BillDAO();
+            billDAO.updateStatusBill(id, Const.DAXACNHAN);
+            billDAO.noteBill(id, note);
+        } else if (action.equals("chuanbitour")) {
+            String note = request.getParameter("note");
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            BillDAO billDAO = new BillDAO();
+            billDAO.updateStatusBill(id, Const.DACHUANBITOUR);
+            billDAO.noteBill(id, note);
         }
     }
 }
