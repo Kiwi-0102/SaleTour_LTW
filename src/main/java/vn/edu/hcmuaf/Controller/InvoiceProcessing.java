@@ -40,6 +40,13 @@ public class InvoiceProcessing extends HttpServlet {
             BillDAO billDAO = new BillDAO();
             billDAO.updateStatusBill(id, Const.DACHUANBITOUR);
             billDAO.noteBill(id, note);
-        }
+        }else if(action.equals("daxongtour")){
+            String note = request.getParameter("note");
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            BillDAO billDAO = new BillDAO();
+            billDAO.updateStatusBill(id, Const.DAXONG);
+            billDAO.noteBill(id, note);
+    }
     }
 }
