@@ -238,7 +238,7 @@
                                         <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
                                     </button>
                                     <button onclick="plan(<%=bill.getId()%>)" id="plane<%=bill.getId()%>" class="btn btn-primary btn-sm trash none"
-                                            type="button" title="Xóa">
+                                            type="button" title="Đã chuẩn bị">
                                         <i class="fa-solid fa-plane-departure"></i>
                                     </button>
                                 </td>
@@ -287,8 +287,8 @@
                                             type="button" title="Đã chuẩn bị Tour">
                                         <i class="fa-solid fa-plane-departure"></i>
                                     </button>
-                                    <button onclick="remove(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>" class="btn btn-primary btn-sm tick none"
-                                            type="button" title="check">
+                                    <button onclick="daxong(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>" class="btn btn-primary btn-sm tick none"
+                                            type="button" title="Đã xong">
                                         <i class="fa-solid fa-check"></i>
                                     </button>
                                 </td>
@@ -352,7 +352,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tbody>
                             <%for(Bill bill : daxong){%>
                             <tr id="<%=bill.getId()%>"  >
                                 <th scope="row"><%=bill.getId()%></th>
@@ -371,7 +370,6 @@
                                 </td>
                             </tr>
                             <%}%>
-                            </tbody>
                             </tbody>
                         </table>
                     </div>
@@ -392,7 +390,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%for(Bill bill : choxacnhan){%>
+                            <%for(Bill bill : daxong){%>
                             <tr id="<%=bill.getId()%>"  >
                                 <th scope="row"><%=bill.getId()%></th>
                                 <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
@@ -403,11 +401,13 @@
                                 <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
                                 <td><%=bill.getToltalPrice()%></td>
                                 <td>
-                                    <button onclick="confirm(<%=bill.getId()%>)" class="btn btn-primary btn-sm tick" type="button" title="check">
-                                        <i class="fa-solid fa-check"></i>
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
+                                            onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
+                                        <i class="fa-solid fa-circle-info"></i>
                                     </button>
-                                    <button onclick="remove(<%=bill.getId()%>)" class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                        <i class="fas fa-trash-alt"></i>
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
+                                            onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
+                                        <i class="fa-solid fa-circle-info"></i>
                                     </button>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -452,7 +452,7 @@
                                         <i class="fa-solid fa-circle-info"></i>
                                     </button>
                                     <button onclick="daxong(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>" class="btn btn-primary btn-sm tick"
-                                            type="button" title="check">
+                                            type="button" title="Đã xong">
                                         <i class="fa-solid fa-check"></i>
                                     </button>
                                 </td>
@@ -588,73 +588,72 @@
         var confirmBtn = document.getElementById("confirmBtn");
         var cancelBtn = document.getElementById("cancelBtn");
         var inputContent = document.getElementById("inputContent");
-
         modal.style.display = "block";
         inputContent.value = 'Đơn hàng đã được xác nhận';
-
         cancelBtn.onclick = function () {
             modal.style.display = "none";
         }
 
-        // Gỡ bỏ tất cả các sự kiện 'click' trước khi thêm mới
+        // Thay thế nút và gán lại sự kiện
         confirmBtn.replaceWith(confirmBtn.cloneNode(true));
         confirmBtn = document.getElementById("confirmBtn");
 
-        // Khi nhấn nút Xác nhận
-        confirmBtn.addEventListener("click", () => {
+        confirmBtn.addEventListener("click", function () {
             modal.style.display = "none";
             var data = new URLSearchParams();
-            data.append("id",id);
-            data.append("note",inputContent.value);
-            data.append("action","xacnhanbill")
-            fetch('InvoiceProcessing',{
+            data.append("id", id);
+            data.append("note", inputContent.value);
+            data.append("action", "xacnhanbill");
+            fetch('InvoiceProcessing', {
                 method: 'POST',
                 body: data
             })
-                .then(response=>{
-                    if(response.ok){
+                .then(response => {
+                    if (response.ok) {
                         inputContent.value = '';
-
                         var table1 = $('#table-id-1').DataTable();
                         var table2 = $('#table-id-2').DataTable();
                         var row = table1.row('#' + id);
                         var rowData = row.data();
-
                         row.remove().draw();
+                        if(!rowData){
+                            daxong(id);
+                            return
+                        }
                         table2.row.add(rowData).draw();
-                        // document.getElementById("remove"+id).classList.add("none");
-                        document.getElementById("plane"+id).classList.remove("none");
-                        const confirm = document.getElementById("confirm"+id);
+                        // document.getElementById("remove" + id).classList.add("none");
+                        document.getElementById("plane" + id).classList.remove("none");
+                        const confirm = document.getElementById("confirm" + id);
                         confirm.classList.add("none");
 
-                        confirm.onclick = id=>{
-                            daxong(id);
-                        }
+                        // Gán sự kiện onclick lại cho confirm
+                        confirm.onclick = function () {
+                            alert("Sửa lại cho sự kiện onclick confirm")
+                        };
+                        confirm.title = "Đã xong";
                         console.log("Sửa thành công");
-                    }else{
-                        alert("Co loi");
-                        console.log("co loi")
+                    } else {
+                        alert("Có lỗi");
+                        console.log("Có lỗi");
                     }
                 })
-
-                .catch(err=>{
-                    alert(err)
-                    console.log(err)
-                })
-
+                .catch(err => {
+                    alert("Lỗi:"+ err);
+                    console.log(err);
+                });
         });
 
-        cancelBtn.addEventListener("click", () => {
+        cancelBtn.addEventListener("click", function () {
             modal.style.display = "none";
         });
 
-        // Khi nhấn ra ngoài hộp thoại
         window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
-        }
+        };
     }
+
 
     // Sự kiện này dùng để chuyển sang trạng thái chuẩn bị tour
     function plan(id) {
@@ -664,19 +663,14 @@
         var confirmBtn = document.getElementById("confirmBtn");
         var cancelBtn = document.getElementById("cancelBtn");
         var inputContent = document.getElementById("inputContent");
-
         modal.style.display = "block";
         inputContent.value = 'Tour đã chuẩn bị đủ các điều kiện để bắt đầu ';
 
         cancelBtn.onclick = function () {
             modal.style.display = "none";
         }
-
-        // Gỡ bỏ tất cả các sự kiện 'click' trước khi thêm mới
         confirmBtn.replaceWith(confirmBtn.cloneNode(true));
         confirmBtn = document.getElementById("confirmBtn");
-
-        // Khi nhấn nút Xác nhận
         confirmBtn.addEventListener("click", () => {
             modal.style.display = "none";
             var data = new URLSearchParams();
@@ -690,17 +684,21 @@
                 .then(response=>{
                     if(response.ok){
                         inputContent.value = '';
-
                         var table2 = $('#table-id-2').DataTable();
                         var table6 = $('#table-id-6').DataTable();
                         var row = table2.row('#' + id);
                         var rowData = row.data();
-
                         row.remove().draw();
                         table6.row.add(rowData).draw();
                         document.getElementById("remove"+id).classList.add("none");
                         document.getElementById("plane"+id).classList.add("none");
-                        document.getElementById("confirm"+id).classList.remove("none");
+                        var comfirm = document.getElementById("confirm"+id)
+                        comfirm.classList.remove("none");
+                        comfirm.title = "Đã xong"
+
+                        comfirm.onclick = function (){
+                            daxong(id)
+                        }
 
                         console.log("Sửa thành công");
                     }else{
@@ -708,26 +706,20 @@
                         console.log("co loi")
                     }
                 })
-
                 .catch(err=>{
-                    alert(err)
+                    alert("loioooo "+err)
                     console.log(err)
                 })
-
         });
-
         cancelBtn.addEventListener("click", () => {
             modal.style.display = "none";
         });
-
-        // Khi nhấn ra ngoài hộp thoại
         window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
     }
-
 
     // Sự kiện này dùng để chuyển sang trạng thái đã xong
     function daxong(id) {
@@ -737,19 +729,13 @@
         var confirmBtn = document.getElementById("confirmBtn");
         var cancelBtn = document.getElementById("cancelBtn");
         var inputContent = document.getElementById("inputContent");
-
         modal.style.display = "block";
         inputContent.value = 'Tour đã diễn ra và hoàn tất ';
-
         cancelBtn.onclick = function () {
             modal.style.display = "none";
         }
-
-        // Gỡ bỏ tất cả các sự kiện 'click' trước khi thêm mới
         confirmBtn.replaceWith(confirmBtn.cloneNode(true));
         confirmBtn = document.getElementById("confirmBtn");
-
-        // Khi nhấn nút Xác nhận
         confirmBtn.addEventListener("click", () => {
             modal.style.display = "none";
             var data = new URLSearchParams();
@@ -771,10 +757,15 @@
 
                         row.remove().draw();
                         table4.row.add(rowData).draw();
-                        document.getElementById("remove"+id).classList.add("none");
-                        document.getElementById("plane"+id).classList.add("none");
+                        var remove = document.getElementById("remove"+id);
+                        var plane = document.getElementById("plane"+id);
                         document.getElementById("confirm"+id).classList.add("none");
-
+                        if(remove){
+                            remove.classList.add("none")
+                        }
+                        if(plane){
+                            plane.classList.add("none")
+                        }
                         console.log("Sửa thành công");
                     }else{
                         alert("Co loi");
