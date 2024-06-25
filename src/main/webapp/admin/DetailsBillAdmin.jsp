@@ -1,5 +1,4 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="vn.edu.hcmuaf.bean.Log" %>
 <%@ page import="vn.edu.hcmuaf.bean.Bill" %>
 <%@ page import="vn.edu.hcmuaf.bean.Booking" %>
 <%@ page import="vn.edu.hcmuaf.DAO.BookingDAO" %>
@@ -40,7 +39,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             border-radius: 12px;
             box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
         }
-
+        th{
+            width: 300px;
+        }
         .dt-orderable-asc.dt-orderable-desc {
             align-content: center;
             text-align: center;
@@ -49,6 +50,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         .shadow-table {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
+        }
+        input {
+            width: 400px;
+            border: none;
+            outline: none; /* Xóa đi đường viền màu xanh xung quanh input khi focus */
         }
     </style>
 </head>
@@ -71,72 +77,128 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <tr>
                     <th scope="col">Thuộc tính</th>
                     <th scope="col">Giá trị</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th scope="row">Mã hóa đơn</th>
-                    <td><%=bill.getId()%></td>
+                    <td><input type="text" value="<%=bill.getId()%>" readonly></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Mã đặt hàng</th>
-                    <td><%=bill.getBookingId()%></td>
+                    <td><input type="text" value="<%=bill.getBookingId()%>" readonly></td>
+                    <td>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Mã tài khoản</th>
-                    <td><%=booking.getUserId()%></td>
+                    <td><input type="text" value="<%=booking.getUserId()%>" readonly></td>
+                    <td>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Phương thức thanh toán</th>
-                    <td><%=bill.getPaymentMethod()%></td>
+                    <td><input type="text" value="<%=bill.getPaymentMethod()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Tổng tiền</th>
-                    <td><%=bill.getToltalPrice()%></td>
+                    <td><input type="text" value="<%=bill.getToltalPrice()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Trạng thái hóa đơn</th>
-                    <td><%=bill.getStatus()%></td>
+                    <td><input type="text" value="<%=bill.getStatus()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Ngày đặt Tour</th>
-                    <td><%=booking.getDate()%></td>
+                    <td><input type="text" value="<%=booking.getDate()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Ngày bắt đầu</th>
-                    <td><%=booking.getDateStart()%></td>
+                    <td><input type="text" value="<%=booking.getDateStart()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Mã Tour</th>
-                    <td><%=booking.getTourId()%></td>
+                    <td><input type="text" value="<%=booking.getTourId()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Số người lớn</th>
-                    <td><%=booking.getNumAdult()%></td>
+                    <td><input type="text" value="<%=booking.getNumAdult()%>" readonly></td>
+                    <td>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Số trẻ em</th>
-                    <td><%=booking.getNumChildren()%></td>
+                    <td><input type="text" value="<%=booking.getNumChildren()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Tên người đặt hàng</th>
-                    <td><%=booking.getName()%></td>
+                    <td><input type="text" value="<%=booking.getName()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Số điện thoại</th>
-                    <td><%=booking.getPhone()%></td>
+                    <td><input type="text" value="<%=booking.getPhone()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">email</th>
-                    <td><%=booking.getEmail()%></td>
+                    <td><input type="text" value="<%=booking.getEmail()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Địa chỉ</th>
-                    <td><%=booking.getAddress()%></td>
+                    <td><input type="text" value="<%=booking.getAddress()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Ghi chú</th>
-                    <td><%=bill.getNoteBill()%></td>
+                    <td><input type="text" value="<%=bill.getNoteBill()%>" readonly></td>
+                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </td>
                 </tr>
                 </tbody>
             </table>

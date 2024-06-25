@@ -2,6 +2,8 @@
 <%@ page import="vn.edu.hcmuaf.bean.Bill" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="static vn.edu.hcmuaf.DAO.BookingDAO.getBookingbyId" %>
+<%@ page import="static vn.edu.hcmuaf.serice.Const.daystar" %>
+<%@ page import="vn.edu.hcmuaf.serice.Const" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +40,7 @@
         }
 
         .red-box {
-            background-color: red;
+            background-color: #8feeff;
         }
 
         .green-box {
@@ -149,6 +151,7 @@
         <div class="manager-checkout" style="width: 98%">
             <div class="title">Quản Lý Đơn Hàng</div>
 
+            <button>
             <!-- Nút mở hộp thoại -->
             <button id="openModalBtn" style="display:none;">Mở hộp thoại</button>
 
@@ -156,7 +159,8 @@
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <h2 id="notebile">Ghi chú</h2>
-                    <textarea id="inputContent" style="width: 350px;height: 140px" placeholder="Nhập nội dung tại đây..."></textarea>
+                    <textarea id="inputContent" style="width: 350px;height: 140px"
+                              placeholder="Nhập nội dung tại đây..."></textarea>
                     <div class="modal-footer">
                         <button id="confirmBtn" style="background-color: #0dcaf0">Xác nhận</button>
                         <button id="cancelBtn" style="background-color: #e39c9c">Hủy</button>
@@ -164,14 +168,14 @@
                 </div>
             </div>
 
-            <div class="container none">
+            <div class="container">
                 <div class="box red-box">
-                    <div class="text invalid">Hóa đơn không hợp lệ, nội dung không giống với ban đầu</div>
+                    <div class="text invalid" style="margin-left: 15px" id="textinvalid">Hóa đơn có tour sẽ bắt đầu sau 5 ngày</div>
                 </div>
-                <div class="box green-box">
+                <div class="box green-box none">
                     <div class="text">Hóa đơn đã được xác thực, nội dung không bị thay đổi</div>
                 </div>
-                <div class="box white-box">
+                <div class="box white-box none">
                     <div class="text2">Hóa đơn chưa xác thực</div>
                 </div>
             </div>
@@ -185,7 +189,7 @@
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab6')">Đã chuẩn bị Tour</button>
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab3')">Đã hủy</button>
                         <button class="tablinks col-sm-2" onclick="openCity(event, 'tab4')">Đã xong</button>
-                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab5')">Sắp bắt đầu</button>
+                        <%--                        <button class="tablinks col-sm-2" onclick="openCity(event, 'tab5')">Sắp bắt đầu</button>--%>
                     </div>
                     <!-- Chờ xác nhận -->
                     <div id="tab1" class="tabcontent">
@@ -212,14 +216,17 @@
                                 </td>
                                 <td><%=getBookingbyId(bill.getBookingId()).getTourId()%>
                                 </td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%>
+                                <td>
+                                <%=getBookingbyId(bill.getBookingId()).getDate()%>
                                 </td>
                                 <td><%=getBookingbyId(bill.getBookingId()).getPhone()%>
                                 </td>
                                 <td>
                                     <a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult() + getBookingbyId(bill.getBookingId()).getNumChildren()%>
-                                    </a></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%>
+                                    </a>
+                                </td>
+                                <td style="<%=(daystar(getBookingbyId(bill.getBookingId()).getDateStart()) > 0 && daystar(getBookingbyId(bill.getBookingId()).getDateStart()) <= 5) ? "background-color: #8feeff;color:back" : "background-color: none;color:back" %>">
+                                    <%=getBookingbyId(bill.getBookingId()).getDateStart()%>
                                 </td>
                                 <td><%=bill.getToltalPrice()%>
                                 </td>
@@ -228,16 +235,19 @@
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
                                         <i class="fa-solid fa-circle-info"></i>
                                     </button>
-<%--                                    remove ---> confirm ||| confirm ---> remove--%>
-                                    <button onclick="remove(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>" class="btn btn-primary btn-sm tick"
+                                    <%--                                    remove ---> confirm ||| confirm ---> remove--%>
+                                    <button onclick="remove(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>"
+                                            class="btn btn-primary btn-sm tick"
                                             type="button" title="check">
                                         <i class="fa-solid fa-check"></i>
                                     </button>
-                                    <button onclick="confirm(<%=bill.getId()%>)" id="remove<%=bill.getId()%>" class="btn btn-primary btn-sm trash"
+                                    <button onclick="confirm(<%=bill.getId()%>)" id="remove<%=bill.getId()%>"
+                                            class="btn btn-primary btn-sm trash"
                                             type="button" title="Hủy đơn hàng">
                                         <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
                                     </button>
-                                    <button onclick="plan(<%=bill.getId()%>)" id="plane<%=bill.getId()%>" class="btn btn-primary btn-sm trash none"
+                                    <button onclick="plan(<%=bill.getId()%>)" id="plane<%=bill.getId()%>"
+                                            class="btn btn-primary btn-sm trash none"
                                             type="button" title="Đã chuẩn bị">
                                         <i class="fa-solid fa-plane-departure"></i>
                                     </button>
@@ -264,30 +274,44 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%for(Bill bill : daxacnhan){%>
-                            <tr id="<%=bill.getId()%>"  >
-                                <th scope="row"><%=bill.getId()%></th>
-                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
-                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
-                                <td><%=bill.getToltalPrice()%></td>
+                            <%for (Bill bill : daxacnhan) {%>
+                            <tr id="<%=bill.getId()%>">
+                                <th scope="row"><%=bill.getId()%>
+                                </th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%>
+                                </td>
+                                <td>
+                                    <%=getBookingbyId(bill.getBookingId()).getDate()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%>
+                                </td>
+                                <td>
+                                    <a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult() + getBookingbyId(bill.getBookingId()).getNumChildren()%>
+                                    </a></td>
+                                <td style="<%= (daystar(getBookingbyId(bill.getBookingId()).getDateStart()) > 0 && daystar(getBookingbyId(bill.getBookingId()).getDateStart()) <= 5) ? "background-color: #8feeff;color:back" : "background-color: none;color:back" %>">
+                                    <%=getBookingbyId(bill.getBookingId()).getDateStart()%>
+                                </td>
+                                <td><%=bill.getToltalPrice()%>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
                                         <i class="fa-solid fa-circle-info"></i>
                                     </button>
-                                    <button onclick="confirm(<%=bill.getId()%>)" id="remove<%=bill.getId()%>" class="btn btn-primary btn-sm trash"
+                                    <button onclick="confirm(<%=bill.getId()%>)" id="remove<%=bill.getId()%>"
+                                            class="btn btn-primary btn-sm trash"
                                             type="button" title="Hủy đơn hàng">
                                         <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
                                     </button>
-                                    <button onclick="plan(<%=bill.getId()%>)" id="plane<%=bill.getId()%>" class="btn btn-primary btn-sm trash"
+                                    <button onclick="plan(<%=bill.getId()%>)" id="plane<%=bill.getId()%>"
+                                            class="btn btn-primary btn-sm trash"
                                             type="button" title="Đã chuẩn bị Tour">
                                         <i class="fa-solid fa-plane-departure"></i>
                                     </button>
-                                    <button onclick="daxong(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>" class="btn btn-primary btn-sm tick none"
+                                    <button onclick="daxong(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>"
+                                            class="btn btn-primary btn-sm tick none"
                                             type="button" title="Đã xong">
                                         <i class="fa-solid fa-check"></i>
                                     </button>
@@ -314,16 +338,27 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%for(Bill bill : dahuy){%>
-                            <tr id="<%=bill.getId()%>"  >
-                                <th scope="row"><%=bill.getId()%></th>
-                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
-                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
-                                <td><%=bill.getToltalPrice()%></td>
+                            <%for (Bill bill : dahuy) {%>
+                            <tr id="<%=bill.getId()%>">
+                                <th scope="row"><%=bill.getId()%>
+                                </th>
+                                <td ><%=getBookingbyId(bill.getBookingId()).getUserId()%>
+                                </td>
+                                <td style="<%= (bill.getStatus().equals(Const.DAHUY) && bill.getNoteBill().equalsIgnoreCase("Hủy bởi khách hàng")) ? "background-color: #8feeff; color: black;" : "background-color: none; color: black;" %>">
+                                    <%= getBookingbyId(bill.getBookingId()).getTourId() %>
+                                </td>
+                                <td>
+                                    <%=getBookingbyId(bill.getBookingId()).getDate()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%>
+                                </td>
+                                <td>
+                                    <a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult() + getBookingbyId(bill.getBookingId()).getNumChildren()%>
+                                    </a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%>
+                                </td>
+                                <td><%=bill.getToltalPrice()%>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -352,16 +387,26 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%for(Bill bill : daxong){%>
-                            <tr id="<%=bill.getId()%>"  >
-                                <th scope="row"><%=bill.getId()%></th>
-                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
-                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
-                                <td><%=bill.getToltalPrice()%></td>
+                            <%for (Bill bill : daxong) {%>
+                            <tr id="<%=bill.getId()%>">
+                                <th scope="row"><%=bill.getId()%>
+                                </th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%>
+                                </td>
+                                <td>
+                                    <%=getBookingbyId(bill.getBookingId()).getDate()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%>
+                                </td>
+                                <td>
+                                    <a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult() + getBookingbyId(bill.getBookingId()).getNumChildren()%>
+                                    </a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%>
+                                </td>
+                                <td><%=bill.getToltalPrice()%>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -390,16 +435,26 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%for(Bill bill : daxong){%>
-                            <tr id="<%=bill.getId()%>"  >
-                                <th scope="row"><%=bill.getId()%></th>
-                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
-                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
-                                <td><%=bill.getToltalPrice()%></td>
+                            <%for (Bill bill : daxong) {%>
+                            <tr id="<%=bill.getId()%>">
+                                <th scope="row"><%=bill.getId()%>
+                                </th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%>
+                                </td>
+                                <td>
+                                    <%=getBookingbyId(bill.getBookingId()).getDate()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%>
+                                </td>
+                                <td>
+                                    <a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult() + getBookingbyId(bill.getBookingId()).getNumChildren()%>
+                                    </a></td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%>
+                                </td>
+                                <td><%=bill.getToltalPrice()%>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -436,22 +491,34 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%for(Bill bill : dangxuly){%>
-                            <tr id="<%=bill.getId()%>"  >
-                                <th scope="row"><%=bill.getId()%></th>
-                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDate()%></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%></td>
-                                <td><a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult()+getBookingbyId(bill.getBookingId()).getNumChildren()%></a></td>
-                                <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%></td>
-                                <td><%=bill.getToltalPrice()%></td>
+                            <%for (Bill bill : dangxuly) {%>
+                            <tr id="<%=bill.getId()%>">
+                                <th scope="row"><%=bill.getId()%>
+                                </th>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getTourId()%>
+                                </td>
+                                <td>
+                                    <%=getBookingbyId(bill.getBookingId()).getDate()%>
+                                </td>
+                                <td><%=getBookingbyId(bill.getBookingId()).getPhone()%>
+                                </td>
+                                <td>
+                                    <a href="BillDetailAdmin?id=1"><%=getBookingbyId(bill.getBookingId()).getNumAdult() + getBookingbyId(bill.getBookingId()).getNumChildren()%>
+                                    </a></td>
+                                <td style="<%= (daystar(getBookingbyId(bill.getBookingId()).getDateStart()) > 0 && daystar(getBookingbyId(bill.getBookingId()).getDateStart()) <= 5) ? "background-color: #8feeff;color:back" : "background-color: none;color:back" %>">
+                                    <%=getBookingbyId(bill.getBookingId()).getDateStart()%>
+                                </td>
+                                <td><%=bill.getToltalPrice()%>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
                                         <i class="fa-solid fa-circle-info"></i>
                                     </button>
-                                    <button onclick="daxong(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>" class="btn btn-primary btn-sm tick"
+                                    <button onclick="daxong(<%=bill.getId()%>)" id="confirm<%=bill.getId()%>"
+                                            class="btn btn-primary btn-sm tick"
                                             type="button" title="Đã xong">
                                         <i class="fa-solid fa-check"></i>
                                     </button>
@@ -491,6 +558,14 @@
         }
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
+
+        if(cityName === 'tab3'){
+            var note = document.getElementById('textinvalid');
+            note.textContent = 'Đã hủy bởi khách hàng'
+        }else{
+            var note = document.getElementById('textinvalid');
+            note.innerText = '      Hóa đơn có tour sẽ bắt đầu sau 5 ngày'
+        }
     }
 
     // Mở tab đầu tiên theo mặc định
@@ -521,15 +596,15 @@
         confirmBtn.addEventListener("click", () => {
             modal.style.display = "none";
             var data = new URLSearchParams();
-            data.append("id",id);
-            data.append("note",inputContent.value);
-            data.append("action","huybill")
-            fetch('InvoiceProcessing',{
+            data.append("id", id);
+            data.append("note", inputContent.value);
+            data.append("action", "huybill")
+            fetch('InvoiceProcessing', {
                 method: 'POST',
                 body: data
             })
-                .then(response=>{
-                    if(response.ok){
+                .then(response => {
+                    if (response.ok) {
                         inputContent.value = '';
 
                         var table1 = $('#table-id-1').DataTable();
@@ -543,25 +618,25 @@
                             var rowData = row.data();
                             row.remove().draw();
                             table3.row.add(rowData).draw();
-                            document.getElementById("remove"+id).classList.add("none");
-                            document.getElementById("confirm"+id).classList.add("none");
-                            document.getElementById("plane"+id).classList.add("none");
+                            document.getElementById("remove" + id).classList.add("none");
+                            document.getElementById("confirm" + id).classList.add("none");
+                            document.getElementById("plane" + id).classList.add("none");
 
-                        }else{
-                        row.remove().draw();
-                        table3.row.add(rowData).draw();
-                        document.getElementById("remove"+id).classList.add("none");
-                        document.getElementById("confirm"+id).classList.add("none");
-                        document.getElementById("plane"+id).classList.add("none");
+                        } else {
+                            row.remove().draw();
+                            table3.row.add(rowData).draw();
+                            document.getElementById("remove" + id).classList.add("none");
+                            document.getElementById("confirm" + id).classList.add("none");
+                            document.getElementById("plane" + id).classList.add("none");
                             console.log("Sửa thành công");
                         }
-                    }else{
+                    } else {
                         alert("Co loi");
                         console.log("co loi")
                     }
                 })
 
-                .catch(err=>{
+                .catch(err => {
                     alert(err)
                     console.log(err)
                 })
@@ -616,7 +691,7 @@
                         var row = table1.row('#' + id);
                         var rowData = row.data();
                         row.remove().draw();
-                        if(!rowData){
+                        if (!rowData) {
                             daxong(id);
                             return
                         }
@@ -638,7 +713,7 @@
                     }
                 })
                 .catch(err => {
-                    alert("Lỗi:"+ err);
+                    alert("Lỗi:" + err);
                     console.log(err);
                 });
         });
@@ -674,15 +749,15 @@
         confirmBtn.addEventListener("click", () => {
             modal.style.display = "none";
             var data = new URLSearchParams();
-            data.append("id",id);
-            data.append("note",inputContent.value);
-            data.append("action","chuanbitour")
-            fetch('InvoiceProcessing',{
+            data.append("id", id);
+            data.append("note", inputContent.value);
+            data.append("action", "chuanbitour")
+            fetch('InvoiceProcessing', {
                 method: 'POST',
                 body: data
             })
-                .then(response=>{
-                    if(response.ok){
+                .then(response => {
+                    if (response.ok) {
                         inputContent.value = '';
                         var table2 = $('#table-id-2').DataTable();
                         var table6 = $('#table-id-6').DataTable();
@@ -690,24 +765,24 @@
                         var rowData = row.data();
                         row.remove().draw();
                         table6.row.add(rowData).draw();
-                        document.getElementById("remove"+id).classList.add("none");
-                        document.getElementById("plane"+id).classList.add("none");
-                        var comfirm = document.getElementById("confirm"+id)
+                        document.getElementById("remove" + id).classList.add("none");
+                        document.getElementById("plane" + id).classList.add("none");
+                        var comfirm = document.getElementById("confirm" + id)
                         comfirm.classList.remove("none");
                         comfirm.title = "Đã xong"
 
-                        comfirm.onclick = function (){
+                        comfirm.onclick = function () {
                             daxong(id)
                         }
 
                         console.log("Sửa thành công");
-                    }else{
+                    } else {
                         alert("Co loi");
                         console.log("co loi")
                     }
                 })
-                .catch(err=>{
-                    alert("loioooo "+err)
+                .catch(err => {
+                    alert("loioooo " + err)
                     console.log(err)
                 })
         });
@@ -739,15 +814,15 @@
         confirmBtn.addEventListener("click", () => {
             modal.style.display = "none";
             var data = new URLSearchParams();
-            data.append("id",id);
-            data.append("note",inputContent.value);
-            data.append("action","daxongtour")
-            fetch('InvoiceProcessing',{
+            data.append("id", id);
+            data.append("note", inputContent.value);
+            data.append("action", "daxongtour")
+            fetch('InvoiceProcessing', {
                 method: 'POST',
                 body: data
             })
-                .then(response=>{
-                    if(response.ok){
+                .then(response => {
+                    if (response.ok) {
                         inputContent.value = '';
 
                         var table6 = $('#table-id-6').DataTable();
@@ -757,23 +832,23 @@
 
                         row.remove().draw();
                         table4.row.add(rowData).draw();
-                        var remove = document.getElementById("remove"+id);
-                        var plane = document.getElementById("plane"+id);
-                        document.getElementById("confirm"+id).classList.add("none");
-                        if(remove){
+                        var remove = document.getElementById("remove" + id);
+                        var plane = document.getElementById("plane" + id);
+                        document.getElementById("confirm" + id).classList.add("none");
+                        if (remove) {
                             remove.classList.add("none")
                         }
-                        if(plane){
+                        if (plane) {
                             plane.classList.add("none")
                         }
                         console.log("Sửa thành công");
-                    }else{
+                    } else {
                         alert("Co loi");
                         console.log("co loi")
                     }
                 })
 
-                .catch(err=>{
+                .catch(err => {
                     alert(err)
                     console.log(err)
                 })
@@ -791,6 +866,7 @@
             }
         }
     }
+
 
 </script>
 </body>

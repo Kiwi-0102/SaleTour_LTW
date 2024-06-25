@@ -145,6 +145,22 @@ public class BillDAO {
         }
     }
 
+    public static void updateBill(String property, String value, int id) {
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "UPDATE bills SET " + property + " = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, value);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+    }
+
     public static void updateStatusBill(int billId, String status) {
         try {
             connection = ConnectToDatabase.getConnect();
@@ -178,6 +194,6 @@ public class BillDAO {
     }
 
     public static void main(String[] args) {
-        new BillDAO().updateStatusBill(2, Const.DAHUY);
+        new BillDAO().updateBill("paymentMethod","vnpay",4);
     }
 }

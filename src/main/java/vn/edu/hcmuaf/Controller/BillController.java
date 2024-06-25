@@ -67,10 +67,11 @@ public class BillController extends HttpServlet {
             session.setAttribute("quatity",quatity);
 
             Integer quantitycc = (Integer) session.getAttribute("quatitycc");
-            int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 1;
+            int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 0;
             User user = (User) session.getAttribute("user");
+            System.out.println("CC "+quatitycc + ", adu"+quatity) ;
             BookingDAO bkd = new BookingDAO();
-            int idbk = BookingDAO.insertBooking(user.getId(), tour.getId(), quatity, quatitycc, userdk.getUserName(), userdk.getPhoneNumber(), userdk.getEmail(), userdk.getAddress(), tour.getStartTime());
+            int idbk = BookingDAO.insertBooking(user.getId(), tour.getId(), quatitycc,quatity , userdk.getUserName(), userdk.getPhoneNumber(), userdk.getEmail(), userdk.getAddress(), tour.getStartTime());
 
             BillDAO billDao = new BillDAO();
             int idb = BillDAO.insertBill(idbk, payment, 100000.0, Const.CHOXACNHAN,null);
