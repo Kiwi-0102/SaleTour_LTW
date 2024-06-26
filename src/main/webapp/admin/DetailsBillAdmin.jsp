@@ -54,7 +54,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         input {
             width: 400px;
             border: none;
-            outline: none; /* Xóa đi đường viền màu xanh xung quanh input khi focus */
+            outline: none;
         }
     </style>
 </head>
@@ -71,134 +71,100 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <% if (err != null && !err.isEmpty()) { %>
         <div style="color: red"><%= err %></div>
         <% } %>
+        <div id="message" class="message"></div>
         <div class="manager-product">
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Thuộc tính</th>
                     <th scope="col">Giá trị</th>
-                    <th></th>
+                    <th>
+                        <button type="button" id="setting" onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
+                        <button type="button" id="check" style="display: none" onclick="checkInfor()"><i class="fa-solid fa-circle-check"></i></button>
+                        <button type="button" id="destroy" style="display: none" onclick="disableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th scope="row">Mã hóa đơn</th>
-                    <td><input type="text" value="<%=bill.getId()%>" readonly></td>
+                    <td><%=bill.getId()%></td>
+                    <td></td>
+                </tr>
+                <tr style="display: none">
+                    <th scope="row">Mã đặt hàng</th>
+                    <td><%=bill.getBookingId()%></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <th scope="row">Mã đặt hàng</th>
-                    <td><input type="text" value="<%=bill.getBookingId()%>" readonly></td>
-                    <td>
-                    </td>
-                </tr>
-                <tr>
                     <th scope="row">Mã tài khoản</th>
-                    <td><input type="text" value="<%=booking.getUserId()%>" readonly></td>
-                    <td>
-                    </td>
+                    <td><%=booking.getUserId()%></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Phương thức thanh toán</th>
-                    <td><input type="text" value="<%=bill.getPaymentMethod()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><%=bill.getPaymentMethod()%></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Tổng tiền</th>
-                    <td><input type="text" value="<%=bill.getToltalPrice()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><%=bill.getToltalPrice()%></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Trạng thái hóa đơn</th>
-                    <td><input type="text" value="<%=bill.getStatus()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><input type="text" id="status" value="<%=bill.getStatus()%>" readonly></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Ngày đặt Tour</th>
-                    <td><input type="text" value="<%=booking.getDate()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><%=booking.getDate()%></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Ngày bắt đầu</th>
-                    <td><input type="text" value="<%=booking.getDateStart()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><input type="text" id="date" value="<%=booking.getDateStart()%>" readonly></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Mã Tour</th>
-                    <td><input type="text" value="<%=booking.getTourId()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><%=booking.getTourId()%></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Số người lớn</th>
-                    <td><input type="text" value="<%=booking.getNumAdult()%>" readonly></td>
-                    <td>
-                    </td>
+                    <td><%=booking.getNumAdult()%></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Số trẻ em</th>
-                    <td><input type="text" value="<%=booking.getNumChildren()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><%=booking.getNumChildren()%></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Tên người đặt hàng</th>
-                    <td><input type="text" value="<%=booking.getName()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><input type="text" id="name" value="<%=booking.getName()%>" readonly></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Số điện thoại</th>
-                    <td><input type="text" value="<%=booking.getPhone()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><input type="text" id="std" value="<%=booking.getPhone()%>" readonly></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">email</th>
-                    <td><input type="text" value="<%=booking.getEmail()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><input type="text" id="email" value="<%=booking.getEmail()%>" readonly></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Địa chỉ</th>
-                    <td><input type="text" value="<%=booking.getAddress()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><input type="text" id="address" value="<%=booking.getAddress()%>" readonly></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Ghi chú</th>
-                    <td><input type="text" value="<%=bill.getNoteBill()%>" readonly></td>
-                    <td><button onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button onclick="enableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </td>
+                    <td><input type="text" id="note" value="<%=bill.getNoteBill()%>" readonly></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
@@ -249,64 +215,105 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </section>
 
 <script>
+    var initialValues = {};
+
     $(document).ready(function () {
         $('#table1').DataTable();
     });
 
-    function remove(id) {
-        $.ajax({
-            url: "RemoveLogAdmin",
-            type: "get",
-            data: {
-                idU: id
-            },
-            success: function () {
-                $("tr").remove("#" + id)
-            }
-        })
-    }
-
-    function countChecked() {
-        var count = $('.checkdelete:checked').length;
-        $('#countResult').text('Số lượng checkbox được chọn: ' + count);
-        var btnxoa = document.getElementById("btnxoa");
-        btnxoa.innerText = 'Xóa ' + count;
-        btnxoa.style.display = count > 0 ? 'block' : 'none';
-    }
-
-    function removeSelected() {
-        var selectedIds = [];
-        $('.checkdelete:checked').each(function () {
-            selectedIds.push($(this).data('id'));
+    function enableInput() {
+        var inputs = document.querySelectorAll('.table input');
+        inputs.forEach(function(input) {
+            initialValues[input.id] = input.value; // Lưu giá trị ban đầu
+            input.removeAttribute('readonly');
+            input.style.border = '2px solid gray';
         });
-        console.log('Các ID được chọn:', selectedIds);
-
-        var data = new URLSearchParams();
-        data.append('idDelete', selectedIds)
-
-        fetch('/Do_An_Web/RemoveLog', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded' // Đảm bảo đúng kiểu dữ liệu được gửi đi
-            },
-            body: 'idDelete=' + encodeURIComponent(JSON.stringify(selectedIds)) // Chuyển mảng thành chuỗi JSON
-        })
-            .then(response => {
-                if (response.ok) {
-                    // Xóa các dòng đã chọn trên giao diện
-                    selectedIds.forEach(id => {
-                        var table = $('#table1').DataTable();
-                        var row = table.row('#' + id);
-                        row.remove().draw();
-                        var btnxoa = document.getElementById("btnxoa");
-                        btnxoa.style.display = 'none';
-                    });
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            });
+        document.getElementById('check').style.display = 'inline';
+        document.getElementById('destroy').style.display = 'inline';
+        document.getElementById('setting').style.display = 'none';
     }
+
+    function disableInput() {
+        var inputs = document.querySelectorAll('.table input');
+        inputs.forEach(function(input) {
+            input.setAttribute('readonly', 'readonly');
+            input.style.border = 'none';
+        });
+        document.getElementById('check').style.display = 'none';
+        document.getElementById('destroy').style.display = 'none';
+        document.getElementById('setting').style.display = 'block';
+    }
+
+    function checkInfor() {
+        var status = document.getElementById('status').value.trim();
+        var date = document.getElementById('date').value.trim();
+        var name = document.getElementById('name').value.trim();
+        var sdt = document.getElementById('std').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var address = document.getElementById('address').value.trim();
+        var note = document.getElementById('note').value.trim();
+
+        if (status === "" || date === "" || name === "" || sdt === "" || email === "" || address === "" || note === "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Vui lòng nhập đầy đủ thông tin!'
+            });
+            return false;
+        }else{
+            var data = new URLSearchParams();
+            data.append('idbill',<%=bill.getId()%>);
+            data.append('status',status);
+            data.append('date',date);
+            data.append('name',name);
+            data.append('sdt',sdt);
+            data.append('email',email);
+            data.append('address',address);
+            data.append('note',note);
+            data.append('action','updateBill');
+
+            fetch('DetailBillADM',{
+                method: 'POST',
+                body: data,
+            })
+                .then(response=>{
+                    if(response.ok){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Thông tin đã được kiểm tra!'
+                        });
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Lỗi từ máy chủ vui lòng thực hiện lại sau!'
+                        });
+                    }
+                })
+
+                .catch(err=>{
+                    console.log(err);
+                })
+
+
+        }
+
+        disableInput(); // Tắt chế độ chỉnh sửa sau khi kiểm tra thành công
+    }
+
+    function resetInputValues() {
+        var inputs = document.querySelectorAll('.table input');
+        inputs.forEach(function(input) {
+            input.value = initialValues[input.id]; // Khôi phục giá trị ban đầu
+        });
+    }
+
+    document.getElementById('destroy').addEventListener('click', function() {
+        resetInputValues();
+        disableInput();
+    });
 </script>
+
 </body>
 </html>

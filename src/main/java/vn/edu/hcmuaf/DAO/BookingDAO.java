@@ -175,6 +175,30 @@ public class BookingDAO {
             closeResources(connection, preparedStatement, rs);
         }
     }
+
+    public static boolean updateBooking(int bookingId,String date,String name,String phone,String email,String address) {
+        boolean status;
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "UPDATE booking SET name = ?, phone = ?, email = ?, address = ?, dateStart = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, phone);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, address);
+            preparedStatement.setString(5, date);
+            preparedStatement.setInt(6, bookingId);
+            preparedStatement.executeUpdate();
+            status = true;
+        } catch (Exception e) {
+            status = false;
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+        return status;
+    }
     public static void main(String[] args) {
         BookingDAO bkd =  new BookingDAO();
 //        int inseted = bkd.insertBooking(2,1,2, 3, "vu", "987654321", "vu@gmail.com","ab123","17-14-2004");

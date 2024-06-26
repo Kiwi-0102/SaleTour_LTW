@@ -135,7 +135,8 @@ public class BillDAO {
             preparedStatement.setString(2, paymentMethod);
             preparedStatement.setDouble(3, totalPrice);
             preparedStatement.setString(4, status);
-            preparedStatement.setInt(5, billId);
+            preparedStatement.setString(5, note);
+            preparedStatement.setInt(6, billId);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,7 +146,8 @@ public class BillDAO {
         }
     }
 
-    public static void updateBill(String property, String value, int id) {
+    public static boolean updateBill(String property, String value, int id) {
+        boolean status;
         try {
             connection = ConnectToDatabase.getConnect();
             String sql = "UPDATE bills SET " + property + " = ? WHERE id = ?";
@@ -153,12 +155,15 @@ public class BillDAO {
             preparedStatement.setString(1, value);
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
+            status = true;
         } catch (Exception e) {
+            status = false;
             e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
             closeResources(connection, preparedStatement, rs);
         }
+        return status;
     }
 
     public static void updateStatusBill(int billId, String status) {
