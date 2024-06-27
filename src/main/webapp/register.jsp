@@ -82,7 +82,7 @@
             $result.css('color', 'green');
             passInput.addEventListener("input", function () {
                 const pass = passInput.value;
-                if (pass.length >= 6) {
+                if (pass.length >= 8) {
                     confirm.addEventListener("input", function () {
                         const conf = confirm.value;
                         if (conf === pass) {
