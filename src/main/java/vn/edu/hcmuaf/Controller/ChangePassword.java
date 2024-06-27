@@ -38,7 +38,7 @@ public class ChangePassword extends HttpServlet {
         String error = "";
 
         LogDAO logs = new LogDAO();
-        InetAddress inet =InetAddress.getLocalHost();
+        InetAddress inet = InetAddress.getLocalHost();
         String adress = inet.getHostAddress();
         Timestamp createdAt = new Timestamp(System.currentTimeMillis());
         RequestDispatcher dispatcher = null;
@@ -53,22 +53,21 @@ public class ChangePassword extends HttpServlet {
             error = "Mật khẩu mới không được giống mật khẩu cũ";
         } else if (newpass2 == null || newpass2.trim().isEmpty()) {
             error = "Vui lòng nhập lại mật khẩu mới";
-        } else if (newpass1.length() < 6) {
-            error = "Mật khẩu mới phải có ít nhất 6 kí tự";
+        } else if (newpass1.length() < 8) {
+            error = "Mật khẩu mới phải có ít nhất 8 kí tự";
+        } else if (!newpass1.matches("^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+            error = "Mật khẩu mới phải có ít nhất 1 chữ viết hoa, 1 ký tự đặc biệt và dài hơn 8 ký tự.";
         } else if (!newpass1.equals(newpass2)) {
             error = "Mật khẩu nhập lại không giống với mật khẩu mới";
         } else if (containsWhitespace(newpass1)) {
             error = "Mật khẩu mới không được chứa khoảng trắng";
         } else if (checkSpecialCharacters(newpass1)) {
             error = "Mật khẩu mới không được chứa các chữ cái có dấu";
-        } else if (!newpass1.matches("^[a-zA-Z0-9!@#$]*$")) {
-            error = "Mật khẩu mới không được chứa các ký tự đặc biệt ngoại trừ !@#$";
         }
 
         if (!error.isEmpty()) {
             request.setAttribute("error", error);
             request.setAttribute("stqmk", "show");
-//            System.out.println("Giá trị của stqmk: " + request.getAttribute("stqmk"));
             dispatcher = request.getRequestDispatcher("infor.jsp");
             dispatcher.forward(request, response);
         } else {
@@ -80,12 +79,12 @@ public class ChangePassword extends HttpServlet {
 
                 int roundCount = pst.executeUpdate();
                 if (roundCount > 0) {
-                    logs.insert(new Log(Log.ALERT,Nation(request), user.getId(),  getPublicIP(), "Xác nhận đổi mật khẩu", createdAt,"Mật khẩu cũ "+Mahoa.toSHA1(oldpass),"Mật khẩu mới mã hóa n lần "+Mahoa.toSHA1(Mahoa.toSHA1(newpass1)), 0));
+                    logs.insert(new Log(Log.ALERT, Nation(request), user.getId(), getPublicIP(), "Xác nhận đổi mật khẩu", createdAt, "Mật khẩu cũ " + Mahoa.toSHA1(oldpass), "Mật khẩu mới mã hóa n lần " + Mahoa.toSHA1(Mahoa.toSHA1(newpass1)), 0));
                     request.setAttribute("status", "Thay đổi mật khẩu thành công");
                     request.getSession().invalidate();
                     response.sendRedirect("login.jsp");
                 } else {
-                    logs.insert(new Log(Log.ALERT, -1,  getPublicIP(),Nation(request), "Xác nhận đổi mật khẩu không thành công", createdAt, 0));
+                    logs.insert(new Log(Log.ALERT, -1, getPublicIP(), Nation(request), "Xác nhận đổi mật khẩu không thành công", createdAt, 0));
                     request.setAttribute("error", "Thay đổi mật khẩu không thành công. Xin vui lòng thực hiện lại");
                     dispatcher = request.getRequestDispatcher("infor.jsp");
                 }
