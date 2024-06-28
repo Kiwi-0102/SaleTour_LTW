@@ -37,13 +37,13 @@ public class TangGiamServlet extends HttpServlet {
 
         TourDao td = new TourDao();
         valies c = null;
-        try {
-            c = td.findvalibyid(id);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        int i = c.getNumChildren() + 1;
-        c.setNumChildren(i);
+//        try {
+//            c = td.findvalibyid(id);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        int i = c.getNumChildren() + 1;
+//        c.setNumChildren(i);
 
         Map<String, String> data = new HashMap<>();
         if (action != null && id >= 1) {

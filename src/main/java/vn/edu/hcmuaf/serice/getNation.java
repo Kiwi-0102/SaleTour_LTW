@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Arrays;
 
 import static vn.edu.hcmuaf.serice.PublicIPFetcher.getPublicIP;
 
@@ -26,8 +27,6 @@ public class getNation extends HttpServlet {
     public static String Nation(HttpServletRequest request) {
         String nation = null;
         try {
-            // Lấy địa chỉ IP của người dùng
-
             // Khởi tạo đối tượng DatabaseReader từ tệp cơ sở dữ liệu
             DatabaseReader dbr = new DatabaseReader.Builder(new File(request.getServletContext().getRealPath("/WEB-INF/ipAddress.mmdb"))).build();
 
@@ -37,14 +36,11 @@ public class getNation extends HttpServlet {
 
             // Lấy thông tin về thành phố từ phản hồi
             nation = response.getCountry().getName();
-
-
         } catch (IOException | GeoIp2Exception e) {
             throw new RuntimeException(e);
         }
         return nation;
     }
-
 
 
 }

@@ -892,6 +892,20 @@ startDateInput.addEventListener("change", function () {
         }, 3000); // 3000ms tương đương với 3 giây
     }
 
+    function toltalPrice(){
+        var adutl = document.getElementById('adult').value;
+        var children = document.getElementById('children').value;
+        var price = <%=t.getPrice()%>
+
+        var toltal = document.getElementById('TotalPrice');
+        toltal.innerText = (adutl*price + children*price*0.6).toLocaleString()+ "₫";
+        // totalPrice.textContent = total.toLocaleString() + "₫";
+
+        console.log("price: "+price);
+        console.log("adult: "+adutl);
+        console.log("children: "+children);
+
+    }
     <%--href="TangGiamServlet?action=dec&id=<%=t.getId()%>"--%>
     <%--href="TangGiamServlet?action=inc&id=<%=t.getId()%>"--%>
     <%--href="TangGiamServlet?action=decc&id=<%=t.getId()%>"--%>
@@ -923,6 +937,7 @@ startDateInput.addEventListener("change", function () {
                             var labeladult = document.getElementById('lonnum')
                             labeladult.innerText = result+'';
                             addinfor(parseInt(result))
+                            toltalPrice();
                         }
                     } else if (action === 'dec') {
                         const result = data.adult;
@@ -931,6 +946,7 @@ startDateInput.addEventListener("change", function () {
                         labeladult.innerText = result+' ';
                         adultElement.value = parseInt(result);
                         addinfor(parseInt(result))
+                        toltalPrice();
                     } else if (action === 'incc') {
                         const result = data.childr;
                         chil = result;
@@ -941,6 +957,7 @@ startDateInput.addEventListener("change", function () {
                                 var childrenElement = document.getElementById('children');
                                 childrenElement.value = parseInt(result);
                                 labelchil.innerText = result+'';
+                                toltalPrice();
                             }
                     } else if (action === 'decc') {
                         const result = data.childr;
@@ -948,6 +965,7 @@ startDateInput.addEventListener("change", function () {
                         labelchil.innerText = result+'';
                         var childrenElement = document.getElementById('children');
                         childrenElement.value = parseInt(result);
+                        toltalPrice();
                     }
                 })
                 .catch(error => {
