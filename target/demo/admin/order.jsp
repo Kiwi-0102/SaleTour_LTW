@@ -4,6 +4,7 @@
 <%@ page import="static vn.edu.hcmuaf.DAO.BookingDAO.getBookingbyId" %>
 <%@ page import="static vn.edu.hcmuaf.serice.Const.daystar" %>
 <%@ page import="vn.edu.hcmuaf.serice.Const" %>
+<%@ page import="java.text.DecimalFormat" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -143,7 +144,7 @@
     ArrayList<Bill> dahuy = (ArrayList<Bill>) request.getAttribute("dahuy");
     ArrayList<Bill> daxong = (ArrayList<Bill>) request.getAttribute("daxong");
     ArrayList<Bill> dangxuly = (ArrayList<Bill>) request.getAttribute("dangxuly");
-
+    DecimalFormat df = new DecimalFormat("#,### VNĐ");
 %>
 <%@include file="header.jsp" %>
 <section class="home-section">
@@ -151,7 +152,6 @@
         <div class="manager-checkout" style="width: 98%">
             <div class="title">Quản Lý Đơn Hàng</div>
 
-            <button>
             <!-- Nút mở hộp thoại -->
             <button id="openModalBtn" style="display:none;">Mở hộp thoại</button>
 
@@ -170,7 +170,9 @@
 
             <div class="container">
                 <div class="box red-box">
-                    <div class="text invalid" style="margin-left: 15px" id="textinvalid">Hóa đơn có tour sẽ bắt đầu sau 5 ngày</div>
+                    <div class="text invalid" style="margin-left: 15px" id="textinvalid">Hóa đơn có tour sẽ bắt đầu sau
+                        5 ngày
+                    </div>
                 </div>
                 <div class="box green-box none">
                     <div class="text">Hóa đơn đã được xác thực, nội dung không bị thay đổi</div>
@@ -217,7 +219,7 @@
                                 <td><%=getBookingbyId(bill.getBookingId()).getTourId()%>
                                 </td>
                                 <td>
-                                <%=getBookingbyId(bill.getBookingId()).getDate()%>
+                                    <%=getBookingbyId(bill.getBookingId()).getDate()%>
                                 </td>
                                 <td><%=getBookingbyId(bill.getBookingId()).getPhone()%>
                                 </td>
@@ -228,7 +230,7 @@
                                 <td style="<%=(daystar(getBookingbyId(bill.getBookingId()).getDateStart()) > 0 && daystar(getBookingbyId(bill.getBookingId()).getDateStart()) <= 5) ? "background-color: #8feeff;color:back" : "background-color: none;color:back" %>">
                                     <%=getBookingbyId(bill.getBookingId()).getDateStart()%>
                                 </td>
-                                <td><%=bill.getToltalPrice()%>
+                                <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
@@ -293,7 +295,7 @@
                                 <td style="<%= (daystar(getBookingbyId(bill.getBookingId()).getDateStart()) > 0 && daystar(getBookingbyId(bill.getBookingId()).getDateStart()) <= 5) ? "background-color: #8feeff;color:back" : "background-color: none;color:back" %>">
                                     <%=getBookingbyId(bill.getBookingId()).getDateStart()%>
                                 </td>
-                                <td><%=bill.getToltalPrice()%>
+                                <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
@@ -342,7 +344,7 @@
                             <tr id="<%=bill.getId()%>">
                                 <th scope="row"><%=bill.getId()%>
                                 </th>
-                                <td ><%=getBookingbyId(bill.getBookingId()).getUserId()%>
+                                <td><%=getBookingbyId(bill.getBookingId()).getUserId()%>
                                 </td>
                                 <td style="<%= (bill.getStatus().equals(Const.DAHUY) && bill.getNoteBill().equalsIgnoreCase("Hủy bởi khách hàng")) ? "background-color: #8feeff; color: black;" : "background-color: none; color: black;" %>">
                                     <%= getBookingbyId(bill.getBookingId()).getTourId() %>
@@ -357,7 +359,7 @@
                                     </a></td>
                                 <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%>
                                 </td>
-                                <td><%=bill.getToltalPrice()%>
+                                <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
@@ -405,7 +407,7 @@
                                     </a></td>
                                 <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%>
                                 </td>
-                                <td><%=bill.getToltalPrice()%>
+                                <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
@@ -453,7 +455,7 @@
                                     </a></td>
                                 <td><%=getBookingbyId(bill.getBookingId()).getDateStart()%>
                                 </td>
-                                <td><%=bill.getToltalPrice()%>
+                                <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
@@ -510,7 +512,7 @@
                                 <td style="<%= (daystar(getBookingbyId(bill.getBookingId()).getDateStart()) > 0 && daystar(getBookingbyId(bill.getBookingId()).getDateStart()) <= 5) ? "background-color: #8feeff;color:back" : "background-color: none;color:back" %>">
                                     <%=getBookingbyId(bill.getBookingId()).getDateStart()%>
                                 </td>
-                                <td><%=bill.getToltalPrice()%>
+                                <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
@@ -528,10 +530,11 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
+
         </div>
+    </div>
     </div>
 </section>
 
@@ -559,10 +562,13 @@
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
 
-        if(cityName === 'tab3'){
+        if (cityName === 'tab4') {
+            var note = document.getElementById('textinvalid');
+            note.innerText = '      '
+        } else if (cityName === 'tab3') {
             var note = document.getElementById('textinvalid');
             note.textContent = 'Đã hủy bởi khách hàng'
-        }else{
+        } else {
             var note = document.getElementById('textinvalid');
             note.innerText = '      Hóa đơn có tour sẽ bắt đầu sau 5 ngày'
         }

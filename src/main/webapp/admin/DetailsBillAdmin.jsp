@@ -5,6 +5,9 @@
 <%@ page import="vn.edu.hcmuaf.bean.Customer" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.text.DecimalFormat" %>
 <html>
 <head>
     <title>Quản lí khách hàng</title>
@@ -30,6 +33,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             margin: 1.5em 0;
         }
 
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_paginate {
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            display: inline-block;
+            width: auto;
+        }
+
+        table.dataTable td,
+        table.dataTable th {
+            text-align: center;
+            vertical-align: middle;
+        }
+
         .home-content .manager-product {
             margin-top: 0;
             margin-left: 252px;
@@ -39,9 +60,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             border-radius: 12px;
             box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
         }
-        th{
+
+        th {
             width: 300px;
         }
+
         .dt-orderable-asc.dt-orderable-desc {
             align-content: center;
             text-align: center;
@@ -51,6 +74,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
         }
+
         input {
             width: 400px;
             border: none;
@@ -63,13 +87,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     String err = (String) request.getAttribute("error");
     Booking booking = BookingDAO.getBookingbyId(bill.getBookingId());
     ArrayList<Customer> customers = (ArrayList<Customer>) request.getAttribute("customers");
+    DecimalFormat df = new DecimalFormat("#,## VNĐ");
 %>
 <body>
 <%@include file="header.jsp" %>
 <section class="home-section">
     <div class="home-content">
         <% if (err != null && !err.isEmpty()) { %>
-        <div style="color: red"><%= err %></div>
+        <div style="color: red"><%= err %>
+        </div>
         <% } %>
         <div id="message" class="message"></div>
         <div class="manager-product">
@@ -79,36 +105,45 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <th scope="col">Thuộc tính</th>
                     <th scope="col">Giá trị</th>
                     <th>
-                        <button type="button" id="setting" onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i></button>
-                        <button type="button" id="check" style="display: none" onclick="checkInfor()"><i class="fa-solid fa-circle-check"></i></button>
-                        <button type="button" id="destroy" style="display: none" onclick="disableInput()"><i class="fa-solid fa-circle-xmark"></i></button>
+                        <button type="button" id="setting" onclick="enableInput()"><i class="fa-solid fa-pen"
+                                                                                      style="color: #FFD43B;"></i>
+                        </button>
+                        <button type="button" id="check" style="display: none" onclick="checkInfor()"><i
+                                class="fa-solid fa-circle-check"></i></button>
+                        <button type="button" id="destroy" style="display: none" onclick="disableInput()"><i
+                                class="fa-solid fa-circle-xmark"></i></button>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th scope="row">Mã hóa đơn</th>
-                    <td><%=bill.getId()%></td>
+                    <td><%=bill.getId()%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr style="display: none">
                     <th scope="row">Mã đặt hàng</th>
-                    <td><%=bill.getBookingId()%></td>
+                    <td><%=bill.getBookingId()%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Mã tài khoản</th>
-                    <td><%=booking.getUserId()%></td>
+                    <td><%=booking.getUserId()%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Phương thức thanh toán</th>
-                    <td><%=bill.getPaymentMethod()%></td>
+                    <td><%=bill.getPaymentMethod()%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Tổng tiền</th>
-                    <td><%=bill.getToltalPrice()%></td>
+                    <td><%=df.format(bill.getToltalPrice())%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
@@ -118,7 +153,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </tr>
                 <tr>
                     <th scope="row">Ngày đặt Tour</th>
-                    <td><%=booking.getDate()%></td>
+                    <td><%=booking.getDate()%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
@@ -128,17 +164,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </tr>
                 <tr>
                     <th scope="row">Mã Tour</th>
-                    <td><%=booking.getTourId()%></td>
+                    <td><%=booking.getTourId()%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Số người lớn</th>
-                    <td><%=booking.getNumAdult()%></td>
+                    <td><%=booking.getNumAdult()%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Số trẻ em</th>
-                    <td><%=booking.getNumChildren()%></td>
+                    <td><%=booking.getNumChildren()%>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
@@ -189,13 +228,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </tr>
             </thead>
             <tbody>
-            <%for (Customer customer : customers){%>
+            <%for (Customer customer : customers) {%>
             <tr id="<%=customer.getId()%>">
-                <td><%=customer.getId()%></td>
-                <td><%=customer.getName()%></td>
-                <td><%=customer.getMale()%></td>
-                <td><%=customer.getDateOfBirth()%></td>
-                <td><%=customer.getIdBill()%></td>
+                <td><%=customer.getId()%>
+                </td>
+                <td><%=customer.getName()%>
+                </td>
+                <td><%=customer.getMale()%>
+                </td>
+                <td><%=customer.getDateOfBirth()%>
+                </td>
+                <td><%=customer.getIdBill()%>
+                </td>
                 <td>$320,800</td>
             </tr>
             <%}%>
@@ -218,12 +262,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     var initialValues = {};
 
     $(document).ready(function () {
-        $('#table1').DataTable();
+        $('#table1').DataTable({
+            "columnDefs": [
+                {"className": "dt-center", "targets": "_all"}
+            ],
+            "language": {
+                "zeroRecords": "Không tìm thấy bản ghi nào",
+                "info": "Hiển thị trang _PAGE_ của _PAGES_",
+                "infoEmpty": "Không có bản ghi nào",
+                "infoFiltered": "(được lọc từ tổng cộng _MAX_ bản ghi)",
+                "search": "Tìm kiếm:",
+            }
+        });
     });
+
 
     function enableInput() {
         var inputs = document.querySelectorAll('.table input');
-        inputs.forEach(function(input) {
+        inputs.forEach(function (input) {
             initialValues[input.id] = input.value; // Lưu giá trị ban đầu
             input.removeAttribute('readonly');
             input.style.border = '2px solid gray';
@@ -235,7 +291,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     function disableInput() {
         var inputs = document.querySelectorAll('.table input');
-        inputs.forEach(function(input) {
+        inputs.forEach(function (input) {
             input.setAttribute('readonly', 'readonly');
             input.style.border = 'none';
         });
@@ -260,30 +316,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 text: 'Vui lòng nhập đầy đủ thông tin!'
             });
             return false;
-        }else{
+        } else {
             var data = new URLSearchParams();
-            data.append('idbill',<%=bill.getId()%>);
-            data.append('status',status);
-            data.append('date',date);
-            data.append('name',name);
-            data.append('sdt',sdt);
-            data.append('email',email);
-            data.append('address',address);
-            data.append('note',note);
-            data.append('action','updateBill');
+            data.append('idbill', <%=bill.getId()%>);
+            data.append('status', status);
+            data.append('date', date);
+            data.append('name', name);
+            data.append('sdt', sdt);
+            data.append('email', email);
+            data.append('address', address);
+            data.append('note', note);
+            data.append('action', 'updateBill');
 
-            fetch('DetailBillADM',{
+            fetch('DetailBillADM', {
                 method: 'POST',
                 body: data,
             })
-                .then(response=>{
-                    if(response.ok){
+                .then(response => {
+                    if (response.ok) {
                         Swal.fire({
                             icon: 'success',
                             title: 'Thành công',
                             text: 'Thông tin đã được kiểm tra!'
                         });
-                    }else{
+                    } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Lỗi',
@@ -292,7 +348,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     }
                 })
 
-                .catch(err=>{
+                .catch(err => {
                     console.log(err);
                 })
 
@@ -304,12 +360,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     function resetInputValues() {
         var inputs = document.querySelectorAll('.table input');
-        inputs.forEach(function(input) {
+        inputs.forEach(function (input) {
             input.value = initialValues[input.id]; // Khôi phục giá trị ban đầu
         });
     }
 
-    document.getElementById('destroy').addEventListener('click', function() {
+    document.getElementById('destroy').addEventListener('click', function () {
         resetInputValues();
         disableInput();
     });
