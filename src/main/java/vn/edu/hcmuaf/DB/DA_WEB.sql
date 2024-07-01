@@ -471,9 +471,7 @@ Chợ Nổi Cái Răng là một điểm đến thu hút du khách bởi không 
     ('Miền Trung', 1, 'Đà Nẵng - Quảng Bình', '106.png', 4990000,@start_time, '5 ngày 4 đêm', 'Ngày 1: Đà Nẵng- Ngày 2: Huế- Ngày 3: Hội An -Ngày 4: Quảng Bình- Ngày 5: Về lai Đà Nẵng'
     ,'Đà Nẵng - Huế - Hội An - Quảng Bình bốn điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Đà Nẵng - Kẻ Bàng', '107.png', 6990000,@start_time, '7 ngày 6 đêm', 'Ngày 1: Đà Nẵng- Ngày 2: Ngũ Hành Sơn- Ngày 3: Bà Nà Hills -Ngày 4: Huế- Ngày 5: Đại Nội- Ngày 6: Phong Nha- Ngày 7: Kẻ Bàng'
-
     ,'chuyến du lịch từ Đà Nẵng tới Kẻ Bàng sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
     ('Miền Trung', 1, 'Đà Nẵng - Đà Lạt', '108.jpg', 3990000,@start_time, '4 ngày 3 đêm', 'Ngày 1: Đà Nẵng- Ngày 2: Ngũ Hành Sơn- Ngày 3: Bà Nà Hills -Ngày 4: Đà Lạt'
     ,' chuyến du lịch từ Đà Nẵng tới Đà Lạt sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Đà Nẵng - Đà Lạt', '109.jpg', 5990000,@start_time, '5 ngày 5 đêm', 'Ngày 1: Đà Nẵng- Ngày 2: Ngũ Hành Sơn- Ngày 3: Bà Nà Hills -Ngày 4: Thác Datanla- Ngày 5: Đà Nẵng- Ngày 6: Đà Lạt '
@@ -486,7 +484,6 @@ Chợ Nổi Cái Răng là một điểm đến thu hút du khách bởi không 
     ,' chuyến du lịch từ Huế tới Đà Lạt sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Huế - Đà Lạt', '113.jpg', 5990000,@start_time, '5 ngày 5 đêm', 'Ngày 1: Huế- Ngày 2: Chùa Thiên Mụ- Ngày 3: Động Thiên Đường -Ngày 4: Thác Datanla- Ngày 5:chợ Đà Lạt- Ngày 6: Đà Lạt'
     ,' chuyến du lịch từ Huế tới Đà Lạt sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
     ('Miền Trung', 1, 'Quảng Bình - Đà Nẵng', '114.jpg', 2990000,@start_time, '3 ngày 2 đêm', 'Ngày 1: Quảng Bình - Ngày 2: Động Thiên Đường- Ngày 3:Đà Nẵng'
     ,'Quảng Bình - Đà Nẵng là hai điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Quảng Bình - Đà Nẵng', '115.jpg', 3990000,@start_time, '4 ngày 3 đêm', 'Ngày 1: Quảng Bình - Ngày 2: Động Thiên Đường- Ngày 3:Phong Nha- Ngày 4: Đà Nẵng'
@@ -495,17 +492,14 @@ Chợ Nổi Cái Răng là một điểm đến thu hút du khách bởi không 
     ,'chuyến du lịch từ Đà Lạt tới Nha Trang sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Đà Lạt - Vinpearl Safari', '117.jpg', 3990000,@start_time, '4 ngày 3 đêm', 'Ngày 1: Đà Lạt - Ngày 2: chợ Đà Lạt- Ngày 3:Thác Datanla- Ngày 4: Vinpearl Safari'
     ,' chuyến du lịch từ Đà Lạt tới Nha Trang sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
     ('Miền Trung', 1, 'Đà Lạt - Nha Trang', '118.jpg', 5990000,@start_time, '5 ngày 5 đêm', 'Ngày 1: Đà Lạt- Ngày 2: chợ Đà Lạt- Ngày 3: Thác Datanla -Ngày 4: Thác Datanla- Ngày 5:Vinpearl Land- Ngày 6: Nha Trang'
     ,' chuyến du lịch từ Đà Lạt tới Nha Trang sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
     ('Miền Trung', 1, 'Phú Yên - Đà Nẵng', '119.jpg', 2990000,@start_time, '3 ngày 2 đêm', 'Ngày 1: Phú Yên - Ngày 2: Nha Trang- Ngày 3:Đà Nẵng'
     ,'Phú Yên - Đà Nẵng là hai điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Phú Yên - Đà Nẵng', '120.jpg', 3990000,@start_time, '4 ngày 3 đêm', 'Ngày 1: Phú Yên - Ngày 2: Gành Đá Dĩa- Ngày 3:Nha Trang- Ngày 4:Đà Nẵng'
     ,'Phú Yên - Đà Nẵng là hai điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Đà Nẵng - Ngũ Hành Sơn', '121.jpg', 990000,@start_time, '1 ngày 1 đêm', 'Sáng Ngày 1: Đà Nẵng- Chiều Ngày 1: Ngũ Hành Sơn'
     ,' chuyến du lịch từ Đà Nẵng tới Ngũ Hành Sơn sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
     ('Miền Trung', 1, 'Đà Nẵng - Bà Nà Hills', '122.jpg', 990000,@start_time, '1 ngày 1 đêm', 'Sáng Ngày 1: Đà Nẵng- Chiều Ngày 1: Bà Nà Hills'
     ,' chuyến du lịch từ Đà Nẵng tới Bà Nà Hills sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Đà Nẵng - Hội An', '123.jpg', 3990000,@start_time, '4 ngày 3 đêm', 'Ngày 1: Đà Nẵng- Ngày 2: Chợ Đà Nẵng- Ngày 3: Chợ Hội An -Ngày 4: Hội An'
@@ -520,8 +514,6 @@ Chợ Nổi Cái Răng là một điểm đến thu hút du khách bởi không 
     ,'Huế - Phong Nha - Kẻ Bàng là ba điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Huế - Đà Nẵng', '128.jpg', 3990000,@start_time, '4 ngày 3 đêm', 'Ngày 1: Huế- Ngày 2: Động Thiên Đường- Ngày 3: Kẻ Bàng -Ngày 4: Đà Nẵng'
     ,' chuyến du lịch từ Huế tới Đà Nẵng sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
-
     ('Miền Trung', 1, 'Quy Nhơn - Eo Gió', '129.jpg', 1990000,@start_time, '2 ngày 2 đêm', 'Ngày 1: Quy Nhơn- Ngày 2: Eo Gió'
     ,' Quy Nhơn - Eo Gio là hai điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Quy Nhơn - Kỳ Co', '130.jpg', 1990000,@start_time, '2 ngày 2 đêm', 'Ngày 1: Quy Nhơn- Ngày 2: Kỳ Co'
@@ -542,25 +534,10 @@ Chợ Nổi Cái Răng là một điểm đến thu hút du khách bởi không 
     ,' Đà Nẵng và Cù Lao Chàm là hai điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
     ('Miền Trung', 1, 'Đà Nẵng - Thánh địa Mỹ Sơn', '138.jpg', 1990000,@start_time, '2 ngày 2 đêm', 'Ngày 1: Đà Nẵng- Ngày 2: Thánh địa Mỹ Sơn'
     ,' Đà Nẵng và Thánh địa Mỹ Sơn là hai điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
-
     ('Miền Trung', 1, 'Quảng Bình - Đà Nẵng', '139.jpg', 6990000,@start_time, '7 ngày 6 đêm', 'Ngày 1: Quảng Bình- Ngày 2: Ngũ Hành Sơn- Ngày 3: Bà Nà Hills -Ngày 4: Huế- Ngày 5:Phong Nha- Ngày 6: Kẻ Bàng- Ngày 7: Đà Nẵng'
     ,' chuyến du lịch từ Quàng Bình tới Đà Nẵng sẽ mang đến cho du khách những điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
     ('Miền Trung', 1, 'Cù Lao Chàm - Đà Nẵng', '140.jpg', 1990000,@start_time, '2 ngày 2 đêm', 'Ngày 1: Cù Lao Chàm- Ngày 2: Đà Nẵng'
     ,' Đà Nẵng và Cù Lao Chàm là hai điểm đến du lịch nổi tiếng ở miền Trung Việt Nam với vẻ đẹp tự nhiên, văn hóa độc đáo và ẩm thực hấp dẫn.',50),
-
-
-
-
-
-
-
-
-
-
-
-
 
 -- 141 -->210----------------------------------->
     ('Miền Bắc', 1, 'Hà Nội - Yên Tử ','141.png', 9399000,@start_time, '4 ngày 3 đêm ', 'Hà Nội - Hạ Long - Ninh Bình - Yên Tử ', ' Tham quan vườn hoa Bãi Đá Sông Hồng (hoặc Thung Lũng Hoa Hồ Tây)- Du ngoạn vịnh Hạ Long - một trong 7 kỳ quan thiên nhiên mới của thế giới. Chiêm ngưỡng động Thiên Cung, các hòn Đỉnh Hương - Trống Mái (Gà Chọi)- Chó Đá- Tham quan Động Am Tiên (Tuyệt Tình Cốc Ninh Bình)',50),

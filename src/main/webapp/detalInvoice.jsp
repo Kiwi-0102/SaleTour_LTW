@@ -388,6 +388,9 @@
                             </div>
                             <div class="d-none d-lg-block">
                                 <div class="passenger-list p-4 mb-4">
+                                    <div class="heading">
+                                        <h5 class="fw-bold tieude">DANH SÁCH HÀNH KHÁCH</h5>
+                                    </div>
                                     <table class="table booking-table">
                                         <thead>
                                         <tr class="fw-bold">
@@ -413,11 +416,7 @@
                                         </tr>
                                         <% }%>
                                         </tbody>
-
                                     </table>
-                                    <div class="heading">
-                                        <h5 class="fw-bold tieude">DANH SÁCH HÀNH KHÁCH</h5>
-                                    </div>
                                 </div>
                             </div>
                             <div class="d-none d-lg-block2">
