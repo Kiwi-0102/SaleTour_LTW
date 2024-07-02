@@ -5,6 +5,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
+<%@ page import="java.sql.Timestamp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     indexDao indx = new indexDao();
@@ -28,6 +29,7 @@
 //    session.removeAttribute("dskh");
 //    session.removeAttribute("quatitycc");
 //    session.removeAttribute("quatity");
+    Timestamp createdAt = new Timestamp(System.currentTimeMillis()); // Lấy thời gian hiện tại
 
 %>
 <html lang="en">
@@ -285,7 +287,7 @@
                                             <div class="row item">
                                                 <div class="col-md-3 col-12 ">Ngày đăng ký</div>
                                                 <div class="col-md-9 col-12 ">
-                                                    27/1/2024
+                                                    <%=createdAt%>
                                                 </div>
                                             </div>
                                             <div class="row item">
@@ -403,7 +405,6 @@
                                             <td class="d-none">Giảm giá?</td>
                                             <td>Ngày sinh</td>
                                             <td>Giới tính</td>
-                                            <td>Địa chỉ</td>
                                             <td>Độ tuổi</td>
                                             <td>Phòng đơn</td>
                                         </tr>
@@ -415,7 +416,6 @@
                                             <td class="d-none">Giảm giá?</td>
                                             <td><%=dscus.get(i).getDateOfBirth()%></td>
                                             <td><%=dscus.get(i).getMale()%></td>
-                                            <td></td>
                                             <td>Người lớn</td>
                                             <td>Có</td>
                                         </tr>

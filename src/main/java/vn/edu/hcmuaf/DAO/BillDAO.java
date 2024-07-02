@@ -2,9 +2,10 @@ package vn.edu.hcmuaf.DAO;
 
 import vn.edu.hcmuaf.DB.ConnectToDatabase;
 import vn.edu.hcmuaf.bean.Bill;
-import vn.edu.hcmuaf.serice.Const;
+import vn.edu.hcmuaf.bean.HistoryBills;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
@@ -198,7 +199,59 @@ public class BillDAO {
         }
     }
 
-    public static void main(String[] args) {
-        new BillDAO().updateBill("paymentMethod","vnpay",4);
+    public static void IshistoryBill(HistoryBills historyBills){
+        String sql = "INSERT INTO historybill (billId, title, changeDate, beforeValue, currentValue) VALUES (?, ?, ?, ?, ?)";
+        connection = ConnectToDatabase.getConnect();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, historyBills.getBillId());
+            preparedStatement.setString(2, historyBills.getTitle());
+            preparedStatement.setString(3, historyBills.getChangeDate());
+            preparedStatement.setString(4, historyBills.getBeforeValue());
+            preparedStatement.setString(5, historyBills.getCurrentValue());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
     }
+
+    public static ArrayList<HistoryBills> getHistoryBillsByBillId(int billId) {
+        ArrayList<HistoryBills> historyBills = new ArrayList<>();
+        String sql = "SELECT id, billId, title, changeDate, beforeValue, currentValue FROM historyBill WHERE billId = ?";
+        connection = ConnectToDatabase.getConnect();
+        HistoryBills historyBill;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, billId);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int retrievedBillId = rs.getInt("billId");
+                String title = rs.getString("title");
+                String changeDate = rs.getString("changeDate");
+                String beforeValue = rs.getString("beforeValue");
+                String currentValue = rs.getString("currentValue");
+
+                historyBill = new HistoryBills(id, retrievedBillId, title, changeDate, beforeValue, currentValue);
+                historyBills.add(historyBill);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+        return historyBills;
+    }
+
+
+
+        public static void main(String[] args) {
+//        new BillDAO().updateBill("paymentMethod","vnpay",4);
+            HistoryBills historyBill1 = new HistoryBills(1, "Title 1", LocalDateTime.now().toString(), "Old Value 1", "New Value 1");
+            HistoryBills historyBill2 = new HistoryBills(1, "Title 2", LocalDateTime.now().toString(), "Old Value 2", "New Value 2");
+            System.out.println(getHistoryBillsByBillId(1));
+        }
 }

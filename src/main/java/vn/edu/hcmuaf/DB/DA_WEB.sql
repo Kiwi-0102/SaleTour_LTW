@@ -176,7 +176,20 @@ CREATE TABLE `valies` (
                           PRIMARY KEY (`id`),
                           KEY `fk_user_id` (`userId`),
                           KEY `fk_tour_id` (`tourId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*------------------------------------------------------------------*/
+-- Tạo bảng `HistoryBill`
+DROP TABLE IF EXISTS `historyBill`;
+CREATE TABLE `historyBill` (
+                               `id` int(11) NOT NULL AUTO_INCREMENT,
+                               `billId` int(11) NOT NULL,
+                               `title` VARCHAR(255) NOT NULL ,
+                               `changeDate` datetime NOT NULL,
+                               `beforeValue` varchar(255) NOT NULL,
+                               `currentValue` varchar(255) NOT NULL,
+                               PRIMARY KEY (`id`),
+                               KEY `fk_history_bill_id` (`billId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*------------------------------------------------------------------*/
 CREATE TABLE `logs` (
                         `id` INT NOT NULL AUTO_INCREMENT,
@@ -191,20 +204,14 @@ CREATE TABLE `logs` (
                         `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-/*------------------------------------------------------------------*/
-CREATE TABLE `verifyAccount` (
-                                 `id` INT NOT NULL AUTO_INCREMENT,
-                                 `userId` int(11) NOT NULL,
-                                 `verifyCode` int(11) NOT NULL,
-                                 `timeCode` TIMESTAMP,
-                                 `stateVerify` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                 PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 /*------------------------------------------------------------------*/
 
 -- -
+-- Các ràng buộc cho bảng `feedbacks`
+ALTER TABLE `historyBill`
+    ADD CONSTRAINT `fk_history_bill_id` FOREIGN KEY (`billId`) REFERENCES `bills` (`id`);
+
+
 -- Các ràng buộc cho bảng `feedbacks`
 ALTER TABLE `feedbacks`
     ADD CONSTRAINT `fk_userId_feedbacks` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);

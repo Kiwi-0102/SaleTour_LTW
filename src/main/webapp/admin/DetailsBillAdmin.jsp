@@ -8,6 +8,8 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="vn.edu.hcmuaf.bean.HistoryBills" %>
+<%@ page import="vn.edu.hcmuaf.DAO.BillDAO" %>
 <html>
 <head>
     <title>Quản lí khách hàng</title>
@@ -80,6 +82,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             border: none;
             outline: none;
         }
+        .d-none{
+            display: none !important;
+        }
+        .dataTables_wrapper {
+            width: 100%;
+        }
+
+        #table1 th, #table1 td {
+            white-space: nowrap;
+        }
+
     </style>
 </head>
 <%
@@ -88,6 +101,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     Booking booking = BookingDAO.getBookingbyId(bill.getBookingId());
     ArrayList<Customer> customers = (ArrayList<Customer>) request.getAttribute("customers");
     DecimalFormat df = new DecimalFormat("#,## VNĐ");
+
+    ArrayList<HistoryBills> historyBills = BillDAO.getHistoryBillsByBillId(bill.getId());
 %>
 <body>
 <%@include file="header.jsp" %>
@@ -207,62 +222,83 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </tr>
                 </tbody>
             </table>
+            <br>
+            <br>
+
+            <div class="d-lg-block">
+                <div class="passenger-list p-4 mb-4">
+                    <div class="heading" style="margin: 10px">
+                        <h5 class="fw-bold tieude">DANH SÁCH HÀNH KHÁCH</h5>
+                    </div>
+                    <table class="table booking-table">
+                        <thead>
+                        <tr class="fw-bold" style="color: #0c0c0c !important;">
+                            <td style="color: #0c0c0c !important;">Mã Khách hàng</td>
+                            <td style="color: #0c0c0c !important;">Họ tên</td>
+                            <td style="color: #0c0c0c !important;">Ngày sinh</td>
+                            <td style="color: #0c0c0c !important;">Giới tính</td>
+                            <td style="color: #0c0c0c !important;">Độ tuổi</td>
+                            <td class="d-none">Giảm giá?</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%for (Customer customer : customers) {%>
+                        <tr id="<%=customer.getId()%>">
+                            <td><%=customer.getId()%></td>
+                            <td><%=customer.getName()%></td>
+                            <td><%=customer.getDateOfBirth()%></td>
+                            <td><%=customer.getMale()%></td>
+                            <td>Người lớn</td>
+                            <td class="d-none">$320,800</td>
+                        </tr>
+                        <%}%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </section>
 <hr>
 
-<section class="home-section" style="margin: 50px;padding-left: 225px; width: 90%">
+<section class="home-section" style="margin: 50px; padding-left: 225px; width: 90%">
     <hr>
     <div>Danh sách khách hàng</div>
     <div class="home-content">
-        <table id="table1" class="display" style="width:100%">
+        <table id="table1" class="table table-hover table-bordered" style="width:100%">
             <thead>
             <tr>
-                <th>Mã khách hàng</th>
-                <th>Tên</th>
-                <th>Giới tính</th>
-                <th>Ngày Sinh</th>
-                <th>Mã hóa đơn</th>
-                <th></th>
+                <th style="text-align: center">Id</th>
+                <th style="text-align: center">Title</th>
+                <th style="text-align: center">changeDate</th>
+                <th style="text-align: center">beforeValue</th>
+                <th style="text-align: center">currentValue</th>
             </tr>
             </thead>
             <tbody>
-            <%for (Customer customer : customers) {%>
-            <tr id="<%=customer.getId()%>">
-                <td><%=customer.getId()%>
-                </td>
-                <td><%=customer.getName()%>
-                </td>
-                <td><%=customer.getMale()%>
-                </td>
-                <td><%=customer.getDateOfBirth()%>
-                </td>
-                <td><%=customer.getIdBill()%>
-                </td>
-                <td>$320,800</td>
+            <% for (HistoryBills bills  : historyBills) { %>
+            <tr id="<%= bills.getId() %>">
+                <td style="text-align: center"><%= bills.getId() %></td>
+                <td style="text-align: center"><%= bills.getTitle()%></td>
+                <td style="text-align: center"><%= bills.getChangeDate()%></td>
+                <td style="text-align: center"><%= bills.getBeforeValue() %></td>
+                <td style="text-align: center"><%= bills.getCurrentValue()%></td>
             </tr>
-            <%}%>
+            <% } %>
             </tbody>
-            <tfoot>
-            <tr>
-                <th>Mã khách hàng</th>
-                <th>Tên</th>
-                <th>Giới tính</th>
-                <th>Ngày Sinh</th>
-                <th>Mã hóa đơn</th>
-                <th></th>
-            </tr>
-            </tfoot>
         </table>
     </div>
 </section>
+
 
 <script>
     var initialValues = {};
 
     $(document).ready(function () {
         $('#table1').DataTable({
+            "autoWidth": false,  // Thêm dòng này để DataTables không tự động thiết lập độ rộng cột
             "columnDefs": [
                 {"className": "dt-center", "targets": "_all"}
             ],
@@ -271,10 +307,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 "info": "Hiển thị trang _PAGE_ của _PAGES_",
                 "infoEmpty": "Không có bản ghi nào",
                 "infoFiltered": "(được lọc từ tổng cộng _MAX_ bản ghi)",
-                "search": "Tìm kiếm:",
+                "search": "Tìm kiếm:"
             }
         });
     });
+
 
 
     function enableInput() {

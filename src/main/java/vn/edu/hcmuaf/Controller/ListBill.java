@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.Controller;
 
 import vn.edu.hcmuaf.DAO.BillDAO;
 import vn.edu.hcmuaf.bean.Bill;
+import vn.edu.hcmuaf.bean.HistoryBills;
 import vn.edu.hcmuaf.serice.Const;
 import vn.edu.hcmuaf.bean.User;
 
@@ -12,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import static vn.edu.hcmuaf.DAO.BillDAO.getBillById;
 
 // Sau khi đã xác nhận đơn hàng thì chỉ admin mới hủy được đơn hàng
 @WebServlet(name = "ListBill", value = "/ListBill")
@@ -59,6 +63,10 @@ public class ListBill extends HttpServlet {
             BillDAO billDAO = new BillDAO();
             billDAO.updateStatusBill(id,status);
             billDAO.noteBill(id,"Đã hủy bởi khách hàng");
+            long currentTimeSeconds = System.currentTimeMillis() / 1000; // Lấy thời gian hiện tại đến đơn vị giây
+            Timestamp createdAt = new Timestamp(currentTimeSeconds * 1000);
+            billDAO.IshistoryBill(new HistoryBills(id,"Hủy Tour bởi khách hàng",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),"Trạng thái: "+Const.DACHUANBITOUR));
+
 //            System.out.println("đã hủy bill "+id+"status "+status);
         }
 //        request.getRequestDispatcher("invoiceHistory.jsp").forward(request,response);

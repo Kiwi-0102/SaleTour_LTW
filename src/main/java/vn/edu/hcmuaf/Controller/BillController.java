@@ -5,6 +5,7 @@ import vn.edu.hcmuaf.DAO.BookingDAO;
 import vn.edu.hcmuaf.DAO.CustomerDAO;
 import vn.edu.hcmuaf.DAO.TourDao;
 import vn.edu.hcmuaf.bean.Customer;
+import vn.edu.hcmuaf.bean.HistoryBills;
 import vn.edu.hcmuaf.bean.Tour;
 import vn.edu.hcmuaf.bean.User;
 import vn.edu.hcmuaf.serice.Const;
@@ -13,6 +14,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @WebServlet(name = "BillController", value = "/BillController")
@@ -70,7 +72,9 @@ public class BillController extends HttpServlet {
             int quatitycc = (quantitycc != null) ? quantitycc.intValue() : 0;
             User user = (User) session.getAttribute("user");
 //            System.out.println("CC "+quatitycc + ", adu"+quatity) ;
-            BookingDAO bkd = new BookingDAO();
+            long currentTimeSeconds = System.currentTimeMillis() / 1000; // Lấy thời gian hiện tại đến đơn vị giây
+
+            Timestamp createdAt = new Timestamp(currentTimeSeconds * 1000);            BookingDAO bkd = new BookingDAO();
             int idbk = BookingDAO.insertBooking(user.getId(), tour.getId(), quatitycc,quatity , userdk.getUserName(), userdk.getPhoneNumber(), userdk.getEmail(), userdk.getAddress(), tour.getStartTime());
 
             BillDAO billDao = new BillDAO();
@@ -78,6 +82,8 @@ public class BillController extends HttpServlet {
 
             CustomerDAO ctm = new CustomerDAO();
             ctm.insertListCustomer(dscus, idb);
+
+            billDao.IshistoryBill(new HistoryBills(idb,"Khách hàng đặt Tour",createdAt.toString(),"Không có","Trạng thái: "+Const.CHOXACNHAN));
         }
         request.getRequestDispatcher("bill.jsp").forward(request,response);
     }

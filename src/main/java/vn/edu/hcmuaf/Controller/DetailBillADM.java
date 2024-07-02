@@ -5,6 +5,8 @@ import vn.edu.hcmuaf.DAO.BookingDAO;
 import vn.edu.hcmuaf.DAO.CustomerDAO;
 import vn.edu.hcmuaf.bean.Bill;
 import vn.edu.hcmuaf.bean.Customer;
+import vn.edu.hcmuaf.bean.HistoryBills;
+import vn.edu.hcmuaf.serice.Const;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import static vn.edu.hcmuaf.DAO.BillDAO.getBillById;
 
 @WebServlet(name = "DetailBillADM", urlPatterns = {"/admin/DetailBillADM"})
 public class DetailBillADM extends HttpServlet {
@@ -47,6 +52,8 @@ public class DetailBillADM extends HttpServlet {
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String note = request.getParameter("note");
+            long currentTimeSeconds = System.currentTimeMillis() / 1000; // Lấy thời gian hiện tại đến đơn vị giây
+            Timestamp createdAt = new Timestamp(currentTimeSeconds * 1000);
             boolean updated;
             boolean hasError = false;
             StringBuilder err = new StringBuilder();
@@ -68,6 +75,8 @@ public class DetailBillADM extends HttpServlet {
                 err.append("err3 ");
                 hasError = true;
             }
+            BillDAO billDAO = new BillDAO();
+            billDAO.IshistoryBill(new HistoryBills(idbill,"Chỉnh sửa thông tin bởi admin",createdAt.toString(),"Trạng thái: "+getBillById(idbill).getStatus()+getBillById(idbill).() +getBillById(idbill).getStatus() +getBillById(idbill).getStatus() +getBillById(idbill).getStatus() +getBillById(idbill).getStatus() +getBillById(idbill).getStatus() ,"Trạng thái: "+ Const.DAHUY+"\n"+" Ghi chú:"+getBillById(idbill).getNoteBill()));
 
             System.out.println(err.toString());
 

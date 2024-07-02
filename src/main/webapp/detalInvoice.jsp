@@ -398,7 +398,6 @@
                                             <td class="d-none">Giảm giá?</td>
                                             <td>Ngày sinh</td>
                                             <td>Giới tính</td>
-                                            <td>Địa chỉ</td>
                                             <td>Độ tuổi</td>
                                             <td>Phòng đơn</td>
                                         </tr>
@@ -410,7 +409,6 @@
                                             <td class="d-none">Giảm giá?</td>
                                             <td><%=dscus.get(i).getDateOfBirth()%></td>
                                             <td><%=dscus.get(i).getMale()%></td>
-                                            <td></td>
                                             <td>Người lớn</td>
                                             <td>Có</td>
                                         </tr>
@@ -453,8 +451,8 @@
                                     best travel tour guide
                                 </p>
                             </div>
-                        </div><!--/.single-footer-item-->
-                    </div><!--/.col-->
+                        </div>
+                    </div>
 
                     <div class="col-sm-3">
                         <div class="single-footer-item">
