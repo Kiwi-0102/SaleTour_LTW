@@ -104,6 +104,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     ArrayList<HistoryBills> historyBills = BillDAO.getHistoryBillsByBillId(bill.getId());
 %>
+
 <body>
 <%@include file="header.jsp" %>
 <section class="home-section">
@@ -278,13 +279,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </tr>
             </thead>
             <tbody>
-            <% for (HistoryBills bills  : historyBills) { %>
+            <% for (HistoryBills bills  : historyBills) {
+                String beforeValue = bills.getBeforeValue();
+                String currentValue = bills.getCurrentValue();
+
+                String truncatedBeforeValue = beforeValue.length() > 50 ? beforeValue.substring(0, 50) + "..." : beforeValue;
+                String truncatedCurrentValue = currentValue.length() > 50 ? currentValue.substring(0, 50) + "..." : currentValue;
+
+                boolean showBeforeInfo = beforeValue.length() > 50;
+                boolean showCurrentInfo = currentValue.length() > 50;
+            %>
             <tr id="<%= bills.getId() %>">
                 <td style="text-align: center"><%= bills.getId() %></td>
                 <td style="text-align: center"><%= bills.getTitle()%></td>
                 <td style="text-align: center"><%= bills.getChangeDate()%></td>
-                <td style="text-align: center"><%= bills.getBeforeValue() %></td>
-                <td style="text-align: center"><%= bills.getCurrentValue()%></td>
+                <td style="text-align: start"><%= bills.getBeforeValue() %></td>
+                <td style="text-align: start"><%= bills.getCurrentValue()%></td>
             </tr>
             <% } %>
             </tbody>

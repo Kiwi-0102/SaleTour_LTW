@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.DAO.BillDAO;
 import vn.edu.hcmuaf.DAO.BookingDAO;
 import vn.edu.hcmuaf.DAO.CustomerDAO;
 import vn.edu.hcmuaf.bean.Bill;
+import vn.edu.hcmuaf.bean.Booking;
 import vn.edu.hcmuaf.bean.Customer;
 import vn.edu.hcmuaf.bean.HistoryBills;
 import vn.edu.hcmuaf.serice.Const;
@@ -58,6 +59,14 @@ public class DetailBillADM extends HttpServlet {
             boolean hasError = false;
             StringBuilder err = new StringBuilder();
 
+            BillDAO billDAO = new BillDAO();
+            Bill bill = billDAO.getBillById(idbill);
+            Booking booking = BookingDAO.getBookingbyId(bill.getBookingId());
+            billDAO.IshistoryBill(new HistoryBills(idbill,"Chỉnh sửa thông tin bởi admin",createdAt.toString(),
+                    "Trạng thái: "+bill.getStatus()+", "+"Ngày bắt đầu: "+booking.getDateStart()+", Tên người đặt: "+booking.getName()+", Số điện thoại:"+booking.getPhone()+", Địa chỉ: "+booking.getAddress()+", Ghi chú:"+bill.getNoteBill(),
+                    "Trạng thái: "+status+", "+"Ngày bắt đầu: "+date+", Tên người đặt: "+name+", Số điện thoại:"+sdt+", Địa chỉ: "+address+", Ghi chú:"+note
+            ));
+
             updated = BookingDAO.updateBooking(BillDAO.getBillById(idbill).getBookingId(), date, name, sdt, email, address);
             if (!updated) {
                 err.append("err1 ");
@@ -75,8 +84,6 @@ public class DetailBillADM extends HttpServlet {
                 err.append("err3 ");
                 hasError = true;
             }
-            BillDAO billDAO = new BillDAO();
-            billDAO.IshistoryBill(new HistoryBills(idbill,"Chỉnh sửa thông tin bởi admin",createdAt.toString(),"Trạng thái: "+getBillById(idbill).getStatus()+getBillById(idbill).() +getBillById(idbill).getStatus() +getBillById(idbill).getStatus() +getBillById(idbill).getStatus() +getBillById(idbill).getStatus() +getBillById(idbill).getStatus() ,"Trạng thái: "+ Const.DAHUY+"\n"+" Ghi chú:"+getBillById(idbill).getNoteBill()));
 
             System.out.println(err.toString());
 
