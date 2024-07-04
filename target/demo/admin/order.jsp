@@ -30,7 +30,27 @@
 
         .container {
             display: flex;
-            flex-direction: column;
+            justify-content: flex-end;
+            width: 580px;
+            padding: 10px 0 8px;
+            margin-bottom: 20px;
+        }
+        .container .text.invalid {
+            font-style: italic;
+        }
+        .element-button .tablinks{
+            background-color: white;
+            border: solid 2px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin:0 20px 20px;
+        }
+        .element-button .tablinks.active{
+            color: white;
+            background-color: #286090;
+        }
+        .title{
+            font-size: 24px;
         }
 
         .box {

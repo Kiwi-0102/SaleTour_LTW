@@ -36,6 +36,56 @@
         .none{
             display: none;
         }
+        #pills-all-tab{
+            color: black;!important;
+        }#pills-wait-tab{
+             color: black;!important;
+         }#pills-destroy-tab{
+              color: black;!important;
+          }#pills-complete-tab{
+               color: black;!important;
+           }
+        .container .wrapper .info .info-wrapper{
+            padding: 26px;
+            border: solid black 2px;
+            border-radius: 10px;
+            margin-left: -15px;
+        }
+        .container .wrapper .profile-links{
+            width: 90%;
+            border: solid black 2px;
+            border-radius: 10px;
+            padding: 10px 30px;
+        }
+        .container .wrapper .profile-links .mb-1 a{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: black;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+            background-color: #f8f8f8;
+            padding: 15px 5px 15px 30px;
+        }
+        .container .wrapper .profile-links .mb-1 a:hover{
+            background-color: #d5d5d5;
+        }
+        .btndetail{
+            border-radius: 3px;
+            padding: 5px 10px;
+            color: black;
+            background-color: white;
+        }
+        .btnhuydon{
+            border-radius: 3px;
+            padding: 5px 15px;
+            border: none;
+            background-color: white;
+            color: red;
+        }
+        .btnhuydon:hover{
+            background-color: #d5d5d5;
+        }
     </style>
 </head>
 <%
@@ -102,22 +152,22 @@
                              style="background: rgb(255, 255, 255); border-radius: 10px; box-sizing: border-box; border: none;">
                             <div class="tab" style="box-sizing: border-box;">
                                 <ul class="nav py-3 tab flex-sm-row mb-3" role="tablist">
-                                    <li class="nav-item flex-sm-fill text-sm-center hover backgroudhover" style="cursor: pointer" onclick="show(this.id)" id="choxacnhan" role="presentation">
+                                    <li class="nav-item flex-sm-fill text-sm-center hover backgroudhover" style="cursor: pointer;color: black;border-radius: 5px" onclick="show(this.id)" id="choxacnhan" role="presentation">
                                         <a id="pills-all-tab" class="nav-link " aria-controls="pills-all" aria-selected="true" role="tab">
                                             Chờ xác nhận
                                         </a>
                                     </li>
-                                    <li class="nav-item flex-sm-fill text-sm-center hover" style="cursor: pointer" onclick="show(this.id)" id="daxacnhan" role="presentation">
+                                    <li class="nav-item flex-sm-fill text-sm-center hover" style="cursor: pointer;color: black;border-radius: 5px" onclick="show(this.id)" id="daxacnhan" role="presentation">
                                         <a id="pills-wait-tab" class="nav-link" aria-controls="pills-wait" aria-selected="false" role="tab">
                                             Đã xác nhận
                                         </a>
                                     </li>
-                                    <li class="nav-item flex-sm-fill text-sm-center hover" style="cursor: pointer" onclick="show(this.id)" id="dahuy" role="presentation">
+                                    <li class="nav-item flex-sm-fill text-sm-center hover" style="cursor: pointer;color: black;border-radius: 5px" onclick="show(this.id)" id="dahuy" role="presentation">
                                         <a id="pills-destroy-tab" class="nav-link" aria-controls="pills-complete" aria-selected="false" role="tab">
                                             Đã hủy
                                         </a>
                                     </li>
-                                    <li class="nav-item flex-sm-fill text-sm-center hover" style="cursor: pointer" onclick="show(this.id)" id="daxong" role="presentation">
+                                    <li class="nav-item flex-sm-fill text-sm-center hover" style="cursor: pointer;color: black;border-radius: 5px" onclick="show(this.id)" id="daxong" role="presentation">
                                         <a id="pills-complete-tab" class="nav-link" aria-controls="pills-complete" aria-selected="false" role="tab">
                                             Đã xong
                                         </a>

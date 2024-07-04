@@ -42,20 +42,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             margin-top: 80px;
             padding: 15px;
             width: 100%;
-
-            #table1_wrapper{
-                margin-top: 100px;
-                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
-                -2px -2px 4px rgba(0, 0, 0, 0.5),
-                2px -2px 4px rgba(0, 0, 0, 0.5),
-                -2px 2px 4px rgba(0, 0, 0, 0.5);
-            }
         }
         div.dt-container {
             padding: 25px;
             box-shadow: 6px 2px 4px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(0, 0, 0, 0.5), 2px -2px 4px rgba(0, 0, 0, 0.5), -2px 2px 4px rgba(0, 0, 0, 0.5);
             margin-top: 30px;
-            width: 70%;
+            width: 75%;
             position: relative;
             clear: both;
             margin-left: 300px;
@@ -65,6 +57,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             /* Áp dụng các kiểu CSS khi nút được nhấn */
             /* Ví dụ: */
             outline: none; /* Loại bỏ viền xung quanh */
+        }
+
+        #table1_wrapper{
+            margin-top: 30px;
+            border: solid 2px;
+            border-radius: 5px;
         }
 
     </style>

@@ -88,14 +88,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <section id="reviewCustomer"   >
             <div class="container">
-                <h3 style="margin-left: -50px">Quản lý đánh giá</h3>
+                <h3 style="margin-left: -50px;margin-bottom: 20px">Quản lý đánh giá</h3>
                 <table class="table">
                     <thead>
                     <tr>
                         <th>FeedbackID</th>
                         <th>UserID</th>
                         <th>Content</th>
-                        <th>Date</th>
+                        <th style="width: 100px">Date</th>
                     </tr>
                     </thead>
                     <tbody>

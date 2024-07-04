@@ -31,7 +31,7 @@ public class InvoiceProcessing extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
 
             BillDAO billDAO = new BillDAO();
-            billDAO.IshistoryBill(new HistoryBills(id,"Hủy bill bởi Admin",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),"Trạng thái: "+Const.DAHUY+"\n"+" Ghi chú:"+getBillById(id).getNoteBill()));
+            billDAO.IshistoryBill(new HistoryBills(id,"Hủy bill bởi Admin",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),", Trạng thái: "+Const.DAHUY+"\n"+" Ghi chú:"+getBillById(id).getNoteBill()));
             billDAO.updateStatusBill(id, Const.DAHUY);
             billDAO.noteBill(id, note);
         } else if (action.equals("xacnhanbill")) {
@@ -39,7 +39,7 @@ public class InvoiceProcessing extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
 
             BillDAO billDAO = new BillDAO();
-            billDAO.IshistoryBill(new HistoryBills(id,"Cập nhật trạng thái",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),"Trạng thái: "+Const.DAXACNHAN+"\n"+" Ghi chú:"+getBillById(id).getNoteBill()));
+            billDAO.IshistoryBill(new HistoryBills(id,"Cập nhật trạng thái",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),", Trạng thái: "+Const.DAXACNHAN+"\n"+" Ghi chú:"+getBillById(id).getNoteBill()));
             billDAO.updateStatusBill(id, Const.DAXACNHAN);
             billDAO.noteBill(id, note);
         } else if (action.equals("chuanbitour")) {
@@ -47,7 +47,7 @@ public class InvoiceProcessing extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
 
             BillDAO billDAO = new BillDAO();
-            billDAO.IshistoryBill(new HistoryBills(id,"Cập nhật trạng thái",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),"Trạng thái: "+Const.DACHUANBITOUR+"\n"+" Ghi chú:"+getBillById(id).getNoteBill()));
+            billDAO.IshistoryBill(new HistoryBills(id,"Cập nhật trạng thái",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),", Trạng thái: "+Const.DACHUANBITOUR+"\n"+" Ghi chú:"+getBillById(id).getNoteBill()));
             billDAO.updateStatusBill(id, Const.DACHUANBITOUR);
             billDAO.noteBill(id, note);
         }else if(action.equals("daxongtour")){
@@ -55,7 +55,7 @@ public class InvoiceProcessing extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
 
             BillDAO billDAO = new BillDAO();
-            billDAO.IshistoryBill(new HistoryBills(id,"Cập nhật trạng thái",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),"Trạng thái: "+Const.DAXONG+"\n"+" Ghi chú:"+getBillById(id).getNoteBill()));
+            billDAO.IshistoryBill(new HistoryBills(id,"Cập nhật trạng thái",createdAt.toString(),"Trạng thái: "+getBillById(id).getStatus(),", Trạng thái: "+Const.DAXONG+"\n"+" Ghi chú:"+getBillById(id).getNoteBill()));
             billDAO.updateStatusBill(id, Const.DAXONG);
             billDAO.noteBill(id, note);
     }

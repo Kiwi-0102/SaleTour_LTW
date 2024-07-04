@@ -141,7 +141,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
         <div id="container11" style="height: 100%;">
             <section class="h-100 h-custom">
-                <h3 style="margin-left: 50px">Quản lý sản phẩm</h3>
+                <h3 style="margin:-30px 0 30px 50px">Quản lý sản phẩm</h3>
                 <div class="container h-100 py-5">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col">
@@ -151,15 +151,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <thead>
                                     <tr>
                                         <th scope="col">ID</th>
-                                        <th scope="col">Name</th>
+                                        <th scope="col" style="width: 145px">Name</th>
                                         <th scope="col">Image</th>
                                         <th scope="col">Price</th>
-                                        <th scope="col">Duration</th>
+                                        <th scope="col" style="width: 100px">Duration</th>
 
                                         <th  scope="col">Schedule</th>
                                         <th  scope="col">Quantity</th>
-                                        <th  scope="col">Start Time</th>
-
+                                        <th  scope="col" style="width: 90px">Start Time</th>
+                                        <th  scope="col"> </th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                     </thead>

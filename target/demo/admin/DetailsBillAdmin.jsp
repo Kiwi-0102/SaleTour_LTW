@@ -92,6 +92,95 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         #table1 th, #table1 td {
             white-space: nowrap;
         }
+         .modal {
+             display: none;
+             position: fixed;
+             z-index: 1;
+             padding-top: 100px;
+             left: 0;
+             top: 0;
+             width: 100%;
+             height: 100%;
+             overflow: auto;
+             background-color: rgb(0,0,0);
+             background-color: rgba(0,0,0,0.4);
+         }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 200px auto 0 auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .checkout-main.order-tour .customer {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .customer-row {
+            padding-left: 300px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .customer .change {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48%; /* Điều chỉnh theo nhu cầu của bạn */
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .change-title {
+            display: flex;
+            flex-direction: column;
+            margin-right: 15px;
+        }
+
+        .change-number {
+            display: flex;
+            align-items: center;
+        }
+
+        .change-number .btn-click {
+            cursor: pointer;
+        }
+
+        .change-number .btn-click a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            background-color: #f9f9f9;
+            text-decoration: none;
+        }
+
+        .change-number input {
+            margin: 0 10px;
+            text-align: center;
+        }
 
     </style>
 </head>
@@ -229,7 +318,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="d-lg-block">
                 <div class="passenger-list p-4 mb-4">
                     <div class="heading" style="margin: 10px">
-                        <h5 class="fw-bold tieude">DANH SÁCH HÀNH KHÁCH</h5>
+                        <h5 class="fw-bold tieude" style="display: flex; justify-content: space-between; align-items: center;">
+                            DANH SÁCH HÀNH KHÁCH
+                            <button style="margin-left: auto;"><i class="fa-solid fa-user-plus"></i></button>
+                        </h5>
                     </div>
                     <table class="table booking-table">
                         <thead>
@@ -257,16 +349,62 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </table>
                 </div>
             </div>
-
-
         </div>
     </div>
+    <div class="checkout-main order-tour">
+        <div class="customer">
+            <h3 style="padding: 20px">Hành khách</h3>
+            <div class="customer-row">
+                <div class="change">
+                    <div class="change-title">
+                        <h4>Người lớn</h4>
+                        <p>Từ 12 tuổi</p>
+                    </div>
+                    <div class="change-number">
+                    <span class="minus btn-click">
+                        <a id="adultc" onclick="setcount('dec',1)">
+                            <i class="fas fa-minus" style="color: black;padding: 5px"></i>
+                        </a>
+                    </span>
+                        <input min="0" name="numadult" id="adult" value="1" type="number" class="form-control form-control-sm" style="width: 55px;">
+                        <span class="plus btn-click">
+                        <a id="adultt" onclick="setcount('inc',1)">
+                            <i class="fas fa-plus" style="color: black;padding: 5px"></i>
+                        </a>
+                    </span>
+                        <span style="margin-left: 100px">10000đ</span>
+                    </div>
+                </div>
+                <div class="change">
+                    <div class="change-title">
+                        <h4>Trẻ em</h4>
+                        <p>Từ 4 - 12 tuổi</p>
+                    </div>
+                    <div class="change-number">
+                    <span class="minus btn-click">
+                        <a id="childrenc" onclick="setcount('decc',1)">
+                            <i class="fas fa-minus" style="color: black;padding: 5px"></i>
+                        </a>
+                    </span>
+                        <input min="0" name="numchildren" id="children" value="0" type="number" class="form-control form-control-sm" style="width: 55px;">
+                     <span class="plus btn-click">
+                        <a id="childrent" onclick="setcount('incc',1)">
+                            <i class="fas fa-plus" style="color: black;padding: 5px"></i>
+                        </a>
+                    </span>
+                        <span style="margin-left: 100px">10000đ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 <hr>
 
 <section class="home-section" style="margin: 50px; padding-left: 225px; width: 90%">
     <hr>
-    <div>Danh sách khách hàng</div>
+    <div>Lịch sử hóa đơn</div>
     <div class="home-content">
         <table id="table1" class="table table-hover table-bordered" style="width:100%">
             <thead>
@@ -285,35 +423,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 String truncatedBeforeValue = beforeValue.length() > 50 ? beforeValue.substring(0, 50) + "..." : beforeValue;
                 String truncatedCurrentValue = currentValue.length() > 50 ? currentValue.substring(0, 50) + "..." : currentValue;
-
-                boolean showBeforeInfo = beforeValue.length() > 50;
-                boolean showCurrentInfo = currentValue.length() > 50;
             %>
             <tr id="<%= bills.getId() %>">
                 <td style="text-align: center"><%= bills.getId() %></td>
-                <td style="text-align: center"><%= bills.getTitle()%></td>
-                <td style="text-align: center"><%= bills.getChangeDate()%></td>
-                <td style="text-align: start">
-                    <%= truncatedBeforeValue %>
-                    <%
-                        if (showBeforeInfo) {
-                    %>
-                    <button onclick="showInfo('<%= beforeValue %>')">Info</button>
-                    <%
-                        }
-                    %>
+                <td style="text-align: center"><%= bills.getTitle() %></td>
+                <td style="text-align: center"><%= bills.getChangeDate() %></td>
+                <td style="text-align: start; display: flex; justify-content: space-between; align-items: center; white-space: nowrap;">
+                    <span><%= truncatedBeforeValue %></span>
+                    <i class="fa-solid fa-info" style="padding: 5px;background-color: #0dcaf0" data-full-value="<%= beforeValue %>"></i>
                 </td>
-                <td style="text-align: start">
-                    <%= truncatedCurrentValue %>
-                    <%
-                        if (showCurrentInfo) {
-                    %>
-                    <button onclick="showInfo('<%= currentValue %>')">Info</button>
-                    <%
-                        }
-                    %>
+                <td style="text-align: start; display: table-cell; justify-content: space-between; align-items: center; white-space: nowrap;">
+                    <span><%= truncatedCurrentValue %></span>
+                    <i class="fa-solid fa-info" style="padding: 5px;background-color: #0dcaf0"  data-full-value="<%= currentValue %>"></i>
                 </td>
-
             </tr>
             <% } %>
             </tbody>
@@ -321,11 +443,44 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
 </section>
 
-
+<!-- Modal -->
+<div id="valueModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalValue"></p>
+    </div>
+</div>
 <script>
-    function showInfo(fullText) {
-        alert(fullText);
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy các phần tử biểu tượng fa-info
+        const infoIcons = document.querySelectorAll('.fa-info');
+
+        // Thêm sự kiện click cho từng biểu tượng
+        infoIcons.forEach(icon => {
+            icon.addEventListener('click', function() {
+                const fullValue = this.getAttribute('data-full-value');
+                const modal = document.getElementById('valueModal');
+                const modalValue = document.getElementById('modalValue');
+                modalValue.textContent = fullValue;
+                modal.style.display = 'block';
+            });
+        });
+
+        // Lấy phần tử span đóng modal
+        const closeModal = document.querySelector('.modal .close');
+        closeModal.addEventListener('click', function() {
+            const modal = document.getElementById('valueModal');
+            modal.style.display = 'none';
+        });
+
+        // Đóng modal khi nhấp ra ngoài
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('valueModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
 </script>
 <script>
     var initialValues = {};
