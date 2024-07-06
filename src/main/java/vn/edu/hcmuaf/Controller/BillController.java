@@ -38,14 +38,6 @@ public class BillController extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
 
-//        System.out.println("paypay");
-//        System.out.println("userdk"+userdk);
-//        System.out.println("userht"+user);
-//        System.out.println(dscus);
-//        System.out.println(quantity);
-//        System.out.println(quatitycc);
-//        System.out.println(id);
-//        String sql = "INSERT INTO booking (userId, date, tourId, numChildren, numAdult, name, phone,email, address) VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?)";
         if(action == null){
             System.out.println("view bill");
             String date = request.getParameter("date");

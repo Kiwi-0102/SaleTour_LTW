@@ -175,6 +175,27 @@ public class BookingDAO {
             closeResources(connection, preparedStatement, rs);
         }
     }
+    public static boolean updateCustomerBooking(int numchildren,int numadult, int idBooking) {
+        boolean status;
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "UPDATE booking SET numChildren=?, numAdult = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, numchildren);
+            preparedStatement.setInt(2, numadult);
+            preparedStatement.setInt(3, idBooking);
+            preparedStatement.executeUpdate();
+            status = true;
+        } catch (Exception e) {
+            status = false;
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+        return status;
+    }
+
 
     public static boolean updateBooking(int bookingId,String date,String name,String phone,String email,String address) {
         boolean status;
