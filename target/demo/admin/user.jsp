@@ -123,7 +123,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td>mod</td>
                             <%}%>
                             <td><a href="delete?userId=<%= user.getId() %>">Delete</a></td>
-                            <td><a href="delete?userId=<%= user.getId() %>">Sửa thông tin</a></td>
+                            <td><a href="UpdateUser?userId=<%= user.getId() %>">Sửa thông tin</a></td>
 
                         </tr>
                         <%
@@ -204,7 +204,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             title="Xóa">
                         <i class="fas fa-trash-alt"></i>
                     </button>
-                    <button onclick="remove(<%=user.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
+                    <button onclick="redirectToUpdateUser(<%=user.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
                             title="Sửa">
                         <i class="fa-solid fa-pen" style="color: #FFD43B;"></i>
                     </button>
@@ -264,7 +264,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             }
 
 </script>
-
+<script>
+    function redirectToUpdateUser(userId) {
+        window.location.href = 'UpdateUser?userId=' + userId;
+    }
+</script>
 
 
 <!-- //calendar -->

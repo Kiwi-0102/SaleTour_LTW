@@ -41,14 +41,14 @@ public class RemoveLog extends HttpServlet {
 
         LogDAO listdelete = new LogDAO();
         int delete = listdelete.deleteLogsByIds(idDelete);
-        logs.insert(new Log(Log.DANGER,Nation(request), user.getId(),  getPublicIP(), "Xóa "+idDelete.size()+" dòng log", new Timestamp(System.currentTimeMillis()),"Mã log: "+idDelete,"Mã log: "+idDelete, 0));
+        logs.insert(new Log(Log.ALERT,Nation(request), user.getId(),  getPublicIP(), "Xóa "+idDelete.size()+" dòng log", new Timestamp(System.currentTimeMillis()),"Mã log: "+idDelete,"Mã log: "+idDelete, 0));
 
         if(delete>0){
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("Xóa log dùng thành công!");
         }else{
-            logs.insert(new Log(Log.DANGER,Nation(request), user.getId(),  getPublicIP(), "Xóa "+idDelete.size()+" dòng log thất bại", new Timestamp(System.currentTimeMillis()),"","", 0));
+            logs.insert(new Log(Log.ALERT,Nation(request), user.getId(),  getPublicIP(), "Xóa "+idDelete.size()+" dòng log thất bại", new Timestamp(System.currentTimeMillis()),"","", 0));
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("Xóa log dùng thất bại!");

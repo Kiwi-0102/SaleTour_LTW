@@ -10,6 +10,10 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="vn.edu.hcmuaf.bean.valies" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="vn.edu.hcmuaf.serice.Const" %>
 <%@include file="common/tablib.jsp" %>
 <%
     ArrayList<Tour> tourss = (ArrayList<Tour>) session.getAttribute("ListTour");
@@ -18,6 +22,35 @@
         ArrayList<Tour> ListsortDay = (ArrayList<Tour>) request.getAttribute("ListsortDay");
         if (ListsortDay != null) {
             tourss = ListsortDay;
+        }
+    }
+
+    ArrayList<Tour> listTourfilter = new ArrayList();
+    // Sử dụng Iterator để tránh ConcurrentModificationException
+    Iterator<Tour> iterator = tourss.iterator();
+    while (iterator.hasNext()) {
+        Tour t = iterator.next();
+        String dateStr = t.getStartTime();
+        // Định dạng chuỗi ngày
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        // Chuyển đổi chuỗi ngày thành LocalDate
+        LocalDate dateToCompare = LocalDate.parse(dateStr, formatter);
+        // Lấy ngày hiện tại
+        LocalDate currentDate = LocalDate.now();
+        // So sánh hai ngày
+        if(t.getStatus().equalsIgnoreCase(Const.noneTour)){
+            iterator.remove(); // Xóa phần tử một cách an toàn
+//            || dateToCompare.isEqual(currentDate)
+        } else if (dateToCompare.isBefore(currentDate) || dateToCompare.isEqual(currentDate)) {
+            TourDao.updateStatusTour(Const.noneTour,t.getId());
+            iterator.remove(); // Xóa phần tử một cách an toàn
+        } else if (TourDao.sochoconlai(t.getId())<=0) {
+            System.out.println("hetchotour: "+t.getId());
+            TourDao.updateStatusTour(Const.noneTour,t.getId());
+            iterator.remove(); // Xóa phần tử một cách an toàn
+        } else {
+            System.out.println(dateStr + " bằng ngày hiện tại.");
+            listTourfilter.add(t);
         }
     }
 %>
@@ -351,7 +384,7 @@
     </div>
     <div id="products">
         <div class="row mx-0">
-            <% for (Tour t : tourss) { %>
+            <% for (Tour t : listTourfilter) { %>
             <div class="col-lg-4 col-md-6 pt-lg-0 pt-md-4 pt-3 element" id="<%=t.getId() %>">
                 <div class="single-package-item">
                     <a href="${pageContext.request.contextPath}/DetailsServlet?id=<%=t.getId()%>"

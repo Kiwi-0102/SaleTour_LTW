@@ -16,10 +16,11 @@ public class Tour {
     private ArrayList<ImageTours> imageTours;
     private int quantity;
     private ArrayList<Duration> detailDuration;
+    private String status;
     public Tour() {
     }
 
-    public Tour(int id, String region, Integer discountId, String name, String image, int price, String startTime, String duration, String schedule, String description, ArrayList<ImageTours> imageTours, int quantity, ArrayList<Duration> detailDuration) {
+    public Tour(int id, String region, Integer discountId, String name, String image, int price, String startTime, String duration, String schedule, String description, ArrayList<ImageTours> imageTours, int quantity, ArrayList<Duration> detailDuration,String status) {
         this.id = id;
         this.region = region;
         this.discountId = discountId;
@@ -33,10 +34,11 @@ public class Tour {
         this.imageTours = imageTours;
         this.quantity = quantity;
         this.detailDuration = detailDuration;
+        this.status = status;
     }
 
     public Tour(int id, String region, Integer discountId, String name, String image, int price,
-                String startTime, String duration, String schedule, String description) {
+                String startTime, String duration, String schedule, String description,String status) {
         this.id = id;
         this.region = region;
         this.discountId = discountId;
@@ -47,9 +49,10 @@ public class Tour {
         this.duration = duration;
         this.schedule = schedule;
         this.description = description;
+        this.status = status;
     }
 
-    public Tour(int id, String region, Integer discountId, String name, String image, int price, String startTime, String duration, String schedule, String description, int quantity) {
+    public Tour(int id, String region, Integer discountId, String name, String image, int price, String startTime, String duration, String schedule, String description, int quantity,String status) {
         this.id = id;
         this.region = region;
         this.discountId = discountId;
@@ -61,14 +64,16 @@ public class Tour {
         this.schedule = schedule;
         this.description = description;
         this.quantity = quantity;
+        this.status = status;
     }
 
-    public Tour(int id, String name, String image, int price, String duration) {
+    public Tour(int id, String name, String image, int price, String duration,String status) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.price = price;
         this.duration = duration;
+        this.status = status;
     }
 
 
@@ -166,6 +171,14 @@ public class Tour {
 
     public ArrayList<Duration> getDetailDuration() {
         return detailDuration;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setDetailDuration(ArrayList<Duration> detailDuration) {

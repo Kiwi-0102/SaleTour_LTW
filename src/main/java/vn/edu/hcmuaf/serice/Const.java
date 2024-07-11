@@ -9,6 +9,8 @@ public class Const {
     public static final String DAXACNHAN = "Đã xác nhận";
     public static final String CHOXACNHAN = "Chờ xác nhận";
     public static final String DACHUANBITOUR = "Chuẩn bị tour";
+    public static final String displayTour = "display";
+    public static final String noneTour = "none";
 
 
     public static int daystar(String dayinput) {

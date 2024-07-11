@@ -40,7 +40,8 @@ public class TourDao {
                 String schedule = rs.getString("schedule");
                 String description = rs.getString("description");
                 int quantity = rs.getInt("quantity");
-                Tour tour = new Tour(id, region, idDis, name, image, price, startTime, duration, schedule, description, quantity);
+                String status = rs.getString("status");
+                Tour tour = new Tour(id, region, idDis, name, image, price, startTime, duration, schedule, description, quantity, status);
                 tours.add(tour);
             }
         } catch (Exception e) {
@@ -89,6 +90,7 @@ public class TourDao {
                 String schedule = rs.getString("schedule");
                 String description = rs.getString("description");
                 int quantity = rs.getInt("quantity");
+                String status = rs.getString("status");
 
                 tour.setId(id1);
                 tour.setRegion(region);
@@ -101,6 +103,7 @@ public class TourDao {
                 tour.setSchedule(schedule);
                 tour.setDescription(description);
                 tour.setQuantity(quantity);
+                tour.setStatus(status);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,6 +141,29 @@ public class TourDao {
         }
         return updateStatus;
     }
+
+    public static boolean updateStatusTour(String status,int id){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean updateStatus = false;
+        try {
+            connection = ConnectToDatabase.getConnect();
+            String sql = "UPDATE tours SET status = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, id);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            updateStatus = rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, null);
+        }
+        return updateStatus;
+    }
+
     public Tour findtourbyID(int id) {
         Tour tour = null;
         Connection connection = ConnectToDatabase.getConnect();
@@ -158,6 +184,7 @@ public class TourDao {
                 String duration = rs.getString("duration");
                 String schedule = rs.getString("schedule");
                 String description = rs.getString("description");
+                String status = rs.getString("status");
                 tour.setId(id1);
                 tour.setRegion(region);
                 tour.setDiscountId(idDis);
@@ -168,6 +195,7 @@ public class TourDao {
                 tour.setStartTime(startTime);
                 tour.setSchedule(schedule);
                 tour.setDescription(description);
+                tour.setStatus(status);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -308,7 +336,8 @@ public class TourDao {
                 String duration = rs.getString("duration");
                 String schedule = rs.getString("schedule");
                 String description = rs.getString("description");
-                Tour tour1 = new Tour(id1, region, idDis, name, image, price, startTime, duration, schedule, description);
+                String status = rs.getString("status");
+                Tour tour1 = new Tour(id1, region, idDis, name, image, price, startTime, duration, schedule, description,status);
                 listSearch.add(tour1);
             }
         } catch (Exception e) {
@@ -338,7 +367,7 @@ public class TourDao {
     }
 
     public static int addTour(String region, int discountID, String name, String image, int price, String startTime, String duration, String schedule, String des, int quantity) {
-        String sql = "INSERT INTO tours (region, discountId, name, image, price, startTime, duration, schedule, description, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tours (region, discountId, name, image, price, startTime, duration, schedule, description, quantity,status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,'display')";
         Connection connect = ConnectToDatabase.getConnect();
         try {
             preparedStatement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -625,7 +654,8 @@ public class TourDao {
     }
 
             public static void main(String[] args) {
-                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
+//                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
+                System.out.println(updateStatusTour("display",2));
         }
 
 }

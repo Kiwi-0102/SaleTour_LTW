@@ -136,6 +136,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a>
 
                     </li>
+                    <li class="sub-menu">
+                        <a href="${pageContext.request.contextPath}/admin/managePermiss">
+                            <i class="fa-solid fa-note-sticky"></i>
+                            <span>Quản lý quyền tài khoản</span>
+                        </a>
+
+                    </li>
                     <li>
                         <a href="/Do_An_Web/index.jsp">
                             <i class="fa fa-home"></i>

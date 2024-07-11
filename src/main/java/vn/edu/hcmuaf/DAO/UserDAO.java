@@ -30,8 +30,6 @@ public class UserDAO implements objectDAO {
     public UserDAO(Connection connection) {
         this.connection = connection;
     }
-
-
     public static Map<Integer, User> loaduserbyID() {
         Map<Integer, User> mapTemp = new HashMap<>();
         try {
@@ -124,6 +122,51 @@ public class UserDAO implements objectDAO {
 
         return null; // Trả về null nếu không tìm thấy người dùng
     }
+    public static User getUserById(int id) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Chuẩn bị truy vấn SQL với tham số
+            Connection connection;
+            connection = ConnectToDatabase.getConnect();
+            String sql = "SELECT * FROM users where id =?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            // Thực hiện truy vấn
+            resultSet = preparedStatement.executeQuery();
+
+            // Xử lý kết quả trả về từ ResultSet
+            if (resultSet.next()) {
+                // Lấy thông tin người dùng từ ResultSet và tạo đối tượng User
+                int userId = resultSet.getInt(1);
+                String userName = resultSet.getString(2);
+                String userEmail = resultSet.getString(3);
+                String userPassword = resultSet.getString(4);
+                String phoneNumber = resultSet.getString(5);
+                String address = resultSet.getString(6);
+                int roleId = resultSet.getInt(7);
+
+                User user = new User(userId, userName, userEmail, userPassword, phoneNumber, address, roleId);
+                return user;
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng tất cả các resource
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null; // Trả về null nếu không tìm thấy người dùng
+    }
 
     public static User checkLogin(String email, String pass) {
         User userbyEmail;
@@ -133,7 +176,7 @@ public class UserDAO implements objectDAO {
 
         return null;
     }
-    public List<User> getAllUser() {
+    public static List<User> getAllUser() {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
@@ -271,14 +314,13 @@ public class UserDAO implements objectDAO {
 
     public static void main(String[] args) {
 
-            // add User
-        User u = new User("asa","122131122212@gmail.com","123321");
-        u.setRoleId(3);
-                UserDAO userDao = new UserDAO();
-//                System.out.println(userDao.isEmailExists("thuc9g@gmail.com"));
-                userDao.addUserAdmin(u);
-
-
+//            // add User
+//        User u = new User("asa","122131122212@gmail.com","123321");
+//        u.setRoleId(3);
+//                UserDAO userDao = new UserDAO();
+////                System.out.println(userDao.isEmailExists("thuc9g@gmail.com"));
+//                userDao.addUserAdmin(u);
+        System.out.println(UserDAO.getUserById(3));
 
     }
 
