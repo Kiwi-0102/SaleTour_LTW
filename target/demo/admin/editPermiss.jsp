@@ -1,5 +1,6 @@
 <%@ page import="vn.edu.hcmuaf.bean.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Iterator" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!--A Design by W3layouts
@@ -70,6 +71,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     </style>
 </head>
+<%
+    User useradm = (User) session.getAttribute("user");
+    List<User> listA = (List<User>) request.getAttribute("user");
+
+    Iterator<User> iterator = listA.iterator();
+    while (iterator.hasNext()) {
+        User user = iterator.next();
+        if ("21130549@st.hcmuaf.edu.vn".equals(user.getEmail())) {
+            iterator.remove();
+        } else if (useradm.getEmail().equals(user.getEmail())) {
+            iterator.remove();
+        }
+    }
+
+%>
 <body>
 
 <section id="container">
@@ -108,7 +124,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <tbody>
                                     <tr>
                                             <%
-                List<User> listA = (List<User>) request.getAttribute("user");
                 if (listA != null && !listA.isEmpty()) {
                     for (User user : listA) {
             %>
@@ -144,9 +159,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </tbody>
                                 </table>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -180,28 +192,46 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <thead>
         <tr>
             <th scope="col" style="text-align: center">Mã tài khoản</th>
-            <th scope="col" style="text-align: center">Tên người dùng</th>
             <th scope="col" style="text-align: center">Email</th>
-            <th scope="col" style="text-align: center">Số điện thoại</th>
+            <th scope="col" style="text-align: center">Quyền hạn</th>
             <th scope="col" style="text-align: center">Quyền</th>
+
             <th scope="col" style="text-align: center"></th>
         </tr>
         </thead>
         <tbody>
         <% for (User user : listA) { %>
+
         <tr id="user_<%= user.getId() %>">
             <th scope="row"><%= user.getId() %></th>
-            <td><%= user.getUserName() %></td>
             <td><%= user.getEmail() %></td>
-            <td><%= user.getPhoneNumber() %></td>
+            <td><%= "Thêm Xóa Sửa" %></td>
             <td>
+                <%if(useradm.getEmail().equalsIgnoreCase("21130549@st.hcmuaf.edu.vn")){%>
                 <select id="roleSelect_<%= user.getId() %>" disabled data-original-value="<%= user.getRoleId() %>">
                     <option value="1" <%= user.getRoleId() == 1 ? "selected" : "" %>>Admin</option>
                     <option value="2" <%= user.getRoleId() == 2 ? "selected" : "" %>>User</option>
                     <option value="3" <%= user.getRoleId() == 3 ? "selected" : "" %>>Mod</option>
                 </select>
+                <%} else if (user.getRoleId() == 1) {%>
+                <select id="roleSelect_<%= user.getId() %>" disabled data-original-value="<%= user.getRoleId() %>">
+                    <option value="1" <%= user.getRoleId() == 1 ? "selected" : "" %>>Admin</option>
+                </select>
+                <%} else if (user.getRoleId() == 3) {%>
+                <select id="roleSelect_<%= user.getId() %>" disabled data-original-value="<%= user.getRoleId() %>">
+                <option value="1" <%= user.getRoleId() == 1 ? "selected" : "" %>>Admin</option>
+                    <option value="2" <%= user.getRoleId() == 2 ? "selected" : "" %>>User</option>
+                    <option value="3" <%= user.getRoleId() == 3 ? "selected" : "" %>>Mod</option>
+                </select>
+                <%} else if (user.getRoleId() == 2) {%>
+                <select id="roleSelect_<%= user.getId() %>" disabled data-original-value="<%= user.getRoleId() %>">
+                    <option value="1" <%= user.getRoleId() == 1 ? "selected" : "" %>>Admin</option>
+                    <option value="2" <%= user.getRoleId() == 2 ? "selected" : "" %>>User</option>
+                    <option value="3" <%= user.getRoleId() == 3 ? "selected" : "" %>>Mod</option>
+                </select>
+                <%}%>
             </td>
-            <td>
+            <td style="display: ruby">
                 <button onclick="editUser(<%= user.getId() %>)" id="editBtn_<%= user.getId() %>" class="btn btn-primary btn-sm" type="button" title="Sửa">
                     <i class="fa-solid fa-pen" style="color: #FFD43B;"></i>
                 </button>
@@ -254,10 +284,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     }
 
     function confirmEdit(userId) {
-        var roleSelect = document.getElementById('roleSelect_' + userId);
-
-        // Xử lý logic xác nhận chỉnh sửa tại đây (ví dụ: gọi AJAX để cập nhật DB)
-
+        var roleSelect = document.getElementById('roleSelect_' + userId).value;
+        console.log('UserId',userId);
+        console.log('roleSelect',roleSelect);
+        var data = new URLSearchParams();
+        data.append('idUser',userId);
+        data.append('role',roleSelect);
+        fetch("updatePermiss",{
+            method: 'POST',
+            body: data
+        })
+            .then(response =>{
+                if (response.ok) {
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: 'Cập nhật thành công.',
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }else{
+                    console.log(response)
+                }
+            })
+            .catch(err =>{
+                console.log(err)
+            })
         document.getElementById('editBtn_' + userId).style.display = 'inline-block';
         document.getElementById('confirmBtn_' + userId).style.display = 'none';
         document.getElementById('cancelBtn_' + userId).style.display = 'none';

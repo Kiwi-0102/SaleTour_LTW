@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
 <%@ page import="vn.edu.hcmuaf.bean.Tour" %>
+<%@ page import="vn.edu.hcmuaf.serice.Const" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!--A Design by W3layouts
@@ -42,6 +43,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             display: none;
             margin: 1.5em 0;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <!--main content start-->
     <section id="main-content">
-        <div >
+        <div>
             <a style="margin-left: 1150px" href="addproduct.jsp" class="btn btn-success"><i class="material-icons">&#xE147;</i></a>
         </div>
         <!-- Edit Modal HTML -->
@@ -62,7 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div id="deleteEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="./delete" method="post" >
+                    <form action="./delete" method="post">
                         <div class="modal-header">
                             <h4 class="modal-title">Delete Tour</h4>
 
@@ -102,7 +107,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                             <div class="form-group">
                                 <label>Name</label>
-                                <input name="name" type="text" class="form-control"  >
+                                <input name="name" type="text" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Region</label>
@@ -156,10 +161,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         <th scope="col">Price</th>
                                         <th scope="col" style="width: 100px">Duration</th>
 
-                                        <th  scope="col">Schedule</th>
-                                        <th  scope="col">Quantity</th>
-                                        <th  scope="col" style="width: 90px">Start Time</th>
-                                        <th  scope="col"> </th>
+                                        <th scope="col">Schedule</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col" style="width: 90px">Start Time</th>
+                                        <th scope="col"></th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                     </thead>
@@ -178,30 +183,55 @@ if (tourss != null && !tourss.isEmpty()) {
                                         <td><%=t.getName()%>
                                         </td>
                                         <td>
-                                            <img style="width: 100px;height: 50px" src="../assets/images/item/<%=t.getImage()%>">
+                                            <img style="width: 100px;height: 50px"
+                                                 src="../assets/images/item/<%=t.getImage()%>">
                                             <img src="" alt="">
                                         </td>
-                                        <td><%=t.getPrice()%>đ </td>
+                                        <td><%=t.getPrice()%>đ</td>
                                         <td><%=t.getDuration()%>
-                                        <td ><%=t.getSchedule()%></td>
-                                        <td ><%=t.getQuantity()%></td>
-                                        <td ><%=t.getStartTime()%></td>
+                                        <td><%=t.getSchedule()%>
+                                        </td>
+                                        <td><%=t.getQuantity()%>
+                                        </td>
+                                        <td><%=t.getStartTime()%>
+                                        </td>
 
 
                                         </td>
                                         <td>
-                                        <td  style="display: flex">
+                                        <td style="display: flex">
 
-                                        <form style="display: inline;" action="${pageContext.request.contextPath}/admin/editproduct" method="post">
-                                            <input type="hidden" name="id" value="<%=t.getId()%>">
-                                            <input type="hidden" name="action" value="edit account">
-                                            <button type="submit" class="btn btn-warning" style="margin-right: 10px;">
-                                                <i class="material-icons">&#xE254;</i>
+                                            <form style="display: inline;"
+                                                  action="${pageContext.request.contextPath}/admin/editproduct"
+                                                  method="post">
+                                                <input type="hidden" name="id" value="<%=t.getId()%>">
+                                                <input type="hidden" name="action" value="edit account">
+                                                <button type="submit" class="btn btn-warning"
+                                                        style="margin-right: 10px;">
+                                                    <i class="material-icons">&#xE254;</i>
+                                                </button>
+                                            </form>
+                                            <%if (t.getStatus().equals(Const.noneTour)) {%>
+                                            <button onclick="setstatus(<%=t.getId()%>)" title="Thực hiện mở tour" id="view<%=t.getId()%>"
+                                                    class="btn btn-danger" data-toggle="modal">
+                                                <i class="fa-solid fa-eye-slash"></i>
                                             </button>
-                                        </form>
-                                        <a  href="#deleteEmployeeModal"  class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE872;</i></a>
+                                            <button class="btn btn-primary hidden" title="Thực hiện ẩn Tour" onclick="setNone(<%=t.getId()%>)"
+                                                    id="none<%=t.getId()%>" data-toggle="modal">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                            <%} else {%>
+                                            <button onclick="setstatus(<%=t.getId()%>)" title="Thực hiện mở tour" id="view<%=t.getId()%>"
+                                                    class="btn btn-danger hidden" data-toggle="modal">
+                                                <i class="fa-solid fa-eye-slash"></i>
+                                            </button>
+                                            <button class="btn btn-primary" title="Thực hiện ẩn Tour" onclick="setNone(<%=t.getId()%>)"
+                                                    id="none<%=t.getId()%>" data-toggle="modal">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                            <%}%>
                                         </td>
-                                            </a>
+                                        </a>
                                         </td>
                                     </tr>
                                     <%
@@ -250,6 +280,78 @@ if (tourss != null && !tourss.isEmpty()) {
 <script src="js/jquery.scrollTo.js"></script>
 <!-- morris JavaScript -->
 <script>
+    function setstatus(idTour) {
+        var data = new URLSearchParams();
+
+        data.append('idTour', idTour);
+        data.append('action', 'updateProduct');
+        fetch("outofstock", {
+            method: 'POST',
+            body: data
+        })
+
+            .then(reponse => {
+                if (reponse.ok) {
+                    var response = reponse.json()
+                    return response;
+                }
+            })
+            .then(response => {
+                console.log(response)
+                if (response.repon !== 'Cập nhật thành công.') {
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: response.repon,
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    })
+                } else if (response.repon === 'Cập nhật thành công.') {
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: response.repon+ ": Hiện Tour",
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    })
+                    var view = document.getElementById('view' + idTour);
+                    var none = document.getElementById('none' + idTour);
+                    none.classList.remove('hidden')
+                    view.classList.add('hidden')
+                }
+            })
+    }
+
+    function setNone(idTour) {
+        var data = new URLSearchParams();
+
+        data.append('idTour', idTour);
+        data.append('action', 'noneProduct');
+        fetch("outofstock", {
+            method: 'POST',
+            body: data
+        })
+
+            .then(reponse => {
+                if (reponse.ok) {
+                    var response = reponse.json()
+                    return response;
+                }
+            })
+            .then(response => {
+                console.log('responseeeeeeeeee',response)
+                if (response.repon === 'Cập nhật thành công.') {
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: 'Đã ẩn Tour',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    })
+                    var view = document.getElementById('view' + idTour);
+                    var none = document.getElementById('none' + idTour);
+                    none.classList.add('hidden')
+                    view.classList.remove('hidden')
+                }
+            })
+    }
 
     function deleteUser() {
         Swal.fire({

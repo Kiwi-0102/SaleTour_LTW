@@ -53,6 +53,39 @@ public class TourDao {
         return tours;
     }
 
+    public static List<Tour> findAllTourbyStatus(String status1) {
+        List<Tour> tours = new ArrayList<>();
+        Connection connection = ConnectToDatabase.getConnect();
+        try {
+            String sql = "Select * from tours where status = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, status1);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String region = rs.getString("region");
+                int idDis = rs.getInt("discountId");
+                String name = rs.getString("name");
+                String image = rs.getString("image");
+                int price = rs.getInt("price");
+                String startTime = rs.getString("startTime");
+                String duration = rs.getString("duration");
+                String schedule = rs.getString("schedule");
+                String description = rs.getString("description");
+                int quantity = rs.getInt("quantity");
+                String status = rs.getString("status");
+                Tour tour = new Tour(id, region, idDis, name, image, price, startTime, duration, schedule, description, quantity, status);
+                tours.add(tour);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+        return tours;
+    }
+
     public static void Updatequatity(int quatity,int id){
         Tour tour = null;
         Connection connection = ConnectToDatabase.getConnect();
@@ -60,6 +93,22 @@ public class TourDao {
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, quatity);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+    }
+
+    public static void Updatesatust(String status,int id){
+        Tour tour = null;
+        Connection connection = ConnectToDatabase.getConnect();
+        String sql ="UPDATE tours SET status = ? where id = ?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, status);
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -655,7 +704,7 @@ public class TourDao {
 
             public static void main(String[] args) {
 //                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
-                System.out.println(updateStatusTour("display",2));
+                System.out.println(TourDao.findAllTourbyStatus("none").size());
         }
 
 }

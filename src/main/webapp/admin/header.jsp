@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
+<%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
+<%@ page import="vn.edu.hcmuaf.bean.Tour" %>
 
 <!DOCTYPE html>
 <head>
@@ -46,6 +48,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="admin/js/morris.js"></script>
 
 </head>
+<%
+    TourDao td = new TourDao();
+    int sizenotour = td.findAllTourbyStatus("none").size();
+%>
 <body>
 <section id="container">
     <!--header start-->
@@ -90,6 +96,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <!-- sidebar menu start-->
             <div class="leftside-navigation">
                 <ul class="sidebar-menu" id="nav-accordion">
+                    <li>
+                        <a  href="${pageContext.request.contextPath}/admin/admin.jsp">
+                            <i class="fa fa-list-alt"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
                     <li>
                         <a  href="${pageContext.request.contextPath}/admin/managerProduct">
                             <i class="fa fa-list-alt"></i>
@@ -165,9 +177,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <i class="fa fa-eye"> </i>
                         </div>
                         <div class="col-md-8 market-update-left">
-                            <h4>Người xem </h4>
-                            <h3>13,500</h3>
-                            <p>Hãy đến với chúng tôi !</p>
+                            <h4>Sản phẩm đã ẩn </h4>
+                            <h3><%=sizenotour%></h3>
+                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/outofstock">Xem chi tiết !</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>

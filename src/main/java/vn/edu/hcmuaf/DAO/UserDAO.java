@@ -264,7 +264,23 @@ public class UserDAO implements objectDAO {
         return kq;
 
     }
+    public static boolean editRoleUser(int role,int id){
+        String sql = "update users set roleId = ? where id = ?";
+        boolean kq = false;
+        Connection con = ConnectToDatabase.getConnect();
+        try {
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1,role);
+            pst.setInt(2,id);
+            pst.executeUpdate();
+            kq = true;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi update thông tin user" + e.getMessage());
+        }
+        System.out.println("kq"+kq);
+        return kq;
 
+    }
     public static void DeleteUser(int id){
 
     }
