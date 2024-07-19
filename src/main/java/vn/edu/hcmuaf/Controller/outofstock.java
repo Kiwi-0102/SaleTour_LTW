@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,15 +33,53 @@ import static vn.edu.hcmuaf.serice.getNation.Nation;
 public class outofstock extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = (String) request.getAttribute("action");
-        if(action == null) {
+        String action = request.getParameter("action");
+        System.out.println("actiom ;"+action);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if (action == null) {
             List<Tour> tourNone = TourDao.findAllTourbyStatus("none");
+            System.out.println();
+            request.setAttribute("button", "none");
             request.setAttribute("tournone", tourNone);
             request.getRequestDispatcher("outofstock.jsp").forward(request, response);
-        }else if(action.equals("listOld")){
-
+        } else if (action.equals("listOld")) {
+            List<Tour> tourNone = TourDao.findAllTourbyStatus("none");
+            LocalDate currentDate = LocalDate.now();
+            LocalDate dateStart ;
+            ArrayList<Tour> tourArrayList = new ArrayList<>();
+            for (Tour t: tourNone){
+                String dateStartStr = t.getStartTime(); // Lấy chuỗi ngày từ đối tượng Tour
+                 dateStart = LocalDate.parse(dateStartStr, formatter);
+                 if(dateStart.isBefore(currentDate)){
+                     tourArrayList.add(t);
+                 }
+            }
+            request.setAttribute("tournone", tourArrayList);
+            request.getRequestDispatcher("outofstock.jsp").forward(request, response);
+        } else if (action.equals("listFullslot")) {
+            List<Tour> tourNone = TourDao.findAllTourbyStatus("none");
+            LocalDate currentDate = LocalDate.now();
+            LocalDate dateStart ;
+            ArrayList<Tour> tourArrayList = new ArrayList<>();
+            for (Tour t: tourNone){
+                String dateStartStr = t.getStartTime(); // Lấy chuỗi ngày từ đối tượng Tour
+                dateStart = LocalDate.parse(dateStartStr, formatter);
+                if(dateStart.isAfter(currentDate) && (TourDao.sochoconlai(t.getId())<=0)){
+                    tourArrayList.add(t);
+                }
+            }
+            request.setAttribute("tournone", tourArrayList);
+            request.getRequestDispatcher("outofstock.jsp").forward(request, response);
+        } else if (action.equals("nooder")) {
+            int month = Integer.parseInt(request.getParameter("month"));
+            List<Tour> tourNone = TourDao.findAllTourbyorder(month);
+            request.setAttribute("tournone", tourNone);
+            request.setAttribute("month", month);
+            request.setAttribute("showSelect", "showSelect");
+            request.getRequestDispatcher("outofstock.jsp").forward(request, response);
         }
-    }
+        }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,7 +106,7 @@ public class outofstock extends HttpServlet {
                     if (sochoconlai <= 0) {
                         repon.put("repon", "Tour đã hết chỗ cần cập nhật");
                     } else {
-                        TourDao.Updatesatust(Const.displayTour,id);
+                        TourDao.Updatesatust(Const.displayTour, id);
                         repon.put("repon", "Cập nhật thành công.");
                     }
                 } else {
@@ -87,7 +126,7 @@ public class outofstock extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("idTour"));
             try {
                 Map<String, String> repon = new HashMap<>();
-                TourDao.Updatesatust(Const.noneTour,id);
+                TourDao.Updatesatust(Const.noneTour, id);
                 repon.put("repon", "Cập nhật thành công.");
                 String json = gson.toJson(repon);
                 writer.write(json);

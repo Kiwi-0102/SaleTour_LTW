@@ -179,7 +179,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="col-md-8 market-update-left">
                             <h4>Sản phẩm đã ẩn </h4>
                             <h3><%=sizenotour%></h3>
-                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/outofstock">Xem chi tiết !</a>
+                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/outofstock">Xem chi tiết thống kê!</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>

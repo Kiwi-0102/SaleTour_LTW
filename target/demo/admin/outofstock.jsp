@@ -14,7 +14,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 
 <head>
-    <title>Quản lí sản phẩm</title>
+    <title>Sản phẩm đã ẩn</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -144,10 +144,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
         <div id="container11" style="height: 100%;">
             <div style="margin-bottom: 50px; margin-left: 50px">
-                <div><a>Danh sách các sản phẩm chưa được làm mới</a></div>
-            <div>Danh sách các sản phẩm đã hết chỗ</div>
-            <div>Danh sách các sản phẩm chưa phát sinh đơn hàng</div>
+                <div class="hiden" id="buttonAll"><a href="${pageContext.request.contextPath}/admin/outofstock">Tất cả các sản phẩm đã ẩn</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/outofstock?action=listOld">Danh sách các sản phẩm chưa được làm mới ngày bắt đầu</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/outofstock?action=listFullslot">Danh sách các sản phẩm đã hết chỗ</a></div>
+                <div><a href="${pageContext.request.contextPath}/admin/outofstock?action=nooder&month=3">Danh sách các sản phẩm chưa phát sinh đơn hàng trong các tháng gần nhất</a></div>
+
+                <select name="month" id="select-month" class="hiden" onchange="alertSelectedOption(this)">
+                    <option value="1">1 tháng</option>
+                    <option value="2">2 tháng</option>
+                    <option value="3" selected>3 tháng</option>
+                    <option value="4">4 tháng</option>
+                    <option value="5">5 tháng</option>
+                    <option value="6">6 tháng</option>
+                    <option value="7">7 tháng</option>
+                    <option value="8">8 tháng</option>
+                    <option value="9">9 tháng</option>
+                    <option value="10">10 tháng</option>
+                    <option value="11">11 tháng</option>
+                    <option value="12">12 tháng</option>
+                </select>
+
             </div>
+
 
             <section class="h-100 h-custom">
                 <h3 style="margin:-30px 0 30px 50px">Quản lý sản phẩm</h3>
@@ -175,6 +193,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <tbody>
                                     <tr>
 <%
+String button =(String) request.getAttribute("button");
+
+Object monthObj = request.getAttribute("month");
+String month = null;
+if (monthObj instanceof Integer) {
+    month = Integer.toString((Integer) monthObj);
+} else if (monthObj instanceof String) {
+    month = (String) monthObj;
+}
+String showSelect =(String) request.getAttribute("showSelect");
+
                         List<Tour> tourss = (List<Tour>) request.getAttribute("tournone");
 
                         if (tourss != null && !tourss.isEmpty()) {
@@ -268,6 +297,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/jquery.scrollTo.js"></script>
 <!-- morris JavaScript -->
 <script>
+    function alertSelectedOption(select) {
+        var selectedOption = select.options[select.selectedIndex].value;
+        var redirectURL = "${pageContext.request.contextPath}/admin/outofstock?action=nooder&month=" + selectedOption;
+        window.location.href = redirectURL;
+    }
+
+    window.onload = function showbutton() {
+        var state = '<%= button %>';
+        var showSl = '<%= showSelect %>';
+        var month = '<%= month %>';
+
+        console.log('showSl', showSl);
+        console.log('month', month);
+
+        if (state === 'null') {
+            var button = document.getElementById('buttonAll');
+            button.classList.remove('hiden');
+        }
+
+        if (showSl !== 'null') {
+            var selectElement = document.getElementById('select-month');
+            selectElement.classList.remove('hiden');
+        }
+
+        if (month !== 'null') {
+            var selectMonth = document.getElementById('select-month');
+            var options = selectMonth.options;
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].value == month) {  // Sửa ở đây
+                    options[i].selected = true;
+                    break;
+                }
+            }
+        }
+    }
+
     function setstatus(idTour){
         var data = new URLSearchParams();
 

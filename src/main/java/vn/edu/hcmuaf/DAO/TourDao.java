@@ -702,9 +702,44 @@ public class TourDao {
         return formattedEndDate;
     }
 
+    public static List<Tour> findAllTourbyorder(int month) {
+        List<Tour> tours = new ArrayList<>();
+        Connection connection = ConnectToDatabase.getConnect();
+        try {
+            String sql ="SELECT * FROM tours t " +
+                    "LEFT JOIN booking b ON t.id = b.tourId " +
+                    "WHERE b.dateBooking IS NULL OR b.dateBooking < DATE_SUB(CURDATE(), INTERVAL ? MONTH)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, month);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String region = rs.getString("region");
+                int idDis = rs.getInt("discountId");
+                String name = rs.getString("name");
+                String image = rs.getString("image");
+                int price = rs.getInt("price");
+                String startTime = rs.getString("startTime");
+                String duration = rs.getString("duration");
+                String schedule = rs.getString("schedule");
+                String description = rs.getString("description");
+                int quantity = rs.getInt("quantity");
+                String status = rs.getString("status");
+                Tour tour = new Tour(id, region, idDis, name, image, price, startTime, duration, schedule, description, quantity, status);
+                tours.add(tour);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connection, preparedStatement, rs);
+        }
+        return tours;
+    }
+
             public static void main(String[] args) {
 //                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
-                System.out.println(TourDao.findAllTourbyStatus("none").size());
+                System.out.println(TourDao.findAllTourbyorder(3).size());
         }
 
 }

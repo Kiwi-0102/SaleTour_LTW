@@ -49,7 +49,7 @@
             TourDao.updateStatusTour(Const.noneTour,t.getId());
             iterator.remove(); // Xóa phần tử một cách an toàn
         } else {
-            System.out.println(dateStr + " bằng ngày hiện tại.");
+//            System.out.println(dateStr + " bằng ngày hiện tại.");
             listTourfilter.add(t);
         }
     }
