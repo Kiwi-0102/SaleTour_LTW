@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
 <%@ page import="vn.edu.hcmuaf.bean.Tour" %>
+<%@ page import="java.text.DecimalFormat" %>
 
 <!DOCTYPE html>
 <head>
@@ -52,6 +53,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     TourDao td = new TourDao();
     int sizenotour = td.findAllTourbyStatus("none").size();
     long loinhuan = td.doanhthutheotrutunay();
+    DecimalFormat dfa = new DecimalFormat("#,### VNĐ");
+
 %>
 <body>
 <section id="container">
@@ -192,7 +195,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </div>
                         <div class="col-md-8 market-update-left">
                             <h4>Khách hàng</h4>
-                            <h3><%=loinhuan%></h3>
+                            <h3><%=dfa.format(loinhuan)%></h3>
                             <p>Xem chi tiết lợi nhuận !</p>
                         </div>
                         <div class="clearfix"> </div>
@@ -204,9 +207,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <i class="fa fa-usd"></i>
                         </div>
                         <div class="col-md-8 market-update-left">
-                            <h4>Doanh thu tất cả</h4>
-                            <h5><%=loinhuan%> VNĐ</h5>
-                            <p>Xem chi tiết lợi nhuận !</p>
+                            <h3>Lợi nhuận</h3>
+                            <h4><%=dfa.format(loinhuan)%></h4>
+                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/statictical?type=all">Xem chi tiết thống kê lợi nhuận!</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>

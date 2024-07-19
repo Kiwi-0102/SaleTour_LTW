@@ -741,7 +741,7 @@ public class TourDao {
 
     //------------------------------------------------------------------------------------------------------------------------------------------
     // Doanh thu theo ngày không tính đơn đã hủy
-    public static long doanhthutheongay(String day) {
+    public long doanhthutheongay(String day) {
         long totalRevenue = 0;
         Connection connect = ConnectToDatabase.getConnect();
         try {
@@ -764,7 +764,7 @@ public class TourDao {
         }
         return totalRevenue;
     }
-    public static long doanhthutheothang(String month, String year) {
+    public long doanhthutheothang(String month, String year) {
         long totalRevenue = 0;
         Connection connect = ConnectToDatabase.getConnect();
         try {
@@ -789,7 +789,7 @@ public class TourDao {
         }
         return totalRevenue;
     }
-    public static long doanhthutheonam(String year) {
+    public long doanhthutheonam(String year) {
         long totalRevenue = 0;
         Connection connect = ConnectToDatabase.getConnect();
         try {
@@ -811,7 +811,7 @@ public class TourDao {
         }
         return totalRevenue;
     }
-    public static long doanhthutrongkhoang(String day1,String day2) {
+    public long doanhthutrongkhoang(String day1,String day2) {
         long totalRevenue = 0;
         Connection connect = ConnectToDatabase.getConnect();
         try {
@@ -832,7 +832,7 @@ public class TourDao {
         }
         return totalRevenue;
     }
-    public static long doanhthutheotrutunay() {
+    public long doanhthutheotrutunay() {
         long totalRevenue = 0;
         Connection connect = ConnectToDatabase.getConnect();
         PreparedStatement preparedStatement = null;
@@ -860,7 +860,7 @@ public class TourDao {
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------
-    public static List<Booking> getBookingsForDate(String dateStr) {
+    public List<Booking> getBookingsForDate(String dateStr) {
         List<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -905,7 +905,7 @@ public class TourDao {
 
         return bookings;
     }
-    public static List<Booking> getBookingsForMonth(String month,String year) {
+    public List<Booking> getBookingsForMonth(String month,String year) {
         List<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -953,7 +953,7 @@ public class TourDao {
 
         return bookings;
     }
-    public static List<Booking> getBookingsForYear(String year) {
+    public List<Booking> getBookingsForYear(String year) {
         List<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -964,7 +964,7 @@ public class TourDao {
 
             String sql = "SELECT b.id AS bookingId, b.userId, b.dateBooking, b.tourId, b.numChildren, b.numAdult, b.name, b.phone, b.email," +
                     " b.address, b.dateStart, bi.paymentMethod, bi.totalPrice, bi.status, bi.noteBill FROM booking b JOIN bills bi ON b.id =" +
-                    " bi.bookingId WHERE YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ? AND bi.status <> 'canceled' ORDER BY " +
+                    " bi.bookingId WHERE YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ? AND bi.status <> 'Đã hủy' ORDER BY " +
                     "b.dateBooking";
 
             stmt = conn.prepareStatement(sql);
@@ -1001,7 +1001,7 @@ public class TourDao {
 
         return bookings;
     }
-    public static List<Booking> getBookingsForBetWeen(String dateStr1,String dateSt2) {
+    public List<Booking> getBookingsForBetWeen(String dateStr1,String dateSt2) {
         List<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -1049,7 +1049,7 @@ public class TourDao {
 
         return bookings;
     }
-    public static List<Booking> getBookingsFromPastToNow() {
+    public List<Booking> getBookingsFromPastToNow() {
         List<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -1100,7 +1100,7 @@ public class TourDao {
 
     public static void main(String[] args) {
 //                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
-        System.out.println(getBookingsFromPastToNow());
+//        System.out.println(getBookingsFromPastToNow());
     }
 
 }
