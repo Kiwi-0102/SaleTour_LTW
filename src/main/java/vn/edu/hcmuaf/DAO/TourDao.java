@@ -86,10 +86,10 @@ public class TourDao {
         return tours;
     }
 
-    public static void Updatequatity(int quatity,int id){
+    public static void Updatequatity(int quatity, int id) {
         Tour tour = null;
         Connection connection = ConnectToDatabase.getConnect();
-        String sql ="UPDATE tours SET quantity = ? where id = ?";
+        String sql = "UPDATE tours SET quantity = ? where id = ?";
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, quatity);
@@ -102,10 +102,10 @@ public class TourDao {
         }
     }
 
-    public static void Updatesatust(String status,int id){
+    public static void Updatesatust(String status, int id) {
         Tour tour = null;
         Connection connection = ConnectToDatabase.getConnect();
-        String sql ="UPDATE tours SET status = ? where id = ?";
+        String sql = "UPDATE tours SET status = ? where id = ?";
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, status);
@@ -163,7 +163,7 @@ public class TourDao {
         return tour;
     }
 
-    public static boolean updateTour(String region,String name,int price,String Starttime,String schedule,String description,int quantity,int id) {
+    public static boolean updateTour(String region, String name, int price, String Starttime, String schedule, String description, int quantity, int id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean updateStatus = false;
@@ -191,7 +191,7 @@ public class TourDao {
         return updateStatus;
     }
 
-    public static boolean updateStatusTour(String status,int id){
+    public static boolean updateStatusTour(String status, int id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean updateStatus = false;
@@ -386,13 +386,13 @@ public class TourDao {
                 String schedule = rs.getString("schedule");
                 String description = rs.getString("description");
                 String status = rs.getString("status");
-                Tour tour1 = new Tour(id1, region, idDis, name, image, price, startTime, duration, schedule, description,status);
+                Tour tour1 = new Tour(id1, region, idDis, name, image, price, startTime, duration, schedule, description, status);
                 listSearch.add(tour1);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            closeResources(connect,pst,rs);
+        } finally {
+            closeResources(connect, pst, rs);
         }
         return listSearch;
     }
@@ -575,7 +575,7 @@ public class TourDao {
         return res;
     }
 
-    public static void insertImage(String URL,int idtour) {
+    public static void insertImage(String URL, int idtour) {
         try {
             PreparedStatement ps = ConnectToDatabase.getConnect().prepareStatement("insert into images(URL,tourId) values (?,?)");
             ps.setString(1, URL);
@@ -635,7 +635,7 @@ public class TourDao {
                 String day3 = rs.getString(3);
                 String day4 = rs.getString(4);
                 String day5 = rs.getString(5);
-                Duration dr = new Duration(day1,day2,day3,day4,day5);
+                Duration dr = new Duration(day1, day2, day3, day4, day5);
                 res.add(dr);
             }
             rs.close();
@@ -648,7 +648,7 @@ public class TourDao {
         return res;
     }
 
-    public static int soluongdadat(int id){
+    public static int soluongdadat(int id) {
         int total = 0;
         Connection connect = ConnectToDatabase.getConnect();
         try {
@@ -656,9 +656,9 @@ public class TourDao {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-               int numchildren = rs.getInt("numChildren");
+                int numchildren = rs.getInt("numChildren");
                 int numAdult = rs.getInt("numAdult");
-                total +=numchildren+numAdult;
+                total += numchildren + numAdult;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -667,12 +667,14 @@ public class TourDao {
         }
         return total;
     }
-    public static int sochoconlai(int id){
-        TourDao td = new  TourDao();
+
+    public static int sochoconlai(int id) {
+        TourDao td = new TourDao();
         int tours = td.findtourbyid(id).getQuantity();
         int ketqua = tours - td.soluongdadat(id);
         return ketqua;
     }
+
     //Nhập vào lịch trình tour trả ra số ngày
     public static int getNumberOfDays(String input) {
         Pattern pattern = Pattern.compile("\\d+");
@@ -688,7 +690,7 @@ public class TourDao {
 
 
     public static String getEnd(int idtour) {
-        String startTimeString =  new TourDao().findtourbyID(idtour).getStartTime(); // Chuỗi ngày bắt đầu
+        String startTimeString = new TourDao().findtourbyID(idtour).getStartTime(); // Chuỗi ngày bắt đầu
         LocalDate startTime = LocalDate.parse(startTimeString); // Chuyển đổi chuỗi thành LocalDate
 
         // Cộng thêm 3 ngày vào ngày bắt đầu
@@ -706,7 +708,7 @@ public class TourDao {
         List<Tour> tours = new ArrayList<>();
         Connection connection = ConnectToDatabase.getConnect();
         try {
-            String sql ="SELECT * FROM tours t " +
+            String sql = "SELECT * FROM tours t " +
                     "LEFT JOIN booking b ON t.id = b.tourId " +
                     "WHERE b.dateBooking IS NULL OR b.dateBooking < DATE_SUB(CURDATE(), INTERVAL ? MONTH)";
             preparedStatement = connection.prepareStatement(sql);
@@ -737,10 +739,369 @@ public class TourDao {
         return tours;
     }
 
-            public static void main(String[] args) {
-//                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
-                System.out.println(TourDao.findAllTourbyorder(3).size());
+    //------------------------------------------------------------------------------------------------------------------------------------------
+    // Doanh thu theo ngày không tính đơn đã hủy
+    public static long doanhthutheongay(String day) {
+        long totalRevenue = 0;
+        Connection connect = ConnectToDatabase.getConnect();
+        try {
+            PreparedStatement preparedStatement = connect.prepareStatement(
+                    "SELECT SUM(bi.totalPrice) AS totalRevenue " +
+                            "FROM booking b " +
+                            "JOIN bills bi ON b.id = bi.bookingId " +
+                            "WHERE DATE(b.dateBooking) = ? " +
+                            "AND bi.status <> 'Đã hủy'"
+            );
+            preparedStatement.setString(1, day);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                totalRevenue = rs.getLong("totalRevenue");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connect, preparedStatement, null);
         }
+        return totalRevenue;
+    }
+    public static long doanhthutheothang(String month, String year) {
+        long totalRevenue = 0;
+        Connection connect = ConnectToDatabase.getConnect();
+        try {
+            PreparedStatement preparedStatement = connect.prepareStatement(
+                    "SELECT YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) AS bookingYear, MONTH(STR_TO_DATE(b.dateBooking, '%Y-%m-%d'))" +
+                            " AS bookingMonth, SUM(bi.totalPrice) AS totalRevenue FROM booking b JOIN bills bi ON b.id = bi.bookingId" +
+                            " WHERE YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ? AND MONTH(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ?" +
+                            " AND bi.status <> 'Đã hủy' GROUP BY YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')), MONTH(STR_TO_DATE(b.dateBooking, '%Y-%m-%d'))" +
+                            " ORDER BY bookingYear, bookingMonth;"
+            );
+            preparedStatement.setString(1, year);
+            preparedStatement.setString(2, month);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                totalRevenue = rs.getLong("totalRevenue");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connect, preparedStatement, null);
+        }
+        return totalRevenue;
+    }
+    public static long doanhthutheonam(String year) {
+        long totalRevenue = 0;
+        Connection connect = ConnectToDatabase.getConnect();
+        try {
+            PreparedStatement preparedStatement = connect.prepareStatement(
+                    "SELECT YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) AS bookingYear, SUM(bi.totalPrice) AS totalRevenue " +
+                            "FROM booking b JOIN bills bi ON b.id = bi.bookingId WHERE YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ? " +
+                            "AND bi.status <> 'Đã hủy' GROUP BY YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) ORDER BY bookingYear;"
+            );
+            preparedStatement.setString(1, year);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                totalRevenue = rs.getLong("totalRevenue");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connect, preparedStatement, null);
+        }
+        return totalRevenue;
+    }
+    public static long doanhthutrongkhoang(String day1,String day2) {
+        long totalRevenue = 0;
+        Connection connect = ConnectToDatabase.getConnect();
+        try {
+            PreparedStatement preparedStatement = connect.prepareStatement(
+                    " SELECT SUM(bi.totalPrice) AS totalRevenue FROM booking b JOIN bills bi ON b.id = bi.bookingId " +
+                            "WHERE DATE(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) BETWEEN ? AND ? AND bi.status <> 'Đã hủy'"
+            );
+            preparedStatement.setString(1, day1);
+            preparedStatement.setString(2, day2);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                totalRevenue = rs.getLong("totalRevenue");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connect, preparedStatement, null);
+        }
+        return totalRevenue;
+    }
+    public static long doanhthutheotrutunay() {
+        long totalRevenue = 0;
+        Connection connect = ConnectToDatabase.getConnect();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            preparedStatement = connect.prepareStatement(
+                    "SELECT SUM(bi.totalPrice) AS totalRevenue " +
+                            "FROM booking b " +
+                            "JOIN bills bi ON b.id = bi.bookingId " +
+                            "WHERE bi.status <> 'Đã hủy'"
+            );
+
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                totalRevenue = rs.getLong("totalRevenue");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources(connect, preparedStatement, rs);
+        }
+
+        return totalRevenue;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------------------------
+    public static List<Booking> getBookingsForDate(String dateStr) {
+        List<Booking> bookings = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectToDatabase.getConnect();
+
+            String sql = "SELECT b.id AS bookingId, b.userId, b.dateBooking, b.tourId, b.numChildren, b.numAdult, b.name, b.phone, b.email, b.address, b.dateStart, bi.paymentMethod, bi.totalPrice, bi.status, bi.noteBill FROM booking b JOIN bills bi ON b.id = bi.bookingId WHERE DATE(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ? AND bi.status <> 'Đã hủy' ORDER BY b.dateBooking;";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setDate(1, Date.valueOf(dateStr));
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setId(rs.getInt("bookingId"));
+                booking.setUserId(rs.getInt("userId"));
+                booking.setDate(rs.getString("dateBooking"));
+                booking.setTourId(rs.getInt("tourId"));
+                booking.setNumChildren(rs.getInt("numChildren"));
+                booking.setNumAdult(rs.getInt("numAdult"));
+                booking.setName(rs.getString("name"));
+                booking.setPhone(rs.getString("phone"));
+                booking.setEmail(rs.getString("email"));
+                booking.setAddress(rs.getString("address"));
+                booking.setDateStart(rs.getString("dateStart"));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bookings;
+    }
+    public static List<Booking> getBookingsForMonth(String month,String year) {
+        List<Booking> bookings = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectToDatabase.getConnect();
+
+            String sql = "SELECT b.id AS bookingId, b.userId, b.dateBooking, b.tourId, b.numChildren, b.numAdult, b.name, b.phone, b.email, b.address, b.dateStart, bi.paymentMethod, bi.totalPrice, bi.status, bi.noteBill " +
+                    "FROM booking b JOIN bills bi ON b.id = bi.bookingId WHERE YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ? AND " +
+                    "MONTH(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ? AND bi.status <> 'Đã hủy' ORDER BY b.dateBooking;";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, year);
+            stmt.setString(2, month);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setId(rs.getInt("bookingId"));
+                booking.setUserId(rs.getInt("userId"));
+                booking.setDate(rs.getString("dateBooking"));
+                booking.setTourId(rs.getInt("tourId"));
+                booking.setNumChildren(rs.getInt("numChildren"));
+                booking.setNumAdult(rs.getInt("numAdult"));
+                booking.setName(rs.getString("name"));
+                booking.setPhone(rs.getString("phone"));
+                booking.setEmail(rs.getString("email"));
+                booking.setAddress(rs.getString("address"));
+                booking.setDateStart(rs.getString("dateStart"));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bookings;
+    }
+    public static List<Booking> getBookingsForYear(String year) {
+        List<Booking> bookings = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectToDatabase.getConnect();
+
+            String sql = "SELECT b.id AS bookingId, b.userId, b.dateBooking, b.tourId, b.numChildren, b.numAdult, b.name, b.phone, b.email," +
+                    " b.address, b.dateStart, bi.paymentMethod, bi.totalPrice, bi.status, bi.noteBill FROM booking b JOIN bills bi ON b.id =" +
+                    " bi.bookingId WHERE YEAR(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) = ? AND bi.status <> 'canceled' ORDER BY " +
+                    "b.dateBooking";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, year);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setId(rs.getInt("bookingId"));
+                booking.setUserId(rs.getInt("userId"));
+                booking.setDate(rs.getString("dateBooking"));
+                booking.setTourId(rs.getInt("tourId"));
+                booking.setNumChildren(rs.getInt("numChildren"));
+                booking.setNumAdult(rs.getInt("numAdult"));
+                booking.setName(rs.getString("name"));
+                booking.setPhone(rs.getString("phone"));
+                booking.setEmail(rs.getString("email"));
+                booking.setAddress(rs.getString("address"));
+                booking.setDateStart(rs.getString("dateStart"));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bookings;
+    }
+    public static List<Booking> getBookingsForBetWeen(String dateStr1,String dateSt2) {
+        List<Booking> bookings = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectToDatabase.getConnect();
+
+            String sql = "SELECT b.id AS bookingId, b.userId, b.dateBooking, b.tourId, b.numChildren, " +
+                    "b.numAdult, b.name, b.phone, b.email, b.address, b.dateStart, bi.paymentMethod, bi.totalPrice, bi.status, bi.noteBill FROM " +
+                    "booking b JOIN bills bi ON b.id = bi.bookingId WHERE DATE(STR_TO_DATE(b.dateBooking, '%Y-%m-%d')) " +
+                    "BETWEEN ? AND ? AND bi.status <> 'Đã hủy'  ORDER BY b.dateBooking;";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, dateStr1);
+            stmt.setString(2, dateSt2);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setId(rs.getInt("bookingId"));
+                booking.setUserId(rs.getInt("userId"));
+                booking.setDate(rs.getString("dateBooking"));
+                booking.setTourId(rs.getInt("tourId"));
+                booking.setNumChildren(rs.getInt("numChildren"));
+                booking.setNumAdult(rs.getInt("numAdult"));
+                booking.setName(rs.getString("name"));
+                booking.setPhone(rs.getString("phone"));
+                booking.setEmail(rs.getString("email"));
+                booking.setAddress(rs.getString("address"));
+                booking.setDateStart(rs.getString("dateStart"));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bookings;
+    }
+    public static List<Booking> getBookingsFromPastToNow() {
+        List<Booking> bookings = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectToDatabase.getConnect();
+
+            String sql = "SELECT b.id AS bookingId, b.userId, b.dateBooking, b.tourId, b.numChildren, " +
+                    "b.numAdult, b.name, b.phone, b.email, b.address, b.dateStart, bi.paymentMethod, bi.totalPrice, bi.status, bi.noteBill " +
+                    "FROM booking b JOIN bills bi ON b.id = bi.bookingId " +
+                    "WHERE bi.status <> 'Đã hủy' " +
+                    "ORDER BY b.dateBooking;";
+
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setId(rs.getInt("bookingId"));
+                booking.setUserId(rs.getInt("userId"));
+                booking.setDate(rs.getString("dateBooking"));
+                booking.setTourId(rs.getInt("tourId"));
+                booking.setNumChildren(rs.getInt("numChildren"));
+                booking.setNumAdult(rs.getInt("numAdult"));
+                booking.setName(rs.getString("name"));
+                booking.setPhone(rs.getString("phone"));
+                booking.setEmail(rs.getString("email"));
+                booking.setAddress(rs.getString("address"));
+                booking.setDateStart(rs.getString("dateStart"));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bookings;
+    }
+
+
+    public static void main(String[] args) {
+//                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
+        System.out.println(getBookingsFromPastToNow());
+    }
 
 }
 

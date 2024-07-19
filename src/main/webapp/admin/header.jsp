@@ -51,6 +51,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <%
     TourDao td = new TourDao();
     int sizenotour = td.findAllTourbyStatus("none").size();
+    long loinhuan = td.doanhthutheotrutunay();
 %>
 <body>
 <section id="container">
@@ -179,7 +180,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="col-md-8 market-update-left">
                             <h4>Sản phẩm đã ẩn </h4>
                             <h3><%=sizenotour%></h3>
-                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/outofstock">Xem chi tiết thống kê!</a>
+                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/statictical">Xem chi tiết thống kê sản phẩm!</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
@@ -191,8 +192,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </div>
                         <div class="col-md-8 market-update-left">
                             <h4>Khách hàng</h4>
-                            <h3>1,250</h3>
-                            <p>Thật tuyệt vời !</p>
+                            <h3><%=loinhuan%></h3>
+                            <p>Xem chi tiết lợi nhuận !</p>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
@@ -203,9 +204,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <i class="fa fa-usd"></i>
                         </div>
                         <div class="col-md-8 market-update-left">
-                            <h4>Tour đã giảm giá</h4>
-                            <h3>199</h3>
-                            <p>Giá cả hợp lí !</p>
+                            <h4>Doanh thu tất cả</h4>
+                            <h5><%=loinhuan%> VNĐ</h5>
+                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/renuve?type=all">Xem chi tiết thống kê!</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>

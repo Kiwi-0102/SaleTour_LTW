@@ -17,6 +17,9 @@ public class Booking {
 
     private String dateStart;
 
+    public Booking() {
+    }
+
     public Booking(int id, int userId, String date, int tourId, int numChildren, int numAdult, String name, String phone, String email, String address, String dateStart) {
         this.id = id;
         this.userId = userId;
