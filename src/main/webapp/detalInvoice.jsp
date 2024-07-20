@@ -334,7 +334,7 @@
                                                 <i class="fa-solid fa-calendar-days"></i>
                                                 <div class="start-content">
                                                     <h4>Kết thúc chuyến đi</h4>
-                                                    <p class="timeend" style="font-size: 15px;"><%= new TourDao().getEnd(t.getId())%></p>
+                                                    <p class="timeend" style="font-size: 15px;"><%= TourDao.calculateEndDate(booking.getDateStart(),booking.getTourId())%></p>
                                                     <p class="from"></p>
                                                 </div>
                                             </div>

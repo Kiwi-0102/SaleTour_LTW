@@ -5,6 +5,7 @@
 <%@ page import="static vn.edu.hcmuaf.serice.Const.daystar" %>
 <%@ page import="vn.edu.hcmuaf.serice.Const" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="vn.edu.hcmuaf.DAO.BookingDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -226,6 +227,7 @@
                                 <th scope="col">Số khách</th>
                                 <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
+                                <th  scope="col">Lịch trình</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -252,6 +254,7 @@
                                 </td>
                                 <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
+                                <td id="lichtrinh<%=bill.getId()%>" ><%=TourDao.checkTourDate(getBookingbyId(bill.getBookingId()).getDateStart(), TourDao.getNumberOfDays(TourDao.findtourbyid(getBookingbyId(bill.getBookingId()).getTourId()).getDuration()))%></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -292,6 +295,7 @@
                                 <th scope="col">Số khách</th>
                                 <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
+                                <th  scope="col">Lịch trình</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -317,6 +321,7 @@
                                 </td>
                                 <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
+                                <td id="lichtrinh<%=bill.getId()%>" ><%=TourDao.checkTourDate(getBookingbyId(bill.getBookingId()).getDateStart(), TourDao.getNumberOfDays(TourDao.findtourbyid(getBookingbyId(bill.getBookingId()).getTourId()).getDuration()))%></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -356,6 +361,7 @@
                                 <th scope="col">Số khách</th>
                                 <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
+                                <th  scope="col">Lịch trình</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -381,6 +387,7 @@
                                 </td>
                                 <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
+                                <td id="lichtrinh<%=bill.getId()%>">Đã hủy</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -405,6 +412,7 @@
                                 <th scope="col">Số khách</th>
                                 <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
+                                <th  scope="col">Lịch trình</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -429,6 +437,7 @@
                                 </td>
                                 <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
+                                <td id="lichtrinh<%=bill.getId()%>">Tour đã xong</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -453,6 +462,7 @@
                                 <th scope="col">Số khách</th>
                                 <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
+                                <th  scope="col">Lịch trình</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -477,6 +487,7 @@
                                 </td>
                                 <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
+                                <td id="lichtrinh<%=bill.getId()%>"><%=TourDao.checkTourDate(getBookingbyId(bill.getBookingId()).getDateStart(), TourDao.getNumberOfDays(TourDao.findtourbyid(getBookingbyId(bill.getBookingId()).getTourId()).getDuration()))%></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
@@ -509,6 +520,7 @@
                                 <th scope="col">Số khách</th>
                                 <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Tổng tiền</th>
+                                <th class="lichtrinh" scope="col">Lịch trình</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -534,6 +546,7 @@
                                 </td>
                                 <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
+                                <td id="lichtrinh<%=bill.getId()%>" ><%=TourDao.checkTourDate(getBookingbyId(bill.getBookingId()).getDateStart(), TourDao.getNumberOfDays(TourDao.findtourbyid(getBookingbyId(bill.getBookingId()).getTourId()).getDuration()))%></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">

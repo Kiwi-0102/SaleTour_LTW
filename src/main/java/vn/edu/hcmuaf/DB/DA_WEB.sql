@@ -287,17 +287,17 @@ VALUES
 -- Tạo dữ liệu cho bảng discounts
 INSERT INTO `discounts` (`type`, `value`, `endDate`, `description`)
 VALUES
-    ('normal', 1, '2023-12-31', 'normal tours'),
-    ('summer20', 0.8, '2024-06-30', 'summer 20% off tours'),
-    ('earlybird', 0.85, '2024-02-28', 'early bird discount tours'),
-    ('sale15', 0.85, '2024-03-15', 'sale 15% price tours'),
-    ('sale20', 0.8, '2024-04-30', 'sale 20% price tours'),
-    ('flashsale25', 0.75, '2024-02-15', 'flash sale 25% price tours'),
-    ('weekenddiscount15', 0.85, '2024-03-10', 'weekend discount 15% price tours'),
-    ('specialsale30', 0.7, '2024-05-31', 'special sale 30% price tours'),
-    ('holidaypromo25', 0.75, '2024-12-25', 'holiday promo 25% price tours'),
-    ('weekendgetaway20', 0.8, '2024-06-30', 'weekend getaway 20% price tours'),
-    ('sale10', 0.9, '2023-12-31', 'sale 10% price tours');
+    ('normal', 0, '2023-12-31', 'Tour thường không giảm giá!'),
+    ('AllTour', 0.8, '2024-06-30', 'Giảm giá với tất cả các tour'),
+    ('region', 0.85, '2024-02-28', 'early bird discount tours'),
+    ('oneTour', 0.85, '2024-03-15', 'sale 15% price tours'),
+    ('oneTour', 0.8, '2024-04-30', 'sale 20% price tours'),
+    ('oneTour', 0.75, '2024-02-15', 'flash sale 25% price tours'),
+    ('oneTour', 0.85, '2024-03-10', 'weekend discount 15% price tours'),
+    ('oneTour', 0.7, '2024-05-31', 'special sale 30% price tours'),
+    ('oneTour', 0.75, '2024-12-25', 'holiday promo 25% price tours'),
+    ('oneTour', 0.8, '2024-06-30', 'weekend getaway 20% price tours'),
+    ('oneTour', 0.9, '2023-12-31', 'sale 10% price tours');
 
 
 SET @current_date = CURDATE();

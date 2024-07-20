@@ -386,61 +386,62 @@
                                 <div class="group-fields-input-contact-adult group-fields-input-contact-wrapper mb-3">
                                     <div class="title-persona"><i class="fa-solid fa-user-tie"></i> Người lớn</div>
                                     <div id="inforuser">
-                                    <% for (int i = 0; i < x; i++) { %>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-12">
-                                            <div class="form-group">
-                                                <label class="pb-1 font-700">Họ và tên <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" class="form-control fullName hotel-flight-input"
-                                                       placeholder="Nhập họ tên" name="fullName<%=i%>" required/>
-                                                <div class="errorform error-notes">Vui lòng nhập thông tin</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-12">
-                                            <div class="form-group select-custom-icon">
-                                                <label class="pb-1 white-space-nowrap">Giới tính <span
-                                                        class="text-danger">*</span></label>
-                                                <select class="form-control title title-gender hotel-flight-input"
-                                                        name="gender<%=i%>" required >
-                                                    <option value="">Giới tính</option>
-                                                    <option value="nam">Nam</option>
-                                                    <option value="nu">Nữ</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-5 col-12">
-                                            <div class="row">
-                                                <div class="col-sm-4 col-4 mt-sm-0 mt-4">
-                                                    <div class="form-group select-custom-icon">
-                                                        <label class="pb-1 white-space-nowrap font-700">Ngày sinh <span
-                                                                class="text-danger">*</span></label>
-                                                        <input type="number" placeholder="Ngày" name="ngay<%=i%>"
-                                                               class="form-control fullName hotel-flight-input"
-                                                               required min="1" max="31"/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 col-4 mt-sm-0 mt-4">
-                                                    <div class="form-group select-custom-icon">
-                                                        <label class="pb-1">&nbsp;</label>
-                                                        <input type="number" placeholder="Tháng" name="thang<%=i%>"
-                                                               class="form-control fullName hotel-flight-input"
-                                                               required min="1" max="12"/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 col-4 mt-sm-0 mt-4">
-                                                    <div class="form-group select-custom-icon">
-                                                        <label class="pb-1">&nbsp;</label>
-                                                        <input type="number" placeholder="Năm" name="nam<%=i%>"
-                                                               class="form-control fullName hotel-flight-input"
-                                                               required min="1960" max="2024"/>
-                                                    </div>
+                                        <% for (int i = 0; i < x; i++) { %>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-12">
+                                                <div class="form-group">
+                                                    <label class="pb-1 font-700">Họ và tên <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control fullName hotel-flight-input"
+                                                           placeholder="Nhập họ tên" name="fullName<%=i%>" required/>
+                                                    <div class="errorform error-notes">Vui lòng nhập thông tin</div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-2 col-12">
+                                                <div class="form-group select-custom-icon">
+                                                    <label class="pb-1 white-space-nowrap">Giới tính <span
+                                                            class="text-danger">*</span></label>
+                                                    <select class="form-control title title-gender hotel-flight-input"
+                                                            name="gender<%=i%>" required>
+                                                        <option value="">Giới tính</option>
+                                                        <option value="nam">Nam</option>
+                                                        <option value="nu">Nữ</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-5 col-12">
+                                                <div class="row">
+                                                    <div class="col-sm-4 col-4 mt-sm-0 mt-4">
+                                                        <div class="form-group select-custom-icon">
+                                                            <label class="pb-1 white-space-nowrap font-700">Ngày sinh
+                                                                <span
+                                                                        class="text-danger">*</span></label>
+                                                            <input type="number" placeholder="Ngày" name="ngay<%=i%>"
+                                                                   class="form-control fullName hotel-flight-input"
+                                                                   required min="1" max="31"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-4 mt-sm-0 mt-4">
+                                                        <div class="form-group select-custom-icon">
+                                                            <label class="pb-1">&nbsp;</label>
+                                                            <input type="number" placeholder="Tháng" name="thang<%=i%>"
+                                                                   class="form-control fullName hotel-flight-input"
+                                                                   required min="1" max="12"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-4 mt-sm-0 mt-4">
+                                                        <div class="form-group select-custom-icon">
+                                                            <label class="pb-1">&nbsp;</label>
+                                                            <input type="number" placeholder="Năm" name="nam<%=i%>"
+                                                                   class="form-control fullName hotel-flight-input"
+                                                                   required min="1960" max="2024"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-1 col-12"></div>
                                         </div>
-                                        <div class="col-lg-1 col-12"></div>
-                                    </div>
-                                    <% } %>
+                                        <% } %>
                                     </div>
                                 </div>
 
@@ -502,11 +503,13 @@
                                         </tr>
                                         <tr>
                                             <td> Người lớn</td>
-                                            <td class="t-price text-right lonnum" id="lonnum"><%=x%></td>
+                                            <td class="t-price text-right lonnum" id="lonnum"><%=x%>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Trẻ em ( giảm 40%)</td>
-                                            <td class="t-price text-right trenum" id="trenum"><%=y%></td>
+                                            <td class="t-price text-right trenum" id="trenum"><%=y%>
+                                            </td>
                                         </tr>
                                         <tr class="total">
                                             <td>Tổng cộng</td>
@@ -520,8 +523,17 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <div>
 
+
+                                    <div class="row voucher-input" style="display: flex">
+                                        <div class="voucher-control" style="flex-grow: 1;width: 50px">
+                                            <label for="voucher"></label>
+                                            <input id="voucher" inputmode="text" placeholder="Nhập mã giảm giá (nếu có)" class="voucher-control input__noBorder" type="text"  value="" name="voucher">
+                                        </div>
+                                        <button aria-label="Áp dụng" class="btn btn-sm btn-outline-primary" style="width: clamp(80px, 25vw, 150px);padding: 1rem;font-size: 1.6rem">Áp dụng</button>
+                                    </div>
+
+                                    <div>
                                         <button type="submit" class="btn btn-primary btn-order" style="width:100%">
                                             Thanh Toán
                                         </button>
@@ -892,20 +904,22 @@ startDateInput.addEventListener("change", function () {
         }, 3000); // 3000ms tương đương với 3 giây
     }
 
-    function toltalPrice(){
+    function toltalPrice() {
         var adutl = document.getElementById('adult').value;
         var children = document.getElementById('children').value;
-        var price = <%=t.getPrice()%>
+        var price =
+        <%=t.getPrice()%>
 
         var toltal = document.getElementById('TotalPrice');
-        toltal.innerText = (adutl*price + children*price*0.6).toLocaleString()+ "₫";
+        toltal.innerText = (adutl * price + children * price * 0.6).toLocaleString() + "₫";
         // totalPrice.textContent = total.toLocaleString() + "₫";
 
-        console.log("price: "+price);
-        console.log("adult: "+adutl);
-        console.log("children: "+children);
+        console.log("price: " + price);
+        console.log("adult: " + adutl);
+        console.log("children: " + children);
 
     }
+
     <%--href="TangGiamServlet?action=dec&id=<%=t.getId()%>"--%>
     <%--href="TangGiamServlet?action=inc&id=<%=t.getId()%>"--%>
     <%--href="TangGiamServlet?action=decc&id=<%=t.getId()%>"--%>
@@ -935,7 +949,7 @@ startDateInput.addEventListener("change", function () {
                             var adultElement = document.getElementById('adult');
                             adultElement.value = parseInt(result);
                             var labeladult = document.getElementById('lonnum')
-                            labeladult.innerText = result+'';
+                            labeladult.innerText = result + '';
                             addinfor(parseInt(result))
                             toltalPrice();
                         }
@@ -943,26 +957,26 @@ startDateInput.addEventListener("change", function () {
                         const result = data.adult;
                         var adultElement = document.getElementById('adult');
                         var labeladult = document.getElementById('lonnum')
-                        labeladult.innerText = result+' ';
+                        labeladult.innerText = result + ' ';
                         adultElement.value = parseInt(result);
                         addinfor(parseInt(result))
                         toltalPrice();
                     } else if (action === 'incc') {
                         const result = data.childr;
                         chil = result;
-                            if (result === 'Số lượng chỗ đã đạt tối đa') {
-                                showNotification(result);
-                            } else {
-                                var labelchil = document.getElementById('trenum')
-                                var childrenElement = document.getElementById('children');
-                                childrenElement.value = parseInt(result);
-                                labelchil.innerText = result+'';
-                                toltalPrice();
-                            }
+                        if (result === 'Số lượng chỗ đã đạt tối đa') {
+                            showNotification(result);
+                        } else {
+                            var labelchil = document.getElementById('trenum')
+                            var childrenElement = document.getElementById('children');
+                            childrenElement.value = parseInt(result);
+                            labelchil.innerText = result + '';
+                            toltalPrice();
+                        }
                     } else if (action === 'decc') {
                         const result = data.childr;
                         var labelchil = document.getElementById('trenum')
-                        labelchil.innerText = result+'';
+                        labelchil.innerText = result + '';
                         var childrenElement = document.getElementById('children');
                         childrenElement.value = parseInt(result);
                         toltalPrice();
@@ -976,7 +990,7 @@ startDateInput.addEventListener("change", function () {
     }
 </script>
 <script>
-    function addinfor(num){
+    function addinfor(num) {
         var formContainer = document.getElementById('inforuser');
         formContainer.innerHTML = ''; // Clear the container
 

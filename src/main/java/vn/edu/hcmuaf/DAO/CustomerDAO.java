@@ -61,12 +61,8 @@ public class CustomerDAO {
                     String male = resultSet.getString("male");
                     String dateOfBirth = resultSet.getString("dateOfBirth");
                     int billId = resultSet.getInt("billId");
-
                     Customer customer = new Customer(id, billId,name, male, dateOfBirth );
                     customers.add(customer);
-                    connection.close();
-                    preparedStatement.close();
-                    rs.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

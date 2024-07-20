@@ -314,8 +314,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="tab row element-button">
-                        <button class="tablinks col-sm-2" id="defaultOpen" onclick="openCity(event, 'tab1')">Chờ xác
-                            nhận
+                        <button class="tablinks col-sm-2" id="defaultOpen" onclick="openCity(event, 'tab1')">Đơn hàng được thống kê
                         </button>
                     </div>
                     <!-- Chờ xác nhận -->

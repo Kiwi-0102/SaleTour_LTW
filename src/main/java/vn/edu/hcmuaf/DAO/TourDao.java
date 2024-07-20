@@ -8,12 +8,14 @@ import java.sql.*;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static vn.edu.hcmuaf.Controller.AddTour.idtour;
 import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
 
 public class TourDao {
@@ -676,33 +678,7 @@ public class TourDao {
     }
 
     //Nhập vào lịch trình tour trả ra số ngày
-    public static int getNumberOfDays(String input) {
-        Pattern pattern = Pattern.compile("\\d+");
-        Matcher matcher = pattern.matcher(input);
 
-        if (matcher.find()) {
-            String number = matcher.group();
-            return Integer.parseInt(number);
-        } else {
-            return 0; // Trả về 0 nếu không tìm thấy số
-        }
-    }
-
-
-    public static String getEnd(int idtour) {
-        String startTimeString = new TourDao().findtourbyID(idtour).getStartTime(); // Chuỗi ngày bắt đầu
-        LocalDate startTime = LocalDate.parse(startTimeString); // Chuyển đổi chuỗi thành LocalDate
-
-        // Cộng thêm 3 ngày vào ngày bắt đầu
-        LocalDate endTime = startTime.plusDays(getNumberOfDays(new TourDao().findtourbyID(idtour).getDuration()));
-
-        // Định dạng lại ngày kết thúc
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, yyyy-MM-dd");
-        String formattedEndDate = endTime.format(formatter);
-
-//        System.out.println("Ngày kết thúc: " + formattedEndDate);
-        return formattedEndDate;
-    }
 
     public static List<Tour> findAllTourbyorder(int month) {
         List<Tour> tours = new ArrayList<>();
@@ -1097,11 +1073,63 @@ public class TourDao {
         return bookings;
     }
 
+    public static int getNumberOfDays(String input) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(input);
 
-    public static void main(String[] args) {
-//                System.out.println("Số chỗ còn lại: "+sochoconlai(1));
-//        System.out.println(getBookingsFromPastToNow());
+        if (matcher.find()) {
+            String number = matcher.group();
+            return Integer.parseInt(number);
+        } else {
+            return 0; // Trả về 0 nếu không tìm thấy số
+        }
     }
+    public static String getEnd(int idtour) {
+        String startTimeString = new TourDao().findtourbyID(idtour).getStartTime(); // Chuỗi ngày bắt đầu
+        LocalDate startTime = LocalDate.parse(startTimeString); // Chuyển đổi chuỗi thành LocalDate
+
+        // Cộng thêm 3 ngày vào ngày bắt đầu
+        LocalDate endTime = startTime.plusDays(getNumberOfDays(new TourDao().findtourbyID(idtour).getDuration()));
+
+        // Định dạng lại ngày kết thúc
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, yyyy-MM-dd");
+        String formattedEndDate = endTime.format(formatter);
+
+//        System.out.println("Ngày kết thúc: " + formattedEndDate);
+        return formattedEndDate;
+    }
+    public static String checkTourDate(String startDateStr, int tourDays) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate currentDate = LocalDate.now();
+
+        if (currentDate.isBefore(startDate)) {
+            long daysUntilStart = ChronoUnit.DAYS.between(currentDate, startDate);
+            return "Bắt đầu sau " + daysUntilStart + " ngày";
+        }
+
+        LocalDate endDate = startDate.plusDays(tourDays - 1);
+        if (currentDate.isAfter(endDate)) {
+            return "Đã kết thúc";
+        }
+
+        long daysSinceStart = ChronoUnit.DAYS.between(startDate, currentDate) + 1;
+        return "Ngày " + daysSinceStart;
+    }
+
+
+    public static String calculateEndDate(String startDate, int idtour) {
+        LocalDate startDateObj = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+        LocalDate endDateObj = startDateObj.plusDays(getNumberOfDays(TourDao.findtourbyid(idtour).getDuration()));
+        // Chuyển đổi đối tượng LocalDate thành chuỗi
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+        return endDateObj.format(formatter);
+    }
+    public static void main(String[] args) {
+//        System.out.println(calculateEndDate("2024-07-25",1));
+        System.out.println(getNumberOfDays(TourDao.getNumberOfDays(TourDao.findtourbyid(4).getDuration())+" "));
+    }
+
 
 }
 

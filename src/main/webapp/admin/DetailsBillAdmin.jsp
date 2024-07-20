@@ -192,6 +192,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     ArrayList<HistoryBills> historyBills = BillDAO.getHistoryBillsByBillId(bill.getId());
     int idTour = booking.getTourId();
     int socho = TourDao.sochoconlai(idTour);
+
 %>
 
 <body>
@@ -308,6 +309,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <tr>
                     <th scope="row">Ghi chú</th>
                     <td><input type="text" id="note" value="<%=bill.getNoteBill()%>" readonly></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">Ngày kết thúc</th>
+                    <td><input type="text" id="ngayketthuc" value="<%=TourDao.calculateEndDate(booking.getDateStart(),booking.getTourId())%>" readonly></td>
                     <td></td>
                 </tr>
                 </tbody>
