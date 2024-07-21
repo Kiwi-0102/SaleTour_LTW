@@ -171,7 +171,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <tbody>
                                     <tr>
                                             <%
-
+                                            User user = (User) session.getAttribute("user");
 List<Tour> tourss = (List<Tour>) request.getAttribute("tours");
 if (tourss != null && !tourss.isEmpty()) {
                     for (Tour t : tourss) {
@@ -200,7 +200,6 @@ if (tourss != null && !tourss.isEmpty()) {
                                         </td>
                                         <td>
                                         <td style="display: flex">
-
                                             <form style="display: inline;"
                                                   action="${pageContext.request.contextPath}/admin/editproduct"
                                                   method="post">
@@ -211,6 +210,7 @@ if (tourss != null && !tourss.isEmpty()) {
                                                     <i class="material-icons">&#xE254;</i>
                                                 </button>
                                             </form>
+                                            <%if(user.getRoleId() ==1){%>
                                             <%if (t.getStatus().equals(Const.noneTour)) {%>
                                             <button onclick="setstatus(<%=t.getId()%>)" title="Thực hiện mở tour" id="view<%=t.getId()%>"
                                                     class="btn btn-danger" data-toggle="modal">
@@ -230,7 +230,8 @@ if (tourss != null && !tourss.isEmpty()) {
                                                 <i class="fa-solid fa-eye"></i>
                                             </button>
                                             <%}%>
-                                        </td>
+                                        <%}%>
+                                    </td>
                                         </a>
                                         </td>
                                     </tr>

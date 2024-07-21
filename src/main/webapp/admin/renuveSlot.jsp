@@ -5,7 +5,7 @@
 <%@ page import="static vn.edu.hcmuaf.serice.Const.daystar" %>
 <%@ page import="vn.edu.hcmuaf.serice.Const" %>
 <%@ page import="java.text.DecimalFormat" %>
-<%@ page import="vn.edu.hcmuaf.bean.Booking" %>
+<%@ page import="vn.edu.hcmuaf.bean.Tour" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -186,13 +186,14 @@
 <%
     int sochoconlai = (int) request.getAttribute("sochoconlai");
     int sochodadat = (int) request.getAttribute("sochodadat");
+
     ArrayList<Tour> tours = (ArrayList<Tour>) request.getAttribute("listTour");
     int currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
     DecimalFormat df1 = new DecimalFormat("#,### VNĐ");
 %>
 <%@include file="header.jsp" %>
 <section class="home-section">
-    <div class="input-value">
+    <div class="input-value" style="display: none">
         <div><a href="${pageContext.request.contextPath}/admin/statictical?type=all">Thống kê tất cả</a> </div>
         <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
             <input name="type" value="year" style="display: none">
@@ -307,7 +308,7 @@
     </div>
     <div class="home-content">
         <div class="manager-checkout" style="width: 98%">
-            <div class="title">Thống kê lợi nhuận</div>
+            <div class="title">Thống kê số vé</div>
 
             <!-- Nút mở hộp thoại -->
             <button id="openModalBtn" style="display:none;">Mở hộp thoại</button>
@@ -338,7 +339,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="tab row element-button">
-                        <button class="tablinks col-sm-2" id="defaultOpen" onclick="openCity(event, 'tab1')">Đơn hàng được thống kê
+                        <button class="tablinks col-sm-2" id="defaultOpen" onclick="openCity(event, 'tab1')">Các sản phẩm được thống kê
                         </button>
                     </div>
                     <!-- Chờ xác nhận -->

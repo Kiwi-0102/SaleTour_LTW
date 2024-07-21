@@ -41,6 +41,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 
 <%
+    User useradmin = (User) session.getAttribute("user");
     UserDAO usd = new UserDAO();
     String err = (String) request.getAttribute("err");
     err = (err == null) ? "" : err.trim();
@@ -74,9 +75,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <label class="control-label">Phân quyền</label>
                         <select name="role" class="form-control">
                             <option value="2">User</option>
+                            <%if(useradmin.getRoleId() ==1){%>
                             <option value="1">Admin</option>
+                            <%}%>
                             <option value="3">Mod</option>
-
                         </select>
                     </div>
                     <div class="form-group col-md-6 ">

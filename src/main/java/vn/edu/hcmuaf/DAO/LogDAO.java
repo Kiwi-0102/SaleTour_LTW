@@ -4,9 +4,14 @@ import vn.edu.hcmuaf.DB.ConnectToDatabase;
 import vn.edu.hcmuaf.bean.Log;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static vn.edu.hcmuaf.Controller.renuveAddproduct.getQuantity;
 import static vn.edu.hcmuaf.DB.ConnectToDatabase.closeResources;
 
 
@@ -157,6 +162,37 @@ public class LogDAO {
         return logs;
     }
 
+    public static ArrayList<Log> getLognewProduct(){
+        ArrayList<Log> logs = new ArrayList<>();
+
+//        String sql = "SELECT * FROM logs where SELECT * FROM logs WHERE LOWER(content) LIKE '%login%'";
+        connect = ConnectToDatabase.getConnect();
+        try {
+            pst = connect.prepareStatement("SELECT * FROM logs\n" +
+                    "WHERE `content` LIKE '%Thêm sản phẩm mới%';");
+            rs = pst.executeQuery();
+            while (rs.next()){
+                Log log = new Log();
+                log.setId(rs.getInt("id"));
+                log.setLevel(rs.getInt("level"));
+                log.setSrc(rs.getString("src"));
+                log.setId_user(rs.getInt("userId"));
+                log.setIp_address(rs.getString("ipAddress"));
+                log.setContent(rs.getString("content"));
+                log.setCreate_at(rs.getTimestamp("createAt"));
+                log.setBeforeValue(rs.getString("beforeValue"));
+                log.setCurrentValue(rs.getString("currentValue"));
+                log.setStatus(rs.getInt("status"));
+                logs.add(log);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            closeResources(connect,pst,rs);
+        }
+        return logs;
+    }
+
 
     public static ArrayList<Log> getLogbyday(int day){
         ArrayList<Log> logs = new ArrayList<>();
@@ -218,13 +254,105 @@ public class LogDAO {
         }
         return logs;
     }
+    public static ArrayList<Log> getLogNewUpdateProduct(){
+        ArrayList<Log> logs = new ArrayList<>();
 
+        connect = ConnectToDatabase.getConnect();
+        try {
+            pst = connect.prepareStatement("SELECT * FROM logs WHERE content LIKE 'Sửa sản phẩm thành công%' AND status = '0'");
+            rs = pst.executeQuery();
+            while (rs.next()){
+                Log log = new Log();
+                log.setId(rs.getInt("id"));
+                log.setLevel(rs.getInt("level"));
+                log.setSrc(rs.getString("src"));
+                log.setId_user(rs.getInt("userId"));
+                log.setIp_address(rs.getString("ipAddress"));
+                log.setContent(rs.getString("content"));
+                log.setCreate_at(rs.getTimestamp("createAt"));
+                log.setBeforeValue(rs.getString("beforeValue"));
+                log.setCurrentValue(rs.getString("currentValue"));
+                log.setStatus(rs.getInt("status"));
+                logs.add(log);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            closeResources(connect,pst,rs);
+        }
+        return logs;
+    }
+
+    public static LocalDate extractStartTime(String str) {
+        String pattern = "startTime\\s*=\\s*(\\d{4}-\\d{2}-\\d{2})";
+        Pattern regex = Pattern.compile(pattern);
+        Matcher matcher = regex.matcher(str);
+
+        if (matcher.find()) {
+            String dateString = matcher.group(1);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(dateString, formatter);
+        }
+
+        throw new IllegalArgumentException("No startTime found in the string: " + str);
+    }
+
+    public static boolean isStartTimeGreater(String str1, String str2) {
+        LocalDate startTime1 = extractStartTime(str1);
+        LocalDate startTime2 = extractStartTime(str2);
+
+        return startTime2.isAfter(startTime1);
+    }
+
+    public static ArrayList<Log> getAllnewProduct(){
+        ArrayList<Log> logs = new ArrayList<>();
+        ArrayList<Log> newP = getLognewProduct();
+        ArrayList<Log> newUP = getLogNewUpdateProduct();
+        for (Log log: newP) {
+            logs.add(log);
+        }
+        for (Log log: newUP) {
+            if(isStartTimeGreater(log.getBeforeValue(),log.getCurrentValue())){
+                logs.add(log);
+            }
+        }
+        return logs;
+    }
+    public static Integer getQuantity(String input) {
+        // Định nghĩa các mẫu tìm kiếm
+        Pattern pattern1 = Pattern.compile("Số lượng vé: (\\d+)");
+        Pattern pattern2 = Pattern.compile("quantity (\\d+)");
+
+        // Tạo đối tượng Matcher cho các mẫu
+        Matcher matcher1 = pattern1.matcher(input);
+        Matcher matcher2 = pattern2.matcher(input);
+
+        // Tìm và trả về số lượng vé từ chuỗi đầu tiên nếu có
+        if (matcher1.find()) {
+            return Integer.parseInt(matcher1.group(1));
+        }
+
+        // Nếu không tìm thấy số lượng vé, tìm quantity từ chuỗi thứ hai
+        if (matcher2.find()) {
+            return Integer.parseInt(matcher2.group(1));
+        }
+
+        // Nếu không tìm thấy kết quả phù hợp, trả về null hoặc bất kỳ giá trị nào bạn muốn
+        return null;
+    }
 
     public static void main(String[] args) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test", "abc123", "dfe456", timestamp, 1);
-        LogDAO logDAO = new LogDAO();
-        System.out.println(logDAO.getstatustLogin("Login không thành công"));
+//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//        Log log = new Log(1, 3, "0.0.0.1", 1, "127.0.0.1", "Log Test", "abc123", "dfe456", timestamp, 1);
+//        LogDAO logDAO = new LogDAO();
+//        System.out.println(LogDAO.getLogNewUpdateProduct().size());
+//        System.out.println(LogDAO.getLognewProduct().size());
+//        System.out.println(LogDAO.getAllnewProduct().size());
+//        boolean result = isStartTimeGreater(getLogbyId(129).getBeforeValue(),getLogbyId(129).getCurrentValue());
+//        System.out.println("Is startTime in str2 greater than startTime in str1? " + result);
+//        public static void main(String[] args) {
+            System.out.println(getQuantity(LogDAO.getLogbyId(118).getCurrentValue()));
+//        }
     }
 
 

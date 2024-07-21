@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
-<%@ page import="vn.edu.hcmuaf.bean.Tour" %>
 <%@ page import="java.text.DecimalFormat" %>
-<%@ page import="vn.edu.hcmuaf.bean.Customer" %>
+<%@ page import="vn.edu.hcmuaf.bean.User" %>
 <%@ page import="vn.edu.hcmuaf.DAO.CustomerDAO" %>
 
 <!DOCTYPE html>
@@ -52,6 +51,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 </head>
 <%
+    User useraaddmm = (User) session.getAttribute("user");
     TourDao td = new TourDao();
     int sizenotour = td.findAllTourbyStatus("none").size();
     long loinhuan = td.doanhthutheotrutunay();
@@ -105,7 +105,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li>
                         <a  href="${pageContext.request.contextPath}/admin/admin.jsp">
                             <i class="fa fa-list-alt"></i>
-                            <span>Home</span>
+                            <span>Home admin</span>
                         </a>
                     </li>
                     <li>
@@ -125,7 +125,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li>
                         <a href="${pageContext.request.contextPath}/admin/managerUser">
                             <i class="fa fa-user"></i>
-                            <span>Quản lí người dùng</span>
+                            <span>Quản lí tài khoản</span>
                         </a>
                     </li>
 
@@ -154,13 +154,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a>
 
                     </li>
+                    <%if(useraaddmm.getRoleId()==1) {%>
                     <li class="sub-menu">
                         <a href="${pageContext.request.contextPath}/admin/managePermiss">
                             <i class="fa-solid fa-note-sticky"></i>
                             <span>Quản lý quyền tài khoản</span>
                         </a>
-
                     </li>
+                    <%}%>
                     <li>
                         <a href="/Do_An_Web/index.jsp">
                             <i class="fa fa-home"></i>
@@ -178,7 +179,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <!-- //market-->
             <div class="market-updates">
                 <div class="col-md-3 market-update-gd">
-                    <div class="market-update-block clr-block-2">
+                    <div class="market-update-block clr-block-2" style="height: 250px">
                         <div class="col-md-4 market-update-right">
                             <i class="fa fa-eye"> </i>
                         </div>
@@ -191,20 +192,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                 </div>
                 <div class="col-md-3 market-update-gd">
-                    <div class="market-update-block clr-block-1">
+                    <div class="market-update-block clr-block-1" style="height: 250px">
                         <div class="col-md-4 market-update-right">
                             <i class="fa fa-users" ></i>
                         </div>
                         <div class="col-md-8 market-update-left">
-                            <h4>Khách hàng</h4>
-                            <h3><%=customerDAO.getAllCustomers().size()%> khách hàng</h3>
-                            <a href="${pageContext.request.contextPath}/admin/customer.jsp">Xem chi tiết !</a>
+                            <div class="col-md-8 market-update-left">
+                                <h4>Thống kê nhập hàng</h4>
+                                <h3>Tổng số vé: <%=TourDao.toltalConlai(TourDao.getDisplayTours())%></h3>
+                                <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/renuveAddproduct?type=now">Xem chi tiết!</a>
+                            </div>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
                 </div>
                 <div class="col-md-3 market-update-gd">
-                    <div class="market-update-block clr-block-3">
+                    <div class="market-update-block clr-block-3" style="height: 250px">
                         <div class="col-md-4 market-update-right">
                             <i class="fa fa-usd"></i>
                         </div>
@@ -217,7 +220,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                 </div>
                 <div class="col-md-3 market-update-gd">
-                    <div class="market-update-block clr-block-4">
+                    <div class="market-update-block clr-block-4" style="height: 175px">
                         <div class="col-md-4 market-update-right">
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                         </div>
@@ -229,6 +232,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="clearfix"> </div>
                     </div>
                 </div>
+<%--                <div class="col-md-3 market-update-gd">--%>
+<%--                    <div class="market-update-block clr-block-5" style="height: 175px">--%>
+<%--                        <div class="col-md-4 market-update-right">--%>
+<%--                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>--%>
+<%--                        </div>--%>
+<%--                        <div class="col-md-8 market-update-left">--%>
+<%--                            <h4>Thống kê nhập hàng</h4>--%>
+<%--                            <h3>Tổng số vé: <%=TourDao.toltalConlai(TourDao.getDisplayTours())%></h3>--%>
+<%--                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/renuveAddproduct?type=now">Xem chi tiết!</a>--%>
+<%--                        </div>--%>
+<%--                        <div class="clearfix"> </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
                 <div class="clearfix"> </div>
             </div>
 

@@ -211,8 +211,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <th scope="col">Thuộc tính</th>
                     <th scope="col">Giá trị</th>
                     <th>
-                        <button type="button" id="setting" onclick="enableInput()"><i class="fa-solid fa-pen"
-                                                                                      style="color: #FFD43B;"></i>
+                        <button type="button" id="setting" onclick="enableInput()"><i class="fa-solid fa-pen" style="color: #FFD43B;"></i>
                         </button>
                         <button type="button" id="check" style="display: none" onclick="checkInfor()"><i
                                 class="fa-solid fa-circle-check"></i></button>
@@ -254,7 +253,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </tr>
                 <tr>
                     <th scope="row">Trạng thái hóa đơn</th>
-                    <td><input type="text" id="status" value="<%=bill.getStatus()%>" readonly></td>
+                    <td><input type="text" id="status" value="<%=bill.getStatus()%>" readonly disabled></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -313,7 +312,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </tr>
                 <tr>
                     <th scope="row">Ngày kết thúc</th>
-                    <td><input type="text" id="ngayketthuc" value="<%=TourDao.calculateEndDate(booking.getDateStart(),booking.getTourId())%>" readonly></td>
+                    <td><input type="text" id="ngayketthuc" value="<%=TourDao.calculateEndDate(booking.getDateStart(),booking.getTourId())%>" disabled readonly></td>
                     <td></td>
                 </tr>
                 </tbody>

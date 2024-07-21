@@ -106,6 +106,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <tr>
                                 <%
                 List<User> listA = (List<User>) request.getAttribute("listA");
+               User useradmin = (User) session.getAttribute("user");
+
                 if (listA != null && !listA.isEmpty()) {
                     for (User user : listA) {
             %>
@@ -200,6 +202,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <td>mod</td>
                 <%}%>
                 <td>
+                    <%if(useradmin.getRoleId()==1){%>
                     <button onclick="remove(<%=user.getId()%>)" class="btn btn-primary btn-sm trash" type="button"
                             title="Xóa">
                         <i class="fas fa-trash-alt"></i>
@@ -208,6 +211,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             title="Sửa">
                         <i class="fa-solid fa-pen" style="color: #FFD43B;"></i>
                     </button>
+                    <%}%>
                 </td>
             </tr>
         <%}%>

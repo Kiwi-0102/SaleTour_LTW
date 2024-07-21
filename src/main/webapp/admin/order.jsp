@@ -322,7 +322,7 @@
                                 <td><%=df.format(bill.getToltalPrice())%>
                                 </td>
                                 <td id="lichtrinh<%=bill.getId()%>" ><%=TourDao.checkTourDate(getBookingbyId(bill.getBookingId()).getDateStart(), TourDao.getNumberOfDays(TourDao.findtourbyid(getBookingbyId(bill.getBookingId()).getTourId()).getDuration()))%></td>
-                                <td>
+                                <td style="display: ruby">
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết"
                                             onclick="window.location.href='http://localhost:8080/Do_An_Web/admin/DetailBillADM?action=DetailBill&idbill=<%=bill.getId()%>'">
                                         <i class="fa-solid fa-circle-info"></i>

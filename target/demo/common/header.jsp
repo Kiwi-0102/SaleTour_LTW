@@ -64,7 +64,7 @@
                                 <ul id="service_account">
                                     <li><a id="myInfor" href="infor.jsp">Tài Khoản</a></li>
                                     <li><a id="bill" href="#">Hóa Đơn </a></li>
-                                    <%if(user.getRoleId() ==1){%>
+                                    <%if(user.getRoleId() ==1 || user.getRoleId() ==3){%>
                                     <li><a id="admin" href="${pageContext.request.contextPath}/admin/admin.jsp">Admin </a></li>
                                     <%}%>
                                     <li>

@@ -205,7 +205,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <tr id="user_<%= user.getId() %>">
             <th scope="row"><%= user.getId() %></th>
             <td><%= user.getEmail() %></td>
-            <td><%= "Thêm Xóa Sửa" %></td>
+            <%if(user.getRoleId() ==1){%>
+            <td><%= "Xem Thêm Xóa Sửa" %></td>
+            <%}else{%>
+            <td><%= "Xem Sửa" %></td>
+            <%}%>
             <td>
                 <%if(useradm.getEmail().equalsIgnoreCase("21130549@st.hcmuaf.edu.vn")){%>
                 <select id="roleSelect_<%= user.getId() %>" disabled data-original-value="<%= user.getRoleId() %>">

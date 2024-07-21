@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="vn.edu.hcmuaf.bean.Log" %>
+<%@ page import="vn.edu.hcmuaf.bean.User" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -45,6 +46,7 @@
 <%
     ArrayList<Log> listlog = (ArrayList<Log>) request.getAttribute("listLog");
     String err = (String) request.getAttribute("error");
+    User useradmin = (User) session.getAttribute("user");
 %>
 <body>
 <%@include file="header.jsp" %>
@@ -93,18 +95,22 @@
                             <td><%=log.getContent()%></td>
                             <td><%=log.getCreate_at()%></td>
                             <td>
+                                <%if(useradmin.getRoleId()==1){%>
                                 <a href="DetailsLog?id=<%=log.getId()%>" class="btn btn-primary btn-sm trash" type="button" title="Xem chi tiết">
                                     <i class="fa-solid fa-circle-info"></i>
                                 </a>
                                 <%if(log.getLevel()==0 || log.getLevel() ==1){%>
                                 <input type="checkbox" name="checkdelete" class="checkdelete" data-id="<%=log.getId()%>" onchange="countChecked()">
                                 <%}%>
+                                <%}%>
                             </td>
                         </tr>
                         <%}%>
                         </tbody>
                     </table>
+                    <%if(useradmin.getRoleId()==1){%>
                     <button id="xoaAllLog">Xóa tất cả log</button>
+                    <%}%>
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="vn.edu.hcmuaf.bean.Tour" %>
 
 <head>
     <title>Thống kê và báo cáo</title>
@@ -121,7 +122,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
             </div>
             <div class="col-md-8 stats-info stats-last widget-shadow">
-
+                <h3><%=customerDAO.getAllCustomers().size()%> khách hàng</h3>
+                <a href="${pageContext.request.contextPath}/admin/customer.jsp">Xem chi tiết !</a>
                 <div class="stats-last-agile">
                     <div>THỐNG KÊ DOANH THU</div>
                     <table class="table stats-table ">

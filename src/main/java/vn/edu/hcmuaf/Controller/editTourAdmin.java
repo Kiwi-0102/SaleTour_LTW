@@ -36,10 +36,10 @@ public class editTourAdmin extends HttpServlet {
         String schedule = request.getParameter("schedule");
         String description = request.getParameter("description");
         LogDAO logs = new LogDAO();
+        logs.insert(new Log(Log.WARNING,Nation(request), user.getId(),  getPublicIP(), "Sửa sản phẩm thành công "+"Mã sản phẩm "+id+", Tên sản phẩm "+name, new Timestamp(System.currentTimeMillis()),"Tour: "+tourDao.findtourbyID(id).toString(),"region "+region+", "+"name"+name+", "+"price "+price+", "+"startTime = "+startTime+", "+"quantity "+quantity+", "+"id "+id, 0));
         boolean tourdao = tourDao.updateTour(region,name,price,startTime,schedule,description,quantity,id);
         if(tourdao) {
             request.setAttribute("status", "Sửa tour thành công");
-            logs.insert(new Log(Log.WARNING,Nation(request), user.getId(),  getPublicIP(), "Sửa sản phẩm "+"Mã sản phẩm "+id+", Tên sản phẩm "+name, new Timestamp(System.currentTimeMillis()),"Tour: "+tourDao.findtourbyID(id).toString(),"region "+region+", "+"name"+name+", "+"price "+price+", "+"startTime "+startTime+", "+"quantity "+quantity+", "+"id "+id, 0));
             request.setAttribute("tour", tourDao.findtourbyid(id));
         }else {
             logs.insert(new Log(Log.WARNING,Nation(request), user.getId(),  getPublicIP(), "Sửa sản phẩm thất bại", new Timestamp(System.currentTimeMillis()),"","Mã sản phẩm"+id+", Tên sản phẩm"+name, 0));

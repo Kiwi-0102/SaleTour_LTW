@@ -107,7 +107,7 @@ public class AddTour extends HttpServlet {
                 idtour = TourDao.addTour(pregion, 1, pname, img, price, pstartTime, pduration, pschedule, pdescription, Integer.parseInt(quantity));
                 System.out.println("imgidtrc"+idtour);
 
-                logs.insert(new Log(Log.ALERT,Nation(request), -1,  getPublicIP(), "Thêm sản phẩm mới", new Timestamp(System.currentTimeMillis()),"","Mã sản phẩm"+idtour+", Tên sản phẩm"+pname, 0));
+                logs.insert(new Log(Log.WARNING,Nation(request), -1,  getPublicIP(), "Thêm sản phẩm mới", new Timestamp(System.currentTimeMillis()),"","Mã sản phẩm: "+idtour+", Tên sản phẩm: "+pname+", Số lượng vé: "+quantity+", Giá sản phẩm: "+price+", Ngày bắt đầu: "+pstartTime, 0));
 
                 String pschedul1 = request.getParameter("schedule1");
                 String img1 = request.getParameter("img1");
@@ -144,7 +144,7 @@ public class AddTour extends HttpServlet {
         } else {
             if (!ServletFileUpload.isMultipartContent(request)) {
                 System.out.println("Content type is not multipart/form-data");
-                logs.insert(new Log(Log.ALERT,Nation(request), usser.getId(),  getPublicIP(), "Thêm sản phẩm mới thất bại", new Timestamp(System.currentTimeMillis()),"","", 0));
+                logs.insert(new Log(Log.ALERT,Nation(request), usser.getId(),  getPublicIP(), "Add new product mới thất bại", new Timestamp(System.currentTimeMillis()),"","", 0));
                 throw new ServletException("Content type is not multipart/form-data");
             }
 

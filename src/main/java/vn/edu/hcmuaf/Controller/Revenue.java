@@ -13,7 +13,6 @@ public class Revenue extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
 
         request.getRequestDispatcher("revenue.jsp").forward(request, response);
 
