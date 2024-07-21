@@ -149,6 +149,29 @@
         .modal-footer button {
             margin-left: 10px;
         }
+        .input-value .span{
+            width: 220px;
+        }
+        .input-value label{
+            margin: 0 5px;
+            width: 58px;
+        }
+        .input-value select{
+            border-radius: 5px;
+            padding: 0 5px;
+            margin: -5px 10px 0 0;
+        }
+        .input-value button{
+            background: #00d8d5;
+            color: white;
+            border-radius: 5px;
+            margin: -5px 10px 0;
+            padding: 0 5px;
+        }
+        .input-value form{
+            margin: 10px 0;
+        }
+
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="pluggin/datatables.min.js"></script>
@@ -167,118 +190,119 @@
 %>
 <%@include file="header.jsp" %>
 <section class="home-section">
-    <div><a href="${pageContext.request.contextPath}/admin/statictical?type=all">Thống kê tất cả</a> </div>
-    <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
-        <input name="type" value="day" style="display: none">
-        <div>Thống kê theo ngày </div>
-        <label for="day">Ngày:</label>
-        <select id="day" name="day">
-            <% for (int i = 1; i <= 31; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
+    <div class="input-value">
+        <div><a href="${pageContext.request.contextPath}/admin/statictical?type=all">Thống kê tất cả</a> </div>
+        <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
+            <input name="type" value="year" style="display: none">
+            <div class="span">Thống kê theo năm </div>
 
-        <label for="month">Tháng:</label>
-        <select id="month" name="month">
-            <% for (int i = 1; i <= 12; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
+            <label for="year">Năm:</label>
+            <select  name="year">
+                <%
+                    for (int i = currentYear; i >= 1900; i--) {
+                %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
 
-        <label for="year">Năm:</label>
-        <select id="year" name="year">
-            <%
-                for (int i = currentYear; i >= 1900; i--) {
-            %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
+            <button type="submit">Gửi</button>
+        </form>
+        <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
+            <input name="type" value="month" style="display: none">
+            <div class="span">Thống kê theo tháng </div>
+            <label for="month">Tháng:</label>
+            <select name="month">
+                <% for (int i = 1; i <= 12; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
 
-        <button type="submit">Gửi</button>
-    </form>
-    <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
-        <input name="type" value="month" style="display: none">
-        <div>Thống kê theo tháng </div>
-        <label for="month">Tháng:</label>
-        <select name="month">
-            <% for (int i = 1; i <= 12; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
+            <label for="year">Năm:</label>
+            <select  name="year">
+                <%
+                    for (int i = currentYear; i >= 1900; i--) {
+                %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
 
-        <label for="year">Năm:</label>
-        <select  name="year">
-            <%
-                for (int i = currentYear; i >= 1900; i--) {
-            %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
+            <button type="submit">Gửi</button>
+        </form>
+        <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
+            <input name="type" value="day" style="display: none">
+            <div class="span">Thống kê theo ngày </div>
+            <label for="day">Ngày:</label>
+            <select id="day" name="day">
+                <% for (int i = 1; i <= 31; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
 
-        <button type="submit">Gửi</button>
-    </form>
-    <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
-        <input name="type" value="year" style="display: none">
-        <div>Thống kê theo năm </div>
+            <label for="month">Tháng:</label>
+            <select id="month" name="month">
+                <% for (int i = 1; i <= 12; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
 
-        <label for="year">Năm:</label>
-        <select  name="year">
-            <%
-                for (int i = currentYear; i >= 1900; i--) {
-            %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
+            <label for="year">Năm:</label>
+            <select id="year" name="year">
+                <%
+                    for (int i = currentYear; i >= 1900; i--) {
+                %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
 
-        <button type="submit">Gửi</button>
-    </form>
-    <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
-        <input name="type" value="BetWeen" style="display: none">
-        <div>Thống kê lợi nhuận theo khoảng thời gian</div>
-        <label for="day">Ngày:</label>
-        <select id="day1" name="day">
-            <% for (int i = 1; i <= 31; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
-        <label for="month">Tháng:</label>
-        <select id="month1" name="month">
-            <% for (int i = 1; i <= 12; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
-        <label for="year">Năm:</label>
-        <select id="year1" name="year">
-            <%
-                for (int i = currentYear; i >= 1900; i--) {
-            %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
-        <div> Đến ngày  </div>
-        <label for="day">Ngày:</label>
-        <select id="day2" name="day2">
-            <% for (int i = 1; i <= 31; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
-        <label for="month">Tháng:</label>
-        <select id="month2" name="month2">
-            <% for (int i = 1; i <= 12; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
-        <label for="year">Năm:</label>
-        <select id="year2" name="year2">
-            <%
-                for (int i = currentYear; i >= 1900; i--) {
-            %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
-        <button type="submit">Gửi</button>
-    </form>
-
+            <button type="submit">Gửi</button>
+        </form>
+        <form action="${pageContext.request.contextPath}/admin/statictical" method="get" style="display: flex">
+            <input name="type" value="BetWeen" style="display: none">
+            <div class="span">Thống kê khoản thời gian</div>
+            <label for="day">Ngày:</label>
+            <select id="day1" name="day">
+                <% for (int i = 1; i <= 31; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+            <label for="month">Tháng:</label>
+            <select id="month1" name="month">
+                <% for (int i = 1; i <= 12; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+            <label for="year">Năm:</label>
+            <select id="year1" name="year">
+                <%
+                    for (int i = currentYear; i >= 1900; i--) {
+                %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+            <div> Đến ngày  </div>
+            <label for="day">Ngày:</label>
+            <select id="day2" name="day2">
+                <% for (int i = 1; i <= 31; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+            <label for="month">Tháng:</label>
+            <select id="month2" name="month2">
+                <% for (int i = 1; i <= 12; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+            <label for="year">Năm:</label>
+            <select id="year2" name="year2">
+                <%
+                    for (int i = currentYear; i >= 1900; i--) {
+                %>
+                <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+            <button type="submit">Gửi</button>
+        </form>
+    </div>
     <div class="home-content">
         <div class="manager-checkout" style="width: 98%">
             <div class="title">Thống kê lợi nhuận</div>

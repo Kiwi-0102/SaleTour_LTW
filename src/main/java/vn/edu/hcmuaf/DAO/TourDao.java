@@ -518,7 +518,6 @@ public class TourDao {
             throw new RuntimeException(e);
         }
     }
-
     public void deleteDependentbills(int valiId) {
         String sql = "DELETE FROM bills WHERE valiId = ?";
 
@@ -533,7 +532,6 @@ public class TourDao {
             closeResources(connection, preparedStatement, rs);
         }
     }
-
     public void modifyTour(int tourId, String region, int discountID, String name, String image, int price, String startTime, String duration, String schedule, String des) {
         String sql = "UPDATE tours SET region=?, discountId=?, name=?, image=?, price=?, startTime=?, duration=?, schedule=?, description=? WHERE id=?";
 
@@ -557,7 +555,6 @@ public class TourDao {
             closeResources(connection, preparedStatement, rs);
         }
     }
-
     public List<ImageTours> getImageByIdTours(int id) {
         List<ImageTours> res = new ArrayList<>();
         try {
@@ -576,7 +573,6 @@ public class TourDao {
         }
         return res;
     }
-
     public static void insertImage(String URL, int idtour) {
         try {
             PreparedStatement ps = ConnectToDatabase.getConnect().prepareStatement("insert into images(URL,tourId) values (?,?)");
@@ -624,7 +620,6 @@ public class TourDao {
             }
         }
     }
-
     public List<Duration> getDetldurationByIdTours(int id) {
         List<Duration> res = new ArrayList<>();
         try {
@@ -649,7 +644,6 @@ public class TourDao {
         }
         return res;
     }
-
     public static int soluongdadat(int id) {
         int total = 0;
         Connection connect = ConnectToDatabase.getConnect();
@@ -669,14 +663,12 @@ public class TourDao {
         }
         return total;
     }
-
     public static int sochoconlai(int id) {
         TourDao td = new TourDao();
         int tours = td.findtourbyid(id).getQuantity();
         int ketqua = tours - td.soluongdadat(id);
         return ketqua;
     }
-
     //Nhập vào lịch trình tour trả ra số ngày
 
 
@@ -714,7 +706,6 @@ public class TourDao {
         }
         return tours;
     }
-
     //------------------------------------------------------------------------------------------------------------------------------------------
     // Doanh thu theo ngày không tính đơn đã hủy
     public long doanhthutheongay(String day) {
@@ -834,7 +825,6 @@ public class TourDao {
 
         return totalRevenue;
     }
-
     //------------------------------------------------------------------------------------------------------------------------------------------
     public List<Booking> getBookingsForDate(String dateStr) {
         List<Booking> bookings = new ArrayList<>();
@@ -1072,7 +1062,6 @@ public class TourDao {
 
         return bookings;
     }
-
     public static int getNumberOfDays(String input) {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(input);
@@ -1116,8 +1105,6 @@ public class TourDao {
         long daysSinceStart = ChronoUnit.DAYS.between(startDate, currentDate) + 1;
         return "Ngày " + daysSinceStart;
     }
-
-
     public static String calculateEndDate(String startDate, int idtour) {
         LocalDate startDateObj = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
         LocalDate endDateObj = startDateObj.plusDays(getNumberOfDays(TourDao.findtourbyid(idtour).getDuration()));
@@ -1125,9 +1112,72 @@ public class TourDao {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
         return endDateObj.format(formatter);
     }
+    public static ArrayList<Tour> getDisplayTours() {
+        ArrayList<Tour> tours = new ArrayList<>();
+        String sql = "SELECT * FROM tours WHERE startTime > CURDATE()";
+
+        try (Connection connect = ConnectToDatabase.getConnect();
+             PreparedStatement pstmt = connect.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String region = rs.getString("region");
+                int discountId = rs.getInt("discountId");
+                String name = rs.getString("name");
+                String image = rs.getString("image");
+                int price = rs.getInt("price");
+                String startTime = rs.getString("startTime");
+                String duration = rs.getString("duration");
+                String schedule = rs.getString("schedule");
+                String description = rs.getString("description");
+                int quantity = rs.getInt("quantity");
+
+                Tour tour = new Tour();
+                tour.setId(id);
+                tour.setRegion(region);
+                tour.setDiscountId(discountId);
+                tour.setName(name);
+                tour.setImage(image);
+                tour.setPrice(price);
+                tour.setStartTime(startTime);
+                tour.setDuration(duration);
+                tour.setSchedule(schedule);
+                tour.setDescription(description);
+                tour.setQuantity(quantity);
+                tour.setStatus("display");
+
+                tours.add(tour);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tours;
+    }
+    public static int toltalConlai(ArrayList<Tour> tours){
+        if(tours.size()<1){
+            return 0;
+        }else{
+        int toltal = 0;
+            for (Tour tour: tours) {
+                toltal += sochoconlai(tour.getId());
+            }
+            return toltal;
+        }
+    }
+    public static int toltalDaDat(ArrayList<Tour> tours){
+        if(tours.size()<1){
+            return 0;
+        }else{
+            int toltal = 0;
+            for (Tour tour: tours) {
+                toltal += soluongdadat(tour.getId());
+            }
+            return toltal;
+        }
+    }
     public static void main(String[] args) {
-//        System.out.println(calculateEndDate("2024-07-25",1));
-        System.out.println(getNumberOfDays(TourDao.getNumberOfDays(TourDao.findtourbyid(4).getDuration())+" "));
+        System.out.println(toltalDaDat(getDisplayTours()));
     }
 
 

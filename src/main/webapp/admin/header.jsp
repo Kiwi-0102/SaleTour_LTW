@@ -222,9 +222,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                         </div>
                         <div class="col-md-8 market-update-left">
-                            <h4>Tour đã bán</h4>
-                            <h3>1,500</h3>
-                            <p>Tuyệt vời Việt Nam !</p>
+                            <h4>Số vé còn lại</h4>
+                            <h3>Tổng số vé: <%=TourDao.toltalConlai(TourDao.getDisplayTours())%></h3>
+                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/renuveSlot?type=now">Xem chi tiết!</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>

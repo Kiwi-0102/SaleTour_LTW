@@ -2,6 +2,11 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
 <%@ page import="vn.edu.hcmuaf.bean.Tour" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="vn.edu.hcmuaf.serice.Const" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!--A Design by W3layouts
@@ -61,6 +66,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="js/morris.js"></script>
 
 </head>
+<%
+    ArrayList<Tour> tourss = (ArrayList<Tour>) TourDao.findAll();
+
+    ArrayList<Tour> listTourfilter = new ArrayList();
+    // Sử dụng Iterator để tránh ConcurrentModificationException
+    Iterator<Tour> iterator = tourss.iterator();
+    while (iterator.hasNext()) {
+        Tour t = iterator.next();
+        String dateStr = t.getStartTime();
+        // Định dạng chuỗi ngày
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        // Chuyển đổi chuỗi ngày thành LocalDate
+        LocalDate dateToCompare = LocalDate.parse(dateStr, formatter);
+        // Lấy ngày hiện tại
+        LocalDate currentDate = LocalDate.now();
+        // So sánh hai ngày
+        if(t.getStatus().equalsIgnoreCase(Const.noneTour)){
+            iterator.remove(); // Xóa phần tử một cách an toàn
+//            || dateToCompare.isEqual(currentDate)
+        } else if (dateToCompare.isBefore(currentDate) || dateToCompare.isEqual(currentDate)) {
+            TourDao.updateStatusTour(Const.noneTour,t.getId());
+            iterator.remove(); // Xóa phần tử một cách an toàn
+        } else if (TourDao.sochoconlai(t.getId())<=0) {
+            System.out.println("hetchotour: "+t.getId());
+            TourDao.updateStatusTour(Const.noneTour,t.getId());
+            iterator.remove(); // Xóa phần tử một cách an toàn
+        } else {
+//            System.out.println(dateStr + " bằng ngày hiện tại.");
+            listTourfilter.add(t);
+        }
+    }
+
+
+
+
+%>
 <body>
 
 
