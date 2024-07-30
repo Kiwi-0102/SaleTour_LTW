@@ -186,7 +186,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="col-md-8 market-update-left">
                             <h4>Sản phẩm đã ẩn </h4>
                             <h3><%=sizenotour%></h3>
-                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/outofstock">Xem chi tiết thống kê sản phẩm!</a>
+                            <a style="cursor: pointer; color: #FFFFFF" href="${pageContext.request.contextPath}/admin/outofstock">Xem chi tiết thống kê sản phẩm!</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
@@ -200,7 +200,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-8 market-update-left">
                                 <h4>Thống kê nhập hàng</h4>
                                 <h3>Tổng số vé: <%=TourDao.toltalConlai(TourDao.getDisplayTours())%></h3>
-                                <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/renuveAddproduct?type=now">Xem chi tiết!</a>
+                                <a style="cursor: pointer; color: #FFFFFF" href="${pageContext.request.contextPath}/admin/renuveAddproduct?type=now">Xem chi tiết!</a>
                             </div>
                         </div>
                         <div class="clearfix"> </div>
@@ -214,20 +214,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="col-md-8 market-update-left">
                             <h3>Lợi nhuận</h3>
                             <h4><%=dfa.format(loinhuan)%></h4>
-                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/statictical?type=all">Xem chi tiết thống kê lợi nhuận!</a>
+                            <a style="cursor: pointer; color: #FFFFFF" href="${pageContext.request.contextPath}/admin/statictical?type=all">Xem chi tiết thống kê lợi nhuận!</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
                 </div>
                 <div class="col-md-3 market-update-gd">
-                    <div class="market-update-block clr-block-4" style="height: 175px">
+                    <div class="market-update-block clr-block-4" style="height: 250px">
                         <div class="col-md-4 market-update-right">
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                         </div>
                         <div class="col-md-8 market-update-left">
                             <h4>Số vé còn lại</h4>
                             <h3>Tổng số vé: <%=TourDao.toltalConlai(TourDao.getDisplayTours())%></h3>
-                            <a style="cursor: pointer" href="${pageContext.request.contextPath}/admin/renuveSlot?type=now">Xem chi tiết!</a>
+                            <a style="cursor: pointer; color: #FFFFFF" href="${pageContext.request.contextPath}/admin/renuveSlot?type=now">Xem chi tiết!</a>
                         </div>
                         <div class="clearfix"> </div>
                     </div>

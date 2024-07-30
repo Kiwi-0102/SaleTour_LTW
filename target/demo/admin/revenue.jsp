@@ -122,7 +122,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
             </div>
             <div class="col-md-8 stats-info stats-last widget-shadow">
-                <h4>Khách hàng</h4>
                 <h3><%=customerDAO.getAllCustomers().size()%> khách hàng</h3>
                 <a href="${pageContext.request.contextPath}/admin/customer.jsp">Xem chi tiết !</a>
                 <div class="stats-last-agile">

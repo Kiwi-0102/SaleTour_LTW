@@ -4,7 +4,8 @@
 <%@ page import="vn.edu.hcmuaf.DAO.TourDao" %>
 <%@ page import="vn.edu.hcmuaf.DAO.CustomerDAO" %>
 <%@ page import="vn.edu.hcmuaf.bean.*" %>
-<%@ page import="vn.edu.hcmuaf.serice.Const" %><%--
+<%@ page import="vn.edu.hcmuaf.serice.Const" %>
+<%@ page import="java.text.DecimalFormat" %><%--
   Created by IntelliJ IDEA.
   User: HP
   Date: 5/1/2024
@@ -94,6 +95,7 @@
     ArrayList<Bill> daxacnhan = (ArrayList<Bill>) request.getAttribute("daxacnhan");
     ArrayList<Bill> dahuy = (ArrayList<Bill>) request.getAttribute("dahuy");
     ArrayList<Bill> daxong = (ArrayList<Bill>) request.getAttribute("daxong");
+    DecimalFormat decimalFormat = new DecimalFormat("#,###");
 %>
 <body>
 <div id="root">
@@ -336,7 +338,7 @@
                                                                     <h5
                                                                             class="text-primary fw-bold"
                                                                             style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);">
-                                                                        <%=bill.getToltalPrice()%>₫
+                                                                        <%=decimalFormat.format(bill.getToltalPrice())%>₫
                                                                     </h5>
 
                                                                     <button type="submit">Xem chi tiết</button>
@@ -503,7 +505,7 @@
                                                                             <h5
                                                                                     class="text-primary fw-bold"
                                                                                     style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);">
-                                                                                <%=bill.getToltalPrice()%>₫
+                                                                                <%=decimalFormat.format(bill.getToltalPrice())%>₫
                                                                             </h5>
 
                                                                             <button type="submit">Xem chi tiết</button>
@@ -571,7 +573,7 @@
                                                                         </div>
                                                                         <div class="col-md-4 col-5 text-end" style="box-sizing: border-box; max-width: 100%; padding-right: calc(0.75rem); padding-left: calc(0.75rem); margin-top: 0px; flex: 0 0 auto; -webkit-box-flex: 0; width: 33.3333%; text-align: right;">
                                                                             <h6 class="text-primary" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; font-size: 1rem; color: rgb(253, 80, 86);"><%= bill.getPaymentMethod() %></h6>
-                                                                            <h5 class="text-primary fw-bold" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);"><%= bill.getToltalPrice() %>₫</h5>
+                                                                            <h5 class="text-primary fw-bold" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);"><%= decimalFormat.format(bill.getToltalPrice()) %>₫</h5>
 
                                                                             <button type="submit">Xem chi tiết</button>
                                                                             <% if (bill.getStatus().equalsIgnoreCase(Const.CHOXACNHAN)) { %>
@@ -637,7 +639,7 @@
                                                                         </div>
                                                                         <div class="col-md-4 col-5 text-end" style="box-sizing: border-box; max-width: 100%; padding-right: calc(0.75rem); padding-left: calc(0.75rem); margin-top: 0px; flex: 0 0 auto; -webkit-box-flex: 0; width: 33.3333%; text-align: right;">
                                                                             <h6 class="text-primary" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; font-size: 1rem; color: rgb(253, 80, 86);"><%= bill.getPaymentMethod() %></h6>
-                                                                            <h5 class="text-primary fw-bold" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);"><%= bill.getToltalPrice() %>₫</h5>
+                                                                            <h5 class="text-primary fw-bold" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; line-height: 1.2; font-size: 1.25rem; font-weight: 700; color: rgb(253, 80, 86);"><%= decimalFormat.format(bill.getToltalPrice()) %>₫</h5>
 
                                                                             <button type="submit">Xem chi tiết</button>
                                                                             <% if (bill.getStatus().equalsIgnoreCase(Const.CHOXACNHAN)) { %>

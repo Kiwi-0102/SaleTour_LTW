@@ -13,7 +13,29 @@
     <link rel="stylesheet" href="assets/css/csslogin.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
-
+    <style>
+        .fb-login-button {
+            margin-left: 75px;
+            display: flex;
+            align-items: center;
+            background-color: #1877F2;
+            color: white;
+            padding: 5px 5px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+        .fb-login-button:hover {
+            background-color: #145DB3;
+        }
+        .fb-login-button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
 <div id="container">
@@ -43,6 +65,15 @@
         </form>
 
         <div class="forget"><a href="forgetpass.jsp">Quên mật khẩu?</a></div>
+        <div class="othor-login" style="display: flex">
+        <button class="fb-login-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook Logo">
+
+        </button>
+        <button class="fb-login-button" style="background-color: #FFFFFF">
+            <img src="https://cdn-teams-slug.flaticon.com/google.jpg" alt="Facebook Logo">
+        </div>
+        </button>
         <div class="ques">Bạn muốn trải nghiệm
             <a href="index.jsp">TourNest</a>?
         </div>

@@ -78,7 +78,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     Iterator<User> iterator = listA.iterator();
     while (iterator.hasNext()) {
         User user = iterator.next();
-        if ("21130549@st.hcmuaf.edu.vn".equals(user.getEmail())) {
+        if ("21130615@st.hcmuaf.edu.vn".equals(user.getEmail())) {
             iterator.remove();
         } else if (useradm.getEmail().equals(user.getEmail())) {
             iterator.remove();
@@ -211,7 +211,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <td><%= "Xem Sửa" %></td>
             <%}%>
             <td>
-                <%if(useradm.getEmail().equalsIgnoreCase("21130549@st.hcmuaf.edu.vn")){%>
+                <%if(useradm.getEmail().equalsIgnoreCase("21130615@st.hcmuaf.edu.vn")){%>
                 <select id="roleSelect_<%= user.getId() %>" disabled data-original-value="<%= user.getRoleId() %>">
                     <option value="1" <%= user.getRoleId() == 1 ? "selected" : "" %>>Admin</option>
                     <option value="2" <%= user.getRoleId() == 2 ? "selected" : "" %>>User</option>
